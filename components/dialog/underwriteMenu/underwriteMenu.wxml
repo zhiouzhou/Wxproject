@@ -1,0 +1,10 @@
+<template name='underwriteMenu'>
+  <view class='sort-menu-wrap'>
+    <scroll-view class='sort-menu-scroll' scroll-y>
+      <view class='{{item.categoryId==underwriteType?"sort-menu-item-select":"sort-menu-item"}}' wx:for="{{underwriteMenuList}}" wx:key="{{item.categoryId}}" catchtap='onClickCatecgory' data-underwrite-type='{{item.categoryId}}' data-underwrite-text='{{item.categoryName}}'>
+        <text class='ft-26'>{{item.categoryName}}</text>
+        <image class='category-menu-img' src='/assets/images/icon_xuanzegou@2x.png' wx:if="{{item.categoryId==underwriteType}}" mode='aspectFit' />
+      </view>
+    </scroll-view>
+  </view>
+</template>

@@ -1,0 +1,22 @@
+<!--pages/login/multiDevice.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../components/codeInput/codeInput.wxml" />
+
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<view class='notice'>您当前登录的账号与上次不同，为了您的账号安全，请输入短信验证码，为您带来的不便，敬请见谅。</view>
+<!-- 验证码登录填写信息 -->
+<view class='info-wrap'>
+  <view class='vcode-wrap'>
+    <template is="code-input" data="{{codeInputHeight:97,codeNumFakeArr,codeValue}}" />
+  </view>
+</view>
+<!-- 按钮 -->
+<view class='confirm-button' style='{{codeValue.length==6?"":"background-color:#bdbdbd;"}}' catchtap='confirm'>确定</view>
+
+<view class='ft-28 color-999 bottom-text' catchtap='checkIsSigned' data-type='vcode'>{{c2||"获取验证码"}}</view>

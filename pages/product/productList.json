@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "商品列表",
+  "usingComponents": {
+    "product-recommend": "../../myComponents/productRecommendDirective/productRecommend",
+    "empty-page": "../../myComponents/emptyDirective/emptyDirective"
+  }
+}

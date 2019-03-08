@@ -1,0 +1,160 @@
+/* pages/register/registerStepTwo.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding: 24rpx;
+  box-sizing: border-box;
+  background-color: #f2f2f2;
+}
+
+.header-title {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.red-block {
+  height: 4rpx;
+  width: 48rpx;
+  background-color: #e53935;
+}
+
+.content {
+  padding: 0 24rpx;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+.content-item {
+  height: 92rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.content-title {
+  width: 140rpx;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 28rpx;
+}
+
+.info-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.address-wrap {
+  height: 132rpx;
+  padding: 32rpx 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+.more {
+  position: absolute;
+  width: 40rpx;
+  height: 40rpx;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%)
+}
+
+.address-textarea {
+  flex: 1;
+  height: 100%;
+  font-size: 28rpx;
+  color: #333;
+  transform:translateY(-3px);
+  padding-top:4rpx;
+
+}
+
+.user-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 32rpx 60rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+  margin-top: 12rpx;
+}
+
+.user-display-type {
+  width: 100%;
+  margin-top: 64rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.user-display-type-item {
+  position: relative;
+  width: 112rpx;
+  height: 164rpx;
+  z-index: 48;
+}
+
+.type-bg {
+  position: absolute;
+  top: 0;
+  width: 112rpx;
+  height: 112rpx;
+}
+
+.type-img {
+  position: absolute;
+  top: 22rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72rpx;
+  height: 72rpx;
+}
+
+.type-text {
+  position: absolute;
+  bottom: 0;
+  font-size: 28rpx;
+  color: #333;
+  width: 100%;
+  text-align: center;
+}
+
+.confirm-button {
+  height: 88rpx;
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 34rpx;
+  text-align: center;
+  line-height: 88rpx;
+  border-radius: 8rpx;
+  background-color: #e53935;
+  margin-top: 48rpx;
+}
+.place-index {
+  color: transparent
+}

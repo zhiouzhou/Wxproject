@@ -1,0 +1,12 @@
+  <view class="yjp-backdrop {{ animateCss }}" bindtap='chooseType'  />
+  <view class='half-window-dialog-wrap  {{ animateCss }}'>
+    <view class='half-window-dialog-hd'>
+      <view class='half-window-dialog-title'>请选择投诉类型</view>
+      <image class='half-window-dialog-quit' src='/assets/images/tanchuang_guanbi_ic@2x.png' bindtap='chooseType'/>
+    </view>
+    <view class="yjp-dialog__content">
+       <view>
+        <view catchtap='confirmType' class="complaint-type-item {{complaintInfo.complaintType==item?'complaint-type-on':''}}" data-tag='{{item}}' catchtap='confirmType'  wx:for="{{complaintTypes}}">{{item}}</view>
+      </view>
+    </view>
+  </view>

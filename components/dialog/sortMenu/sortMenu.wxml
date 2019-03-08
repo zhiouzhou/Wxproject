@@ -1,0 +1,10 @@
+<template name='sortMenu'>
+  <view class='sort-menu-wrap'>
+    <scroll-view class='sort-menu-scroll' scroll-y>
+      <view class='{{item.sortType==sortType?"sort-menu-item-select":"sort-menu-item"}}' wx:for="{{sortList}}" wx:key="{{item.sortType}}" catchtap='onClickSort' data-sort-type='{{item.sortType}}' data-sort-text='{{item.sortText}}'>
+        <text class='ft-26'>{{item.sortText}}</text>
+        <image class='category-menu-img' src='/assets/images/icon_xuanzegou@2x.png' wx:if="{{item.sortType==sortType}}" mode='aspectFit' />
+      </view>
+    </scroll-view>
+  </view>
+</template>

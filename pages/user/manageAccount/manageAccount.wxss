@@ -1,0 +1,58 @@
+/* pages/user/manageAccount/manageAccount.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.message {
+   background-color: #fff; 
+}
+
+.message-one {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin: 0rpx 24rpx;
+  justify-content: space-between;
+  padding: 32rpx 0rpx 30rpx 0rpx;
+}
+
+.messageAccount {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.messageDetail {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.license{
+  background-color: #fff;
+  margin-top:12rpx;
+}
+.licensePhone{
+  padding:24rpx;
+}
+.licenseFont{
+  color:#666;
+  font-size:28rpx;
+  padding-bottom:24rpx;
+}
+.Authentication{
+  background-color:#fff;
+  margin-top:12rpx;
+  padding:32rpx 27rpx 44rpx 24rpx;
+}
+.Authentication_one{
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  padding-bottom:32rpx;
+  align-items: center;
+}
+.more{
+  width:27rpx;
+  height:27rpx;
+}

@@ -1,0 +1,118 @@
+/* pages/promoAndDiscount/promoAndDiscount.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.pad-menu {
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fff;
+  padding: 16rpx 24rpx 0 24rpx;
+}
+
+.pad-menu-item {
+  width: 186rpx;
+  height: 56rpx;
+  text-align: center;
+  line-height: 56rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
+  border-radius: 4rpx;
+  box-sizing: border-box;
+  margin: 0 24rpx 24rpx 24rpx;
+  color: #666;
+}
+
+.pad-menu-item-select {
+  width: 186rpx;
+  height: 56rpx;
+  text-align: center;
+  line-height: 56rpx;
+  border-radius: 4rpx;
+  background-color: #e53935;
+  margin: 0 24rpx 24rpx 24rpx;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+.product-list-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.activities-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.activity-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin-top: 16rpx;
+}
+
+.activity-header {
+  height: 106rpx;
+  position: relative;
+  padding: 16rpx 24rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.activity-header-name {
+  position: absolute;
+  left: 24rpx;
+  top: 16rpx;
+}
+
+.activity-header-detail {
+  position: absolute;
+  right: 24rpx;
+  top: 16rpx;
+}
+
+.activity-header-time {
+  position: absolute;
+  left: 24rpx;
+  bottom: 16rpx;
+}
+
+.empty-product-list {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-product-list-img {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 40rpx;
+}
+.code-icon{
+  width: 88rpx;
+  height: 88rpx;
+  position: fixed;
+  bottom: 100rpx;
+  right: 18rpx;
+  background: #fff;
+  border: 1px solid #f2f2f2;
+  border-radius:50%;
+  color: #333;
+  font-size:24rpx;
+  text-align: center;
+  line-height: 88rpx;
+}

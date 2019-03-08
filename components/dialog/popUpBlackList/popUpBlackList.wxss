@@ -1,0 +1,43 @@
+/* .blackListScroll{
+  height:100%;
+} */
+
+.blackProductList {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  overflow: scroll;
+  height: 576rpx;
+  padding-top: 6rpx;
+}
+
+.blackList {
+  display: flex;
+  flex-direction: column;
+  margin-right: 24rpx;
+  width: 192rpx;
+  margin-bottom: 28rpx;
+}
+
+.listImg_view {
+  width: 192rpx;
+  height: 192rpx;
+  border: 2rpx solid #e8eaed;
+  border-radius: 6rpx;
+}
+
+.list-img {
+  width: 192rpx;
+  height: 192rpx;
+  padding-bottom: 16rpx;
+}
+
+.productName {
+  min-width: 192rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}

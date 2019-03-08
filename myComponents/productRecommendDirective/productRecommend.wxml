@@ -1,0 +1,25 @@
+<wxs module="productFilter" src="./productFilter.wxs"></wxs>
+<!-- 为你推荐 产品 -->
+<view class="hot-sale-list-item" catchtap='goToProductDetail' data-product-sku-id='{{product.productSkuId}}' >
+  <view class="img-wrap">
+    <image src='{{product.imgUrl || "/assets/images/defaul_product.png"}}' mode='aspectFit'></image>
+    <view class="p-reduce" wx:if="{{product.productPrice.reducePrice}}">
+      <text class="span">立减 </text>
+      <text class="span">{{product.productPrice.reducePrice}}</text>
+    </view>
+  </view>
+  <view class="item-name">
+     {{productFilter.productFormat(product.productName)}}
+  </view>
+  <view class="item-tags">
+    规格  {{product.specName}}
+  </view>
+  <view class="item-price color-E53935" wx:if="{{product.mainPrice}}">
+    <text wx:if='{{product.productPrice.gatherOrderPrice>0}}'>凑</text>  
+    <text class='ft-24'>¥  <text class='ft-36'>{{productFilter.getPriceFormat(product.mainPrice)}}</text> /{{product.priceunit}}</text>
+  </view>
+   <view class="item-price color-E53935" wx:else >
+    <text class='ft-24'>审核通过后可以查看价格</text>  
+  </view>
+  <image class="item-cart" wx:if="{{!isVisitor&&product.mainPrice}}" src="{{product.canSellStoreCount?'/assets/images/gouwuche@2x.png':'/assets/images/shouqin.png'}}" catchtap='onAddProductBuyNum' data-product='{{product}}'> </image>
+</view>

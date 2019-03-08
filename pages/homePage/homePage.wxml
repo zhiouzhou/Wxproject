@@ -1,0 +1,74 @@
+<!--pages/homePage/homePage.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../components/dialog/homeActivityDialog/homeActivityDialog.wxml" />
+<template is="homeActivity-dialog" data="{{activityDialogData}}" wx:if="{{activityPopupShow && (popupTemplateType==5||popupTemplateType==6)}}" />
+<template is="homeCoupon-dialog" data="{{activityDialogData}}" wx:if="{{activityPopupShow && popupTemplateType==0}}" />
+<template is="homeBonus-dialog" data="{{activityDialogData}}" wx:if="{{activityPopupShow && popupTemplateType==1}}" />
+<template is="homeNotice-dialog" data="{{activityDialogData,skipLinkUrlShow}}" wx:if="{{activityPopupShow && popupTemplateType==2}}" />
+
+<import src="../../components/dialog/orderCoupons/orderCoupons.wxml" />
+<template is="homeCoupons-dialog" data="{{activityDialogData}}" wx:if="{{couponPopupShow}}" />
+
+<import src="homePageTemplates/hdBanners.wxml" />
+<import src="homePageTemplates/appIcons.wxml" />
+<import src="homePageTemplates/countryHdBanners.wxml" />
+<import src="homePageTemplates/serviceTel.wxml" />
+<import src="homePageTemplates/shops.wxml" />
+<import src="homePageTemplates/shopsProducts.wxml" />
+<import src="homePageTemplates/promotionList.wxml" />
+<import src="homePageTemplates/promotionGathers.wxml" />
+<import src="homePageTemplates/midBanners.wxml" />
+<import src="homePageTemplates/activityGroup.wxml" />
+
+<scroll-view class='scroll-page-wrap' style='height:{{windowHeight}}px;' bindtouchstart='startView' bindtouchend='endView' scroll-y scroll-with-animation scroll-into-view='{{scrollPosition}}'>
+  <view id='top' />
+  <view class='no-hd-entry' wx:if="{{!hdBanners.length}}">
+    <view class='hd-scan' catchtap='onScanOrder' wx:if="{{!isVisitor}}">
+      <image class='hd-scan-img' src='/assets/images/ic_saodingdan_copy@2x.png' mode='aspectFit' />
+      <text class='ft-20 color-333'>扫一扫</text>
+    </view>
+    <view class='hd-locate' catchtap='onRelocate' wx:if="{{isVisitor}}" data-city-name="{{cityName}}">
+      <image class='hd-locate-img' src='/assets/images/ic-shouhuo@2x.png' mode='aspectFit' />
+      <text class='ft-20 color-333'>{{cityName||'南京市'}}</text>
+      <image class='hd-locate-img' src='/assets/images/shuaxindingwei_ic@2x.png' mode='aspectFit' />
+    </view>
+    <view class='hd-input' catchtap='goToSearch'>
+      <image class='hd-input-img' src='/assets/images/ic_sousuo@2x.png' mode='aspectFit' />
+      <text class='ft-26 color-666'>{{productSearchLabel}}</text>
+    </view>
+     <view class='hd-scan' catchtap='goToMessage' wx:if="{{!isVisitor}}">
+      <image class='hd-scan-img' src='/assets/images/ic_xiaoxi_copy@2x.png' mode='aspectFit' />
+      <text class='ft-20 color-333'>消息</text>
+    </view> 
+  </view>
+  <block wx:for='{{templates}}' wx:key='{{item.sequenceNo}}'>
+    <template is="hdBanners" data="{{hdBanners,productSearchLabel,isVisitor,cityName}}" wx:if="{{item.display&&item.templateType==0&&hdBanners.length}}" />
+    <template is="appIcons" data="{{appIcons}}" wx:if="{{item.display&&item.templateType==1&&appIcons.length}}" />
+    <template is="countryHdBanners" data="{{countryHdBanners}}" wx:if="{{item.display&&item.templateType==11&&countryHdBanners.length}}" />
+    <template is="serviceTel" data="{{serviceTel}}" wx:if="{{item.display&&item.templateType==5&&serviceTel}}" />
+    <template is="shops" data="{{shops}}" wx:if="{{item.display&&item.templateType==10&&shops.length>=2}}" />
+    <template is="shopsProducts" data="{{shops,shopsProducts,shopsProductsIndex,hiddenPriceText}}" wx:if="{{item.display&&item.templateType==10&&shops.length&&shops.length<2}}" />
+    <template is="promotionList" data="{{promotionList,isVisitor,hiddenPriceText}}" wx:if="{{item.display&&item.templateType==4&&promotionList.length}}" />
+    <template is="promotionGathers" data="{{promotionGathers,isVisitor,hiddenPriceText}}" wx:if="{{item.display&&item.templateType==3&&promotionGathers.length}}" />
+    <template is="activity-group-list" data="{{activityGroup}}" wx:if="{{item.display&&item.templateType==12&&activityGroup.length}}" />
+    <template is="midBanners" data="{{midBanners}}" wx:if="{{item.display&&item.templateType==6&&midBanners.length}}" />
+  </block>
+</scroll-view>
+<!-- 去签到按钮 -->
+<!-- <image wx:if='{{signInDetail&&!signInDetail.alreadySignIn}}' class='{{touchDoing?"sign-in-active":""}} go-to-sign-in' src='/assets/images/singin-icon.png' catchtap='goSign' /> -->
+<!-- 去登陆按钮 -->
+<image class='go-to-login-float-button' src='/assets/images/clicklogin@2x.png' catchtap='goToLogin' wx:if="{{isVisitor}}" />
+<!-- 返回顶部按钮 -->
+<image class='back-to-top-float-button' src='/assets/images/ic_zhiding@2x.png' catchtap='backToTop' />
+<!-- 悬浮购物车按钮 -->
+<image class='go-to-shop-cart-float-button' src='/assets/images/ic_fuchuanggouwuche@2x.png' catchtap='goToShopCart' wx:if="{{!isVisitor}}" />
+
+<block wx:if="{{memberPopupShow}}" >   
+  <homedialog-directive dialog-data = "{{activityDialogData}}" bind:close = "closeActivityDialog"> 
+  </homedialog-directive>
+</block>

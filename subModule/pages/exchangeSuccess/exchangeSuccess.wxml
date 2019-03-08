@@ -1,0 +1,23 @@
+<!--pages/exchangeSuccess/exchangeSuccess.wxml-->
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+<view class='result-state'>
+  <image class='result-img' src='/assets/images/dingdan_chenggong@2x.png' mode='aspectFit' />
+  <view class='result-state-text'>
+    <text class='ft-34 color-4CAF50'  style='line-height:34rpx;'>换货申请提交成功</text>
+    <!-- 通过currentPayType判断是否是微信支付 -->
+    <text class='ft-26 color-666' style='line-height:26rpx;' wx:if="{{currentPayType!=1}}">您的换货申请正在审核中，请稍后查看</text>
+
+    <text class='ft-26 color-666' style='line-height:26rpx;' wx:else>请在<text class='color-E53935'>45</text>分钟之内完成支付，逾期订单将自动取消</text>
+  </view>
+</view>
+
+<view class='result-detail'>
+  <text class='ft-28 color-666'>支付方式：{{payTypeText}}</text>
+  <text class='ft-28 color-666' style='margin-top:32rpx;'>下单时间：{{placeOrderTime}}</text>
+  <text class='ft-28 color-666' style='margin-top:32rpx;'>退货商品货值：<text class='ft-28 color-E53935'>¥{{WxsUtil.toFixed(result.returnAmount,2)}}</text></text>
+  <text class='ft-28 color-666' style='margin-top:32rpx;'>换货商品金额：<text class='ft-28 color-E53935'>¥{{WxsUtil.toFixed(result.orderAmount,2)}}</text></text>
+  <text class='ft-28 color-666' style='margin-top:32rpx;'>需补差价：<text class='ft-28 color-E53935'>¥{{WxsUtil.toFixed(result.differenceAmount,2)}}</text></text>
+</view>
+
+<view class='button ft-34 color-FFF' catchtap='goToHomePage' wx:if="{{currentPayType!=1}}">返回首页</view>
+<view class='button ft-34 color-FFF' catchtap='onlinePay' wx:else>立即支付</view> 

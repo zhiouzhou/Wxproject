@@ -1,0 +1,27 @@
+<!--pages/shopCart/selectBonus.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+
+<view class='bonus-wrap' wx:for="{{bonusList}}" wx:key="{{item.bonusId}}" catchtap='onSelectBonus' data-bonus-id='{{item.bonusId}}'>
+  <image class='bonus-select-img' src='{{item.select?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' />
+  <view class='bonus-detail'>
+    <text class='ft-30 color-E53935'>{{item.amount}}元红包</text>
+    <text class='ft-24 color-666' style='margin-top:24rpx;'>有效期：{{item.effectiveTime}}~{{item.expiredTime}}</text>
+  </view>
+</view>
+
+<view style='height:98rpx;' />
+<view class='bottom-bar'>
+  <view class='select-detail'>
+    <text class='ft-24 color-333'>您选择了{{selectBonusList.length}}个红包</text>
+    <text class='ft-24 color-333' wx:if="{{hasSelectAmount}}" style='margin-top:8rpx;'>实际抵扣 <text class='color-E53935'>¥ {{WxsUtil.toFixed(hasSelectAmount,2)}}</text></text>
+  </view>
+  <view class='confirm-button ft-30 color-FFF' catchtap='confirm'>确认
+    <text wx:if="{{selectBonusList.length}}">({{selectBonusList.length}})</text>
+  </view>
+</view>

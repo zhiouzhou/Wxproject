@@ -1,0 +1,8 @@
+<!--pages/user/orders/orderValuationDetail.wxml-->
+<view class='serviceVal'>
+  <view><text class='ft-28 color-333'>服务评价：</text><text class='ft-28 color-E53935'>{{valuationDetail.deliverySpeedScore==1?"不满意":valuationDetail.deliverySpeedScore==2?"一般":valuationDetail.deliverySpeedScore==3?"满意":""}}</text> </view>
+  <view class='ft-24 color-666' wx:if="{{valuationDetail.anonymous}}">匿名评价</view>
+</view>
+<view class='serviceValDetail'>
+  {{valuationDetail.content}}  
+</view>

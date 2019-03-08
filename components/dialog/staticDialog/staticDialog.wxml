@@ -1,0 +1,32 @@
+
+<template name='underwrite-explain'>
+  <view class="yjp-backdrop" />
+  <view>
+    <view class='yjp-dialog'>
+      <view class='cp-underwrite-h5'>独家包销</view>
+      <view class="cp-underwrite">
+        <view class="cp-underwrite-title">包销产品是由易久批精选的利润型产品 包装精美，性价比高，送货上门</view>
+        <view class="cp-underwrite-detail">包全年量（约200件起），可享受平台 内独家销售，同时享受以下特权：</view>
+        <view class="cp-underwrite-list">
+          <view class='cp-underwrite-list-item'>
+            <image src='/assets/images/underwrite-explain1.png' mode='aspectFit' />
+            <text>更优惠的价格</text>
+          </view>
+          <view class='cp-underwrite-list-item'>
+            <image src='/assets/images/underwrite-explain2.png' mode='aspectFit' />
+            <text>平台价格封闭独此一家</text>
+          </view>
+          <view class='cp-underwrite-list-item'>
+            <image src='/assets/images/underwrite-explain3.png' mode='aspectFit' />
+            <text>本地易久批可代销售</text> 
+          </view>
+          <view class='cp-underwrite-list-item'>
+            <image src='/assets/images/underwrite-explain4.png' mode='aspectFit' />
+            <text>平台产品宣传推广</text>
+          </view>
+        </view>
+      </view>
+      <view class="cp-explain-btn" catchtap='closeUnderwriteDialog'>我知道了</view>   
+    </view>  
+  </view>
+</template>

@@ -1,0 +1,29 @@
+.code-input-wrap {
+  position: relative;
+}
+
+.code-frame-wrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.code-frame {
+  box-sizing: border-box;
+  text-align: center;
+  border: 2rpx solid #e5e5e5;
+}
+
+
+.code-input {
+  background-color: transparent;
+  color: transparent;
+  font-size: 1rpx;
+  width: 100%;
+  height: 100%;
+}

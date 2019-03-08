@@ -1,0 +1,75 @@
+<!--pages/exchange/exchangeOne.wxml-->
+<import src="/components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="/components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil"/>
+<include src="/components/dialog/chooseSwapReason/chooseSwapReason.wxml" wx:if="{{isSelect}}"/>
+<view class='exchange-goods-prompt' wx:if="{{titleShow}}">
+  <text class='exchange-goods-title'>提示</text>
+  <text>本公司只支持部分商品14天退货，部分商品1个月换货服务，退换货货值计算均以当时订单为准。</text>
+  <image src='/assets/images/ic_bank_list_dialog_closer.png' class='close-icon' catchtap='closeTitle'></image>
+</view>
+<!-- 退货商品  -->
+<view class='exchange-goods'>
+  <view class='goods-list-title'>退货商品</view>
+  <view class='exchange-goods-item' wx:for="{{retureItems}}">
+  <!--产品图片  -->
+    <view class='exchange-goods-img'>
+      <image src='{{item.product.imgUrl}}'></image>
+    </view>
+    <!--产品信息  -->
+    <view class='exchange-goods-info'>
+        <view class='exchang-goods-name'>{{item.product.productName}}</view>
+        <view class='exchang-goods-row'>
+          <view>规格 {{item.product.specName}}</view>
+          <view wx:if="{{item.product.productSkuId == item.product.productSaleSpecId}}">购买数量： {{item.count}}{{item.product.saleUnit}}</view>
+          <view wx:if="{{item.product.productSkuId != item.product.productSaleSpecId}}">购买数量： {{item.count * item.product.saleSpecQuantity}}{{item.product.minUnit}}</view>
+        </view>
+        <view class='exchang-goods-row'>
+          <view>退货数量：</view>
+          <!--产品加减框  -->
+          <view>
+            <view class='product-number-frame'>
+              <view class='product-number-button' catchtap='onSubShopCartBuyNum' data-item-id='{{item.itemId}}' data-product='{{item}}'>
+                <image class='product-number-img' style='{{item.returnCount<=0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+              </view>
+              <input class='product-number'  bindblur='onInputShopCartBuyNum' value='{{item.showCount}}' maxlength='5' type='number' data-product='{{item}}' data-item-id='{{item.itemId}}'></input>
+              <view class='product-number-button' catchtap='onAddShopCartBuyNum' data-product='{{item}}' data-item-id='{{item.itemId}}'>
+                <image class='product-number-img' style='{{item.returnCount>=item.swappableCount?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+              </view>
+            </view>
+            <text wx:if="{{item.product.productSkuId == item.product.productSaleSpecId}}">{{item.product.saleUnit}}</text>
+            <text wx:if="{{item.product.productSkuId != item.product.productSaleSpecId}}">{{item.product.minUnit}}</text>
+          </view>
+        </view>
+    </view>
+  </view>
+</view>
+<!--换货原因  -->
+<view class='bg-white' style='padding-bottom: 24rpx;'>
+  <view class='reason-cell'>
+    <view class='reason-cell-hd'>
+      <text class='color-E53935'>*</text><text>换货原因</text>
+    </view>
+    <view wx:if="{{!swapReason}}" class='reason-cell-fd' catchtap='chooseReturnReason'>请选择换货原因</view>
+    <view wx:if="{{swapReason}}" class='reason-cell-fd' catchtap='chooseReturnReason' data-swap-reason='{{swapReason}}'>{{swapReason}}</view>
+    <image class='link-more' src='/assets/images/ic_arrow_m@2x.png'></image>
+  </view>
+  <view class='reason-cell' style='border-bottom: none'>
+    <view class='reason-cell-hd'>备注</view>
+  </view>
+  
+  <view class='reason-textarea' wx:if="{{!isSelect}}">
+    <textarea  placeholder='请填写您的要求' value='{{userRemark}}' bindinput='inoutUserRemark'></textarea>
+  </view> 
+</view>
+<view class='exchang-bottom'>
+  <view class='next-left'>
+    <view class='goods-price'>
+      <text>货品货值：</text> <text class='color-E53935 ft-36'>￥<text>{{WxsUtil.toFixed(totalItemEstimatePrice,2)}}</text></text>
+    </view>
+  </view>
+  <view class='next-right' catchtap='nextStep'>下一步</view>
+</view>

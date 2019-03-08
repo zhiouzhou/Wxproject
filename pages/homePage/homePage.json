@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+      "homedialog-directive": "../../myComponents/homeDialogDirective/homeDialogDirective"
+    }
+}

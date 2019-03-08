@@ -1,0 +1,38 @@
+<!--pages/user/orders/orderValuation.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<view class='valuationTitle'>
+  <image src='/assets/images/ic_tishi@2x_pingjia.png' class='icon-title' mode='aspectFit'></image>
+  <view class='ft-24 color-333' style='min-width:654rpx;height:56rpx;flex:1;'>感谢您选择易久批，请对我们的服务进行评价。您的评价将帮助我们为您提供更优质的服务。</view>
+</view>
+<view class='serviceValuation'>
+  <view style='padding:24rpx 0rpx 32rpx 24rpx ;'>
+    <text class='ft-28 color-E53935'>*</text>
+    <text class='ft-28 color-333'>服务评价</text>
+  </view>
+  <view class='valuationChange'>
+    <!-- 满意 -->
+    <view class='valuationSelect' catchtap='satisfied'>
+      <image src='{{deliverySpeedScore==3?"/assets/images/ic_manyi_hong@2x.png":"/assets/images/ic_manyi@2x.png"}}' class='valuationImg' mode='aspectFit'></image>
+      <text class='{{deliverySpeedScore==3?"ft-24 color-E53935":"ft-24 color-999"}} '>满意</text>
+    </view>
+    <!-- 一般 -->
+    <view class='valuationSelect' catchtap='commonly'>
+      <image src='{{deliverySpeedScore==2?"/assets/images/ic_yiban_hong@2x.png":"/assets/images/ic_yiban@2x.png"}}' class='valuationImg' mode='aspectFit'></image>
+      <text class='{{deliverySpeedScore==2?"ft-24 color-E53935":"ft-24 color-999"}}'>一般</text>
+    </view>
+    <!-- 不满意 -->
+    <view class='valuationSelect' catchtap='disSatisfied'>
+      <image src='{{deliverySpeedScore==1?"/assets/images/ic_bumanyi_hong@2x.png":"/assets/images/ic_bumanyi@2x.png"}}' class='valuationImg' mode='aspectFit'></image>
+      <text class='{{deliverySpeedScore==1?"ft-24 color-E53935":"ft-24 color-999"}}'>不满意</text>
+    </view>
+  </view>
+  <view class='text-area-wrap' style='height:192rpx;'>
+    <textarea placeholder='请填写您的评价(选填)' placeholder-style='color:#BDBDBD; font-size:28rpx;' class='edit-valuation' bindinput='orderValuation' value='{{content}}'></textarea>
+  </view>
+  <view class='noName'>
+    <image src='{{anonymous?"/assets/images/zhifufangshi_xuanze_icon@2x.png":"/assets/images/icon_weixuan@2x.png"}}' class='noNameImg' catchtap='changeNameType'></image>
+    <text class='ft-28 color-333'>匿名</text>
+  </view>
+</view>
+<view class='submit' catchtap='submitMessage'>提交</view>

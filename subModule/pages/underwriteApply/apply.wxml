@@ -1,0 +1,55 @@
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<import src="../../../components/product/product.wxml" />
+<import src="../../../components/addToShopCart/addToShopCart.wxml" />
+
+<view class='contain'>
+  <view class='top-bar'>
+    <image class='top-bar-tip-icon' src='/assets/images/ic_tishi@2x_pingjia.png' />
+    <text>您选择的包销产品，需批量购买，可独家经营！近期会有经纪 人跟您沟通包销事宜！同时欢迎您到本地公司陈列室查看实物， 有几百款产品供您选择！</text>
+  </view>
+  <view class='underwrite-apply-product'>
+    <template is="underwrite-list-product" data="{{...product,product:product,callSource:callSource}}" />
+  </view>
+  <view class='underwrite-apply-column'>
+    <text class='title'>包销时长:</text>
+    <view class='column-flex'>
+        <view class='column-flex-item' wx:for="{{durationArr}}" wx:for-index="idx" catchtap='onSelectDurationType' data-type='{{idx}}'>
+            <image class='time-select-icon' src='{{durationType==idx?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' />
+            <text>{{item}}</text>
+        </view>                
+    </view>         
+  </view>
+  <view class='underwrite-apply-column'>
+    <text class='title'>包销地区:</text>
+    <input class='column-flex' placeholder='输入包销地区' bindinput='inputValue' data-type='area' placeholder-class='ft-26 color-BDBDBD' maxlength='30' value='{{underwriteArea}}' />    
+  </view>
+  <view class='underwrite-apply-column'>
+    <text class='title'>包销数量:</text>
+    <!-- 产品加减框 -->
+    <view class='product-number-frame'>
+      <view class='product-number-button' catchtap='reduceNum'>
+        <image class='product-number-img' style='{{buyNum==minBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+      </view>
+      <input class='product-number' catchtap='doNothing' bindblur='inputNum' value='{{buyNum}}' maxlength='5' />
+      <view class='product-number-button' catchtap='addNum'>
+        <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+      </view>
+    </view> 
+    <text class='ft-26 color-666'>{{product.saleUnit}}</text>   
+  </view>
+  <view class='underwrite-apply-column'>
+    <text class='title'>联系人:</text>
+    <input class='column-flex' placeholder='输入您的姓名' bindinput='inputValue' data-type='name' placeholder-class='ft-26 color-BDBDBD' maxlength='30' value='{{userName}}' />   
+  </view>
+  <view class='underwrite-apply-column'>
+    <text class='title'>联系电话:</text>
+    <input class='column-flex' placeholder='输入您的联系电话' bindinput='inputValue' data-type='phone' placeholder-class='ft-26 color-BDBDBD' maxlength='30' value='{{userPhone}}' />   
+  </view>
+  <view class='underwrite-apply-column area-column'>
+    <text class='title'>备注:</text>
+    <textarea class='column-flex' bindinput='inputValue' data-type='mark' placeholder='请填写备注信息'>
+    </textarea> 
+  </view>
+</view>
+<view class='underwrite-submit' catchtap='submitUnderwrite'>提交申请</view>

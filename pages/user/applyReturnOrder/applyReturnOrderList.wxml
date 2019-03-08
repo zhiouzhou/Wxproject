@@ -1,0 +1,23 @@
+<!--pages/user/applyReturnOrder/applyReturnOrderList.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="./applyReturnOrderCommon.wxml" />
+
+<view style='width:100%;height:{{windowHeight}}rpx;background-color:#F2F2F2;'>
+  <view class='product-list-wrap'>
+    <block wx:for="{{productList}}" wx:key="{{index}}">
+      <template is="apply-return-product-list" data="{{item,index}}" />
+    </block>
+  </view>
+</view>
+<view class="apply-list-bottom"> 
+   <view class='apply-list-bottom-text'>
+         <image class='shop-cart-product-select-img align-mid'  catchtap='allSelect' src='{{allSelected? "/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' mode='aspectFit' />全选
+    <text class='color-E53935' style='margin-left:32rpx;'>已选：</text><text class='color-E53935'>{{selectedCount}}</text>
+   </view>
+   <view class='apply-list-bottom-confirm' catchtap='confirm'>确定</view>
+</view>

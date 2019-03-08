@@ -1,0 +1,31 @@
+<!--pages/user/orders/orderTrack.wxml-->
+<!-- 货到付款(0),微信支付(1),支付宝支付(2),银联支付(3),连连支付(5),易酒贷(6),已在线支付(10),线下转账(11),经销商收款(12) -->
+
+<view class='track-top'>
+  <view class='payment'>
+    <view class='payment-one'>支付方式</view>
+    <view class='payment-two'>{{orderTrackInfo.payType==0&&orderTrackInfo.deliveryModeValue==4?'现款现结':orderTrackInfo.payType==1?'微信支付':orderTrackInfo.payType==2?'支付宝支付':orderTrackInfo.payType==3?'银联支付':orderTrackInfo.payType==5?'连连支付':orderTrackInfo.payType==6?'易酒贷':orderTrackInfo.payType==10?'已在线支付':orderTrackInfo.payType==11?'线下转账':orderTrackInfo.payType==12?'经销商收款':'货到付款'}}</view>
+  </view>
+  <view class='payment' wx:if="{{orderTrackInfo.logisticsCompany}}">
+    <view class='payment-one'>承运人</view>
+    <view class='payment-two'>{{orderTrackInfo.logisticsCompany}}</view>
+  </view>
+  <view class='payment'>
+    <view class='payment-one'>订单编号</view>
+    <view class='payment-two' style='padding-bottom:24rpx;'>{{orderTrackInfo.orderNO}}</view>
+  </view>
+</view>
+<view class='orderTrack'>
+  <view class='message' wx:for="{{orderTrackInfo.traceItems}}">
+    <view class='message-left'>
+      <view class='{{index==0?"stub":"stub1"}}'></view>
+      <image src='../../../assets/images/hongdian@2x.png' class='image1' style="padding:4rpx 0;" wx:if="{{index==0}}"></image>
+      <view class='icon' wx:else></view>
+      <view class='{{index==orderTrackInfo.traceItems.length-1?"line1":"line"}}'></view>
+    </view>
+    <view class='message-right' style='{{index==orderTrackInfo.traceItems.length-1?"border-bottom:0":"border-bottom:1px solid #eaeaec"}}'>
+      <view style='{{index==0?"color:#e53935;font-size:28rpx;":"color:#999;font-size:28rpx;"}}'>{{item.orderDescription}}</view>
+      <view style='{{index==0?"color:#e53935;font-size:24rpx;":"color:#999;font-size:24rpx;"}}'>{{item.createTime}}</view>
+    </view>
+  </view>
+</view>

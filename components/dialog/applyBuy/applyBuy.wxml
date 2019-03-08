@@ -1,0 +1,33 @@
+<template name="applyBuy">
+  <view class='apply-buy-dialog-content'>
+    <!-- 申请进货商品信息 -->
+    <view class='apply-buy-product-info'>
+      <image class='apply-buy-product-img' src='{{imgUrl||imgsUrl[0]}}' mode="aspectFit" />
+      <view class='apply-buy-product-detail'>
+        <text class='ft-30 color-333 one-line' style='line-height:30rpx;'>{{productName}}</text>
+        <text class='ft-26 color-666' style='line-height:26rpx;'>规格 {{specName}}</text>
+      </view>
+      <image class='apply-buy-dismiss-img' src='/assets/images/ic_bank_list_dialog_closer.png' mode="aspectFit" catchtap='{{onDismiss}}'/>
+    </view>
+    <!-- 数量 -->
+    <view class='apply-buy-num-wrap'>
+      <text class='ft-30 color-333' style='flex:1;'>数量</text>
+      <!-- 加减框 -->
+      <view class='apply-buy-num-frame'>
+        <view class='apply-buy-num-button' catchtap='onSubApplyNum' data-product-sku-id='{{productSkuId}}'>
+          <image class='apply-buy-num-img' style='{{buyNum==1?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+        </view>
+        <input class='apply-buy-num' catchtap='doNothing' bindblur='onInputApplyNum' value='{{buyNum}}' maxlength='5' data-product-sku-id='{{productSkuId}}' />
+        <view class='apply-buy-num-button' catchtap='onAddApplyNum' data-product-sku-id='{{productSkuId}}'>
+          <image class='apply-buy-num-img' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+        </view>
+      </view>
+      <text class='ft-28 color-666'>{{saleUnit}}</text>
+    </view>
+    <!-- 备注 -->
+    <text class='ft-30 color-333' style='margin-top:65rpx;padding-left:24rpx;'>备注</text>
+    <textarea class='apply-buy-remark ft-28 color-333' placeholder='请填写备注信息（选填）' placeholder-class='ft-28 color-999' bindblur='onApplyBuyRemark' />
+    <!-- 按钮 -->
+    <view class='apply-buy-confirm ft-36 color-FFF' catchtap='confirmApplyBuy' data-shop-id='{{shopId}}'>申请进货</view>
+  </view>
+</template>

@@ -1,0 +1,70 @@
+<!-- 购物车产品 -->
+<template name="shop-cart-advent-product">
+  <view class='shop-cart-product-wrap'  bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" style="{{productItem.left}}">
+    <view class='shop-cart-product-main'>
+      <!-- 1选择按钮 -->
+       <view class='shop-cart-product-select-img-area' catchtap='selectTap' data-index="{{index}}">
+        <image class='shop-cart-product-select-img' src='{{productItem.selected?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' mode='aspectFit' />
+      </view>
+
+       <!-- 2产品图片 -->
+      <view class='shop-cart-product-img-date'  catchtap='goToProductDetail' data-near-expire-id='{{productItem.nearExpireId}}'   data-product-sku-id = '{{productItem.productSkuId}}'>
+        <view class='shop-cart-product-img-area' style='{{productItem.canSelected?"":"opacity:0.4;"}}'>
+          <image class='shop-cart-product-img' src='{{productItem.imgUrl||"/assets/images/defaul_product.png"}}' />
+          <text class='shop-cart-product-stock-text ft-20 color-FFF' wx:if="{{productItem.stockText}}">{{productItem.stockText}}</text>
+          <image class='shop-cart-product-corner-img' src='{{productItem.cornerImgUrl}}' wx:if="{{productItem.showCornerImg}}" />
+        </view>
+        <view class='product-production-date one-line' wx:if="{{productItem.productionDate}}">{{productItem.productionDate}}</view>
+      </view>
+
+      <!--begin 3产品右侧流式布局 -->
+      <view class='shop-cart-product-detail'  catchtap='goToProductDetail' data-near-expire-id='{{productItem.nearExpireId}}'  data-product-sku-id = '{{productItem.productSkuId}}'>
+          <!-- 产品名称 -->
+          <text class='ft-30 color-333 two-line' style='margin-bottom:16rpx;'>{{productItem.productName}}</text>
+          <!-- 产品价格 -->
+          <view class='shop-cart-product-price' style='margin-bottom:16rpx;'>
+             
+              <text class='ft-24 color-E53935'>¥</text>
+              <text class='ft-36 color-E53935' style='line-height:36rpx;'>{{productItem.price}}</text>
+              <text class='ft-24 color-E53935'>{{productItem.priceunit}}</text>
+
+              <!--原价todo-->
+              <text class='ft-24 color-666 line-through' style='margin-left:48rpx;' wx:if="{{productItem.productPrice.price < productItem.productPrice.sellPrice}}">¥{{productItem.productPrice.sellPrice}}</text>
+         </view>
+        <!-- 产品优惠标签 -->
+        <view class='shop-cart-product-reduce-tags' style='margin-bottom:16rpx;' wx:if="{{productItem.productPrice.reducePrice}}">
+          <view class='shop-cart-product-reduce-tag' wx:if="{{productItem.productPrice.reducePrice}}">立减{{productItem.productPrice.reducePrice}}元</view>
+        </view>
+
+        <!-- 产品规格，加减框 -->
+        <view class='shop-cart-product-edit-column' style='margin-bottom:16rpx;'>
+          <text class='ft-24 color-666 shop-cart-product-edit-column-spec'>规格 {{productItem.specName}}</text>
+
+          <!-- 产品加减框 -->
+          <view class='product-number-frame'>
+            <view class='product-number-button'>
+              <view class='crease-mask decrease-mask'catchtap='decrement' data-index="{{index}}"></view>
+              <image class='product-number-img' style='{{productItem.buyNum<=productItem.minBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+            </view>
+            <input class='product-number' catchtap='nothing' bindblur='changeInput' data-index="{{index}}" value='{{productItem.buyNum}}' maxlength='5' />
+            <view class='product-number-button'>
+              <view class='crease-mask increase-mask' catchtap='increment' data-index="{{index}}"></view>
+              <image class='product-number-img' style='{{productItem.buyNum>=productItem.maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit'/>
+            </view>
+          </view>
+          <!-- <text class='ft-24 color-666'>{{productItem.productSkuId==productItem.productSaleSpecId?productItem.saleUnit:productItem.minUnit}}</text> -->
+        </view>
+
+        <!-- 起购限购 -->
+        <view class='shop-cart-product-limit' style='margin-bottom:16rpx;' wx:if="{{productItem.minPurchaseNum || productItem.limitBuyCount}}">
+          <text class='ft-24 color-333' style='margin-right:8rpx;' wx:if="{{productItem.minPurchaseNum}}">起购{{productItem.minPurchaseNum}}{{productItem.saleUnit}}</text>
+          <text class='ft-24 color-333' style='margin-right:8rpx;' wx:if="{{productItem.limitBuyCount}}">{{'  '}}限购{{productItem.limitBuyCount}}{{productItem.saleUnit}}</text>
+        </view>
+        <!-- 产品促销提示标签-->
+      </view>
+       <!-- end 产品右侧流式布局 -->
+    </view>
+    <view class="delete-btn" data-index="{{index}}" catchtap='delItem'>删除</view>
+
+  </view>
+</template>

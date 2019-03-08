@@ -1,0 +1,10 @@
+.cty-hd-banners {
+  width: 100%;
+  height: 186rpx;
+  background-color: #fff;
+}
+
+.cty-hd-banners-img {
+  width: 100%;
+  height: 100%;
+}

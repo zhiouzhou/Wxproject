@@ -1,0 +1,33 @@
+<!--pages/user/myOddBalance/myOddBalance.wxml-->
+<view class='top'>
+  <image src='/assets/images/wode_beijing@2x.png' class='oddBanlance-bg'></image>
+  <view class='content'>
+    <view class='money'>
+      <view style='font-size:64rpx;'>{{bundleData}}</view><text style='font-size:28rpx;'>元</text>
+    </view>
+    <view style='font-size:24rpx; color:#fff;'>零头结余</view>
+  </view>
+</view>
+<view class='oddBalanceDetail_one'>
+  <view class='oddBalanceDetail'>
+    <view class='redLine'></view>
+    <view style='color:#333;font-size:28rpx;'>零头结余明细</view>
+  </view>
+  <view class='more' wx:if="{{balanceDetail && balanceDetail.length}}" catchtap='more'>
+    <view  class='checkMore' >更多</view>
+    <image src='/assets/images/ic_arrow@2x.png' style='width:26rpx;height:26rpx;'></image>
+  </view>
+</view>
+<!-- 下单(0),订单取消(1),订单审核失败(2),订单配送失败(3),订单部分配送自动计算(4),订单部分配送手动调整(5) -->
+<view class='balanceList' wx:if ="{{balanceDetail && balanceDetail.length}}" wx:for="{{balanceDetail}}" wx:for-item="item" >
+  <view class='state'>
+    <view style="color:#333;font-size:28rpx;">{{item.eventType==0?"下单":item.eventType==1?"订单取消":item.eventType==2?"订单审核失败":item.eventType==3?"订单配送失败":item.eventType==4?"订单部分配送自动计算":item.eventType==5?"订单部分配送手动调整":""}}(订单号：{{item.orderNo}})</view>
+    <view style="color:#E53935;font-size:32rpx;">{{item.modifyAmount}}</view>
+  </view>
+  <view class='time'>{{item.createTime}}</view>
+</view>
+<view class='noData' wx:if="{{vm.isEmpty}}">
+  <!-- <image class='noData-image' src='/assets/images/order_emptylist_icon@2x.png'></image> -->
+  <view class='data-title'>暂无零头结余明细</view>
+</view>
+

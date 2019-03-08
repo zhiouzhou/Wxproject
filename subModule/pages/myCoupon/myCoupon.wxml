@@ -1,0 +1,97 @@
+<!--pages/user/myCoupon/myCoupon.wxml-->
+
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+<import src="/components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<view class='shopCoupon'>
+  <view class='{{shopCoupon?"shopCoupon-border":"shopCoupon-bg"}}' catchtap='couponJiupi' style='{{shopCoupon?"border-radius: 4rpx 0rpx 0rpx 4rpx;":"border-radius:4rpx 0rpx 0rpx 4rpx"}}'>易酒批券</view>
+  <view class='{{shopCoupon?"shopCoupon-bg":"shopCoupon-border"}}' catchtap='shopCoupon' style='{{shopCoupon?"border-radius: 0rpx 4rpx 4rpx 0rpx;":"border-radius:0rpx 4rpx 4rpx 0rpx"}}'>经销商券</view>
+</view>
+<!-- 经销商券  -->
+<block wx:if="{{shopCoupon}}">
+  <view class='shopCouponState'>
+    <view class='{{couponState?"usable-red":"usable-gray"}}' catchtap='usable'>
+      <text>可用券</text>
+      <view class='line-shop' wx:if="{{couponState}}"></view>
+    </view>
+    <view class='{{couponState?"usable-gray":"usable-red"}}' catchtap='unusable'>
+      <text>不可用券</text>
+      <view class='line-shop' wx:if="{{!couponState}}"></view>
+    </view>
+  </view>
+</block>
+<!-- 易酒批券 -->
+<block wx:else>
+  <view class='couponClass'>
+    <view class='{{couponType==0?"couponState":"couponState_one"}}' catchtap='discount'>
+      <text>抵用券({{couponNum.cashCount}})</text>
+      <view class='line' wx:if="{{couponType==0}}"></view>
+    </view>
+    <view class='{{couponType==1?"couponState":"couponState_one"}}' catchtap='sale'>
+      <text>打折券({{couponNum.discountCount}})</text>
+      <view class='line' wx:if="{{couponType==1}}"></view>
+    </view>
+    <view class='{{couponType==2?"couponState":"couponState_one"}}' catchtap='gift'>
+      <text>赠品券({{couponNum.giftCount}})</text>
+      <view class='line' wx:if="{{couponType==2}}"></view>
+    </view>
+  </view>
+
+  <view class='couponType' wx:if="{{couponType==0}}">
+    <view class='couTypeList'>
+      <view class='{{couponUseType==2?"couponSelect":"couponSelect_one"}}' catchtap='product'>现金抵用券({{couponNum.cashCouponCount.generalCount}})</view>
+      <view class='{{couponUseType==0?"couponSelect":"couponSelect_one"}}' catchtap='category'>产品抵用券({{couponNum.cashCouponCount.productCount}})</view>
+      <view class='{{couponUseType==1?"couponSelect":"couponSelect_one"}}' catchtap='currency'>品类抵用券({{couponNum.cashCouponCount.categoryCount}})</view>
+    </view>
+  </view>
+</block>
+<scroll-view class='myCouponDetail' scroll-y bindscrolltolower="lower" lower-threshold="4" style='height:{{couponType==0?windowHeight:windowHeightState}}px' wx:if="{{!couponArr||couponArr.length!=0}}">
+  <view class='myCouponList' wx:for="{{couponArr}}" wx:for-item style='border-bottom:{{item.couponState==1?"8rpx solid #E53935;":"8rpx solid #BDBDBD;"}}'>
+    <view style='' class='logoName'>
+      <view  class='logoImg' wx:if="{{shopCoupon}}"> 
+        <image src='{{item.shopInfo.logoImgUrl}}'  mode='scaleToFill' style='width:100%;height:100%;'></image>
+      </view>
+      <view class='name' style='color:{{item.couponState==1&&!shopCoupon?"#e53935":shopCoupon?"#666":"#666"}}'>{{shopCoupon?item.shopInfo.shopName:item.couponTemplate.name}}</view>
+    </view>
+    <view class='time' style='color:{{item.couponState==1?"#666":"#999"}}'>有效期：{{item.timeEffective}}~{{item.timeExpired}}</view>
+    <view class='condition' style='color:{{item.couponState==1?"#666":"#999"}}'>
+      <view style='display:flex;align-items:center;' wx:if="{{item.couponDesc&&!shopCoupon}}">
+        <text class='icon' style='font-size:8rpx;color:#999'>●</text>
+        <text>{{item.couponDesc}}</text>
+      </view>
+      <view style='display:flex;align-items:center;'>
+        <text class='icon' style='font-size:8rpx;color:#999'>●</text>
+        <text>{{item.useDescription}}</text>
+      </view>
+    </view>
+    <block wx:if="{{item.couponTemplate.couponType==0}}">
+      <view class='money' style='color:{{item.couponState==1?"#e53935":"#666"}}'>
+        <text style='font-size:32rpx'>¥</text>
+        <text style='font-size:68rpx'>{{WxsUtil.splitNum(item.amount,false).integerNumStr}}</text>
+        <text style='font-size:32rpx'>{{WxsUtil.splitNum(item.amount,false).decimalNumStr}}</text>
+      </view>
+    </block>
+    <block wx:elif="{{item.couponTemplate.couponType==1}}">
+      <view class='money' style='color:{{item.couponState==1?"#e53935":"#666"}}'>
+        <text style='font-size:68rpx'>{{item.percent}}</text>
+        <text style='font-size:32rpx'>折</text>
+      </view>
+    </block>
+    <block wx:else>
+      <view class='money' style='color:{{item.couponState==1?"#e53935":"#666"}}'></view>
+    </block>
+    <view class='check' catchtap='checkMore' wx:if="{{checkHide==false}}">查看可使用的产品>></view>
+    <image src='{{item.couponState==2?"/assets/images/icon_yishiyong.png":"/assets/images/icon_yiguoqi.png"}}' class='stateImg' wx:if="{{couponState==0}}"></image>
+  </view>
+  <view style='height:98rpx;' wx:if="{{shopCoupon==false}}"></view>
+  <!-- 空页面 -->
+</scroll-view>
+<view class='noData' wx:if="{{!initing&&(!couponArr||couponArr.length==0)}}">
+  <image class='noData-image' src='/assets/images/youhuiquan_emptylist_icon@2x.png'></image>
+  <view class='data-title'>暂时没有优惠券哟~</view>
+  <view class='backHome' catchtap='backHome'>返回首页</view>
+</view>
+<view class='more' wx:if="{{shopCoupon==false}}">
+  <text>没有更多{{couponState==0?"不可用":"可用"}}优惠券了</text>
+  <text style='color:#477AAC;' catchtap='checkUse'>  查看{{couponState==0?"可用":"不可用"}}优惠券>></text>
+</view>

@@ -1,0 +1,7 @@
+<template name="selectAddress">
+  <view class='address-list-wrap'>
+    <view class='address-item' wx:for="{{addressList}}" wx:key="{{item.addressId}}" catchtap='onSelectAddress' data-address='{{item}}' >
+      <text class='ft-28 {{selectAddressId==item.addressId?"color-E53935":"color-333"}} two-line'>{{item.province||''}}{{item.city||''}}{{item.county||''}}{{item.street||''}}{{item.detailAddress||''}}</text>
+    </view>
+  </view>
+</template>

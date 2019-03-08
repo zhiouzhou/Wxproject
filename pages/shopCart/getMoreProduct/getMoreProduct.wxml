@@ -1,0 +1,26 @@
+<!--pages/shopCart/getMoreProduct/getMoreProduct.wxml-->
+
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../../components/product/product.wxml" />
+
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+
+<view class='top-notice'>
+  <view class='red-tag color-E53935 ft-22' style='min-width:60rpx;'>优惠</view>
+  <text class='ft-24 color-333'>{{source=='couponCode'?discountNotice:couponNotice}}</text>
+</view>
+
+<scroll-view class='scroll' style='height:{{windowHeight}}px' scroll-y lower-threshold='4' bindscrolltolower='getListCanUseCoupon'>
+  <block wx:for="{{productList}}" wx:key="{{item.productSkuId}}">
+    <template is="product-list-product" data="{{...item,product:item,hiddenPriceText}}" />
+  </block>
+</scroll-view>
+
+<view class='bottom-button ft-34 color-FFF' catchtap='confirmAdd'>确认添加
+  <text wx:if="{{totalCount}}">({{totalCount}})</text>
+</view>

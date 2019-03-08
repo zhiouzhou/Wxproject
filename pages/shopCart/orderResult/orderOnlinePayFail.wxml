@@ -1,0 +1,25 @@
+<!--pages/shopCart/orderResult/orderOnlinePayFail.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+<view class='result-state'>
+  <image class='result-img' src='/assets/images/dingdan_shibai@2x.png' mode='aspectFit' />
+  <view class='result-state-text'>
+    <text class='ft-34 color-E53935' style='line-height:34rpx;'>订单支付失败</text>
+    <text class='ft-26 color-666' style='line-height:26rpx;'>错误提示：{{result}}</text>
+  </view>
+</view>
+
+<view class='result-detail'>
+  <text class='ft-24 color-666'>支付方式：{{payTypeText}}</text>
+  <text class='ft-24 color-666' style='margin-top:32rpx;'>下单时间：{{placeOrderTime}}</text>
+  <text class='ft-24 color-666' style='margin-top:32rpx;'>实付金额：<text class='ft-24 color-E53935'>¥{{WxsUtil.toFixed(totalPayableAmount,2)}}</text></text>
+</view>
+<!-- 底部按钮 -->
+<view class='button-area'>
+  <view class='grey-button ft-34 color-666' catchtap='goToHomePage' wx:if="{{!isGoToShopcart}}">返回首页</view>
+  <view class='grey-button ft-34 color-666' catchtap='goToShopCart' wx:else data-shopcart-type='{{shopcartType}}'>返回购物车</view>
+  <view class='red-button ft-34 color-FFF' style='margin-left:24rpx;' catchtap='retryPay'>继续支付</view>
+</view>
+<text class='ft-34 color-477AAC underline' style='display:block;padding-right:107rpx;text-align:right;' catchtap='changePayType' wx:if="{{canChangePayType}}">转{{currentDeliveryMode==0?"货到付款":"现款现结"}}</text>

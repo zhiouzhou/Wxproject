@@ -1,0 +1,86 @@
+/* pages/user/myOddBalance/myOddBalance.wxss */
+page{
+  background-color:#f2f2f2; 
+}
+.top{
+  width: 100%;
+  height: 272rpx;
+  background-color: #fff;
+  box-sizing: border-box;
+  position: relative;
+  margin-bottom:16rpx;
+}
+.oddBanlance-bg{
+  width:100%;
+  height:100%;
+  position: absolute;
+}
+.content{
+  position: absolute;
+  top:96rpx;
+  left:283rpx;
+  text-align: center;
+}
+.money{
+  display: flex;
+  flex-direction: row;
+  align-items: baseline; 
+  color:#fff;
+}
+.oddBalanceDetail_one{
+  background-color: #fff;
+  padding:30rpx 24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom:2rpx solid #e2e2e2;
+}
+.oddBalanceDetail,.more{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.redLine{
+  width:4rpx;
+  height:28rpx;
+  background-color:#E53935;
+  margin-right:16rpx;
+}
+.checkMore{
+  color:#999;
+  font-size:24rpx;
+  padding-right:4rpx;
+}
+.balanceList{
+  background-color:#fff;
+  padding:32rpx 24rpx;
+  border-bottom:1rpx solid #e2e2e2;
+}
+.state{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.time{
+  color:#999;
+  font-size:24rpx;
+  padding-top:16rpx;
+}
+.noData{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+   margin-top:252rpx; 
+}
+.noData-image{
+  width:152rpx;
+  height:152rpx;
+  
+}
+.data-title{
+  font-size:32rpx;
+  color:#666;
+}
+
+

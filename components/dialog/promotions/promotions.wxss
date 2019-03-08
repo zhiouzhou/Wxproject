@@ -1,0 +1,10 @@
+.promotionsList{
+  display:flex;
+  flex-direction: row;
+  padding-bottom:48rpx;
+  align-items:center;
+
+}
+.product-tag-img{
+  padding-right:12rpx;
+}

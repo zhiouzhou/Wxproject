@@ -1,0 +1,74 @@
+<!--pages/complaints/addComplaint.wxml-->
+
+
+<include src="/components/dialog/clooseComplaintType/clooseComplaintType.wxml" wx:if="{{isClooseType}}"/>
+
+<import src="/components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<view class='cells mb12'>
+  <view class='cell'>
+    <view class='cell-hd'>
+      <text>联系人</text>
+    </view>
+    <view class='cell-fd'>
+      <input placeholder='请输入联系人姓名' bindinput='inputLinkman' value='{{complaintInfo.linkman}}'></input>
+    </view>
+  </view>
+  <view class='cell'>
+    <view class='cell-hd'>
+      <text>联系电话</text>
+    </view>
+    <view class='cell-fd'>
+      <input placeholder='请输入联系电话' type='number' maxlength='11' bindinput='inputTelephoneNo' value='{{complaintInfo.telephoneNo}}'></input>
+    </view>
+  </view>
+  <view class='cell'>
+    <view class='cell-hd'>
+      <text>订单号</text>
+    </view>
+    <view class='cell-fd' catchtap='goSelectOrder'>
+      <text class='color-999' wx:if="{{!complaintInfo.orderNo}}">本次投诉对应的订单(非必选）</text>
+      <text wx:if="{{complaintInfo.orderNo}}">{{complaintInfo.orderNo}}</text>
+    </view>
+    <image class='link-more' src='/assets/images/ic_arrow_m@2x.png'></image>
+  </view>
+</view>
+<view class='cells'>
+  <view class='cell'>
+    <view class='cell-hd'>
+      <text class='color-E53935'>*</text><text>投诉类型</text>
+    </view>
+    <view class='cell-fd' catchtap='chooseType'>
+      <text class='color-999' wx:if="{{!complaintInfo.complaintType}}">请选择投诉类型</text>
+      <text wx:if="{{complaintInfo.complaintType}}">{{complaintInfo.complaintType}}</text>
+    </view>
+    <image class='link-more' src='/assets/images/ic_arrow_m@2x.png' ></image>
+  </view>
+  <view class='upload-wrapper'>
+    <view class='upload-title'>
+      <text class='color-E53935'>*</text><text>备注</text>
+    </view>
+    <view class='upload-footer'>
+      <textarea hidden='{{isClooseType}}' maxlength="200" class='upload-text' bindinput='inputComplaintContent' placeholder='请输入您要投诉的内容'>
+      </textarea>
+      <view class='ric-wrapper'>
+        <view class='add-pic'>
+          <view class='add-pic' wx:if="{{imageUrl}}">
+            <image class='uploadImg' src='{{imageUrl}}'></image>
+            <image catchtap='clearImg' class='clear-btn' src='/assets/images/icon_clear.png'></image>
+          </view>
+          <view catchtap='chooseImg' wx:if="{{!imageUrl}}">
+            <image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAk1BMVEXl5eX////l5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXm5ubn5+fo6Ojp6enq6urr6+vs7Ozt7e3u7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7///8c/uf3AAAAFnRSTlMAAAEDCCcoNjdub3BxfIaJ19/g4uP81Bs7bwAAAcVJREFUWMPt2Nt2ojAYhmHHdma6me60JmxUEBSBIHnv/+rmoC6BKbsIPZguvjPJyhN/EhNw9mOkzCZogkaBZmPky6Gbp3fRkPenGwPoWbTkuT90t2qDVr/7QrevojWvtz2hF9GRl37Qz1UXtPpVD83vF2JA3h7mZ+hBDMzjGVoOhZZnSAzOfwrZruvIugbX7g9JP9YAOg3tf5o2J0jtfpAMcopEFcrWAGkvyFEA6EydAMi9UmPwods9oHUOnAJHCCEsPwUIitbwA3K7IScHHcjKPWFXDAPAqbs0mUHulq9YCej15eMeyDfdUAjarV6yFKhS6WFgd0+/pcH/VK0Gz3BBBpXBS19TGUKqdmxLXya8J2SBrvtZxDUFt0LrhhpC2BtBHhzrOvgN140hD2IjaNvQwYfICHKL1V/JHkIjSDbMs4Kt2TqKa4d2G1ZFC+RBbtXxR9M9O6vp4xUbUH9oy6fi1rphzto3tgg4lG/IVkMmzSGZAGpz2ewjIHeuOddkDKDC7drd7BKAzLnygAw05Rzl1SetfSioZDPoyJbeIVEqjXb2d3wamaBRocVQZznWA/ufyyvE2xBm8Tgf91V0+gNhgr4j9BfnVimH4uopSAAAAABJRU5ErkJggg=="></image>
+            <text>添加图片</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class='submit-btn-wrapper'>
+  <text class="submit-btn {{isRed?'red-btn':''}}" catchtap='submitInfo'>提交</text>
+</view>
+

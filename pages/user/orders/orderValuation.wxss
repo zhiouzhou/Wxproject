@@ -1,0 +1,83 @@
+/* pages/user/orders/orderValuation.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.valuationTitle {
+  background-color: #fffaf3;
+  padding: 24rpx 32rpx 24rpx 24rpx;
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.icon-title {
+  width: 24rpx;
+  height: 24rpx;
+  padding-right: 16rpx;
+  margin-top:6rpx;
+}
+
+.serviceValuation {
+  background-color: #fff;
+  /* padding-bottom: 24rpx; */
+}
+
+.valuationChange {
+  padding: 0 150rpx 48rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.valuationImg {
+  width: 64rpx;
+  height: 64rpx;
+  padding-bottom: 16rpx;
+}
+
+.valuationSelect {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-area-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.edit-valuation {
+  padding: 24rpx;
+  border: 2rpx solid #e5e5e5;
+  width: 93.6%;
+  box-sizing: border-box;
+  height: 192rpx;
+  font-size:28rpx;
+  color:#333;
+}
+.noName{
+  padding:24rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.noNameImg{
+  width:44rpx;
+  height:44rpx;
+  padding-right:16rpx;
+}
+.submit{
+  width:702rpx;
+  height:88rpx;
+  background-color: #E53935;
+  font-size:34rpx;
+  color:#fff;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  margin:48rpx auto;
+}

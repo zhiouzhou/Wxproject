@@ -1,0 +1,21 @@
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<scroll-view class='scroll-page-wrap' style='height:{{windowHeight}}rpx;' scroll-y lower-threshold='4' scroll-with-animation scroll-into-view='{{scrollPosition}}' bindscrolltolower='loadMore'>
+  <view id='top' />
+  <view class='activity-list' wx:for="{{activityList}}" catchtap='goToActivityDetail' data-item="{{item}}">
+    <view class='activity-list-title'>
+      <text>{{item.name}}</text>
+      <text>查看详情 ></text>
+    </view>
+    <view></view>
+    <view class='activity-list-pic'>
+      <image src='{{item.imgUrl}}' mode='widthFix' />
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 返回顶部按钮 -->
+<image class='back-to-top-float-button' src='/assets/images/ic_zhiding@2x.png' catchtap='backToTop' />

@@ -1,0 +1,246 @@
+/* pages/user/groupBuying/groupBuyDetail.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.groupBuy-shop {
+  height: 128rpx;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 24rpx;
+}
+
+.shop-image {
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 16rpx;
+}
+
+.shop-message {
+  display: flex;
+  flex-direction: column;
+}
+
+.commodity-message {
+  display: flex;
+  flex-direction: row;
+  padding: 24rpx;
+  background-color: #fafafb;
+}
+
+.commodity-image {
+  width: 192rpx;
+  height: 192rpx;
+  margin-right: 16rpx;
+}
+
+.commodity-message-detail {
+  height: 192rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.commodity-price {
+  display: flex;
+  flex-direction: row;
+}
+
+.icon {
+  font-size: 24rpx;
+  color: #e53935;
+  border: 1rpx solid #e53935;
+  border-radius: 4rpx;
+  padding: 4rpx;
+  margin-left: 16rpx;
+}
+
+.distribution {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20rpx;
+}
+
+.distribution-image {
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 8rpx;
+}
+
+.groupBuyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32rpx 0;
+  background-color: #fff;
+  position: relative;
+  margin-bottom: 12rpx;
+}
+
+.group-buy-count-time{
+    display:flex; display:-moz-box; display:-webkit-box;
+    -moz-box-align:center;-webkit-box-align:center;-o-box-align:center;box-align:center;
+}
+
+.colonel {
+  width: 100%;
+  margin-top: 32rpx;
+  margin-bottom: 36rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.colonel-image-wrap {
+  width: 20%;
+  height: 20%;
+  margin-bottom: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.colonel-image {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.name {
+  font-size: 20rpx;
+  color: #fff;
+  padding: 2rpx 8rpx;
+  background-color: #e53935;
+  border-radius: 12rpx;
+  position: absolute;
+  top: -8rpx;
+  left: 25%;
+}
+
+.moreGroupBuy {
+  width: 702rpx;
+  height: 88rpx;
+  background: linear-gradient(-90deg, rgba(235, 51, 73, 1), rgba(244, 92, 67, 1));
+  color: #fff;
+  font-size: 34rpx;
+  text-align: center;
+  line-height: 88rpx;
+  border-radius: 8rpx;
+}
+
+.groupBuyState-image {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 154rpx;
+  height: 154rpx;
+}
+
+.groupBuyRule {
+  background-color: #fff;
+}
+
+.ruleDetail {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  padding: 29rpx 32rpx 29rpx 24rpx;
+}
+
+.ruleDetail-more {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.more {
+  width: 24rpx;
+  height: 24rpx;
+  margin-left: 8rpx;
+}
+
+.groupBuy-step {
+  display: flex;
+  flex-direction: row;
+  padding: 40rpx 48rpx;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.next {
+  width: 24rpx;
+  height: 26rpx;
+}
+
+.time {
+  width: 32rpx;
+  height: 32rpx;
+  background-color: #333;
+  color: #fff;
+  font-size: 22rpx;
+  border-radius: 4rpx;
+  line-height: 32rpx;
+  text-align: center;
+  margin: 0 6rpx;
+}
+
+.joinGroupBuy {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.select-action {
+  margin: 0 24rpx;
+  width: 100%;
+  height: 88rpx;
+  text-align: center;
+  line-height: 88rpx;
+  font-size: 34rpx;
+  color: #fff;
+  background: linear-gradient(-90deg, rgba(235, 51, 73, 1), rgba(244, 92, 67, 1));
+  border-radius: 8rpx;
+  border: none;
+}
+
+.recommendText {
+  color: #333;
+  font-size: 30rpx;
+  padding: 29rpx 24rpx;
+  background-color: #fff;
+  margin-top: 12rpx;
+  margin-bottom: 4rpx;
+}
+
+.recommendShop {
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.recommendShop-message {
+  display: flex;
+  flex-direction: column;
+  width: 373rpx;
+  /* flex:1; */
+  border-right: 4rpx solid #f2f2f2;
+}
+
+.recommendShop-message:nth-child(even) {
+  border-right: none;
+}
+
+.shop-image {
+  width: 310rpx;
+  height: 310rpx;
+  padding: 24rpx;
+}

@@ -1,0 +1,48 @@
+<!--pages/user/myBonus/myBonus.wxml-->
+<import src="/components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<view class='state'>
+  <view class='{{textColor==0?"usable":"unusable"}}' catchtap='usable'>
+    <text>可用{{totalCount}}</text>
+    <view class='line' wx:if="{{textColor==0}}"></view>
+  </view>
+  <view class='{{textColor==1?"usable":"unusable"}}' catchtap='unusable'>
+    <text>不可用{{noUseTotalCount}}</text>
+    <view class='line' wx:if="{{textColor==1}}"></view>
+  </view>
+</view>
+
+<!-- 可用 -->
+<scroll-view class='detail' scroll-y bindscrolltolower='lower' lower-threshold='4' style='height:{{windowHeight-82}}rpx;' wx:if="{{bonusState==1 && bonusList.length>0}}">
+  <view wx:for="{{bonusList}}" wx:for-item="item" style='border-bottom:2rpx solid rgba(0,0,0,.1);'>
+    <view class='bonusList'>
+      <image src='/assets/images/ic_hongbao_keyong@2x.png' style='width:48rpx;height:48rpx;padding-top:32rpx;'></image>
+      <view class='message'>
+        <view class='amount'>{{item.amount}}元红包</view>
+        <view class='time' style='padding-bottom:15rpx;'>有效期：{{item.effectiveTime}}~{{item.expiredTime}}</view>
+        <!-- <view class='condition' >● 订单满1000元可用</view> -->
+      </view>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 不可用 -->
+<scroll-view class='detail' scroll-y bindscrolltolower='lower' lower-threshold='4' style='height:{{windowHeight-82}}rpx' wx:if="{{bonusState==0 && noUseBonusList.length>0}}">
+  <view wx:for="{{noUseBonusList}}" wx:for-item="item" class='bonusList_1'>
+    <view class='bonusList'>
+      <image src='/assets/images/ic__hongbao_bukeyong@2x.png' style='width:48rpx;height:48rpx;padding-top:32rpx; ' mode='aspectFill'></image>
+      <view class='message'>
+        <view class='amount' style='color:#666;'>{{item.amount}}元红包</view>
+        <view class='time' style='padding-bottom:15rpx;'>有效期：{{item.effectiveTime}}~{{item.expiredTime}}</view>
+         <view class='condition' style='padding-bottom:32rpx;' wx:if="{{item.canNotUseReason}}"><text style='font-size:8rpx;color:#999;padding-right:17rpx;'>●</text>{{item.canNotUseReason}}</view>   
+      </view>
+      <image src='{{item.bonusState==0||item.bonusState==1||item.bonusState==3||item.bonusState==4||item.bonusState==5||item.bonusState==6?"/assets/images/hongbao_yiguoqi@2x.png":item.bonusState==2?"/assets/images/hongbao_yishiyong@2x.png":""}}'
+        class='sign'></image>
+    </view>
+  </view>
+</scroll-view>
+<view class='noData' wx:if = "{{vm.isEmpty && (!noUseBonusList.length || !bonusList.length)}}">
+  <image class='noData-image' src='/assets/images/hongbao_emptylist_icon.png'></image>
+  <view class='data-title'>暂时没有红包哟</view>
+  <view class='backHome' catchtap='backHome'>返回</view>
+</view>

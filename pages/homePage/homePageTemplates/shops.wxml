@@ -1,0 +1,16 @@
+<template name="shops">
+  <view class='shops-wrap'>
+    <view class='shops-hd'>
+      <text class='ft-28 color-333'>经销商推荐</text>
+      <text class='ft-24 color-999' catchtap='goToDealerList'>查看更多 ></text>
+    </view>
+    <view class='shops-list-wrap'>
+      <view class='shops-list-item' wx:for="{{shops}}" catchtap='goToDealerShop' data-shop-id='{{item.shopId}}'>
+        <image class='shops-logo' src='{{item.logoImgUrl}}' mode='aspectFit' />
+        <text class='ft-26 color-333 one-line' style='margin-top:16rpx;'>{{item.shopName}}</text>
+        <text class='ft-22 color-666' style='margin-top:16rpx;'>{{item.userFavoriteCount}}人关注</text>
+        <view class='ft-26 color-E53935 shops-button' style='margin-top:24rpx;'>马上进货</view>
+      </view>
+    </view>
+  </view>
+</template>

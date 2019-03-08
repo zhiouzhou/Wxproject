@@ -1,0 +1,81 @@
+<!--pages/register/registerStepTwo.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<include src='../../components/dialog/addressSelect/addressSelect.wxml' wx:if="{{addressSelectShow}}"/>
+
+<view class='header'>
+  <view class='header-title' hidden='{{fromQuickRegister}}'>
+    <text class='ft-34 color-333' style='flex:1;'>店铺信息</text>
+    <view class='red-block' style='margin-right:24rpx;opacity:0.6;' />
+    <view class='red-block' />
+  </view>
+  <text class='ft-24 color-666'>请填写正确的店铺信息，即可享受易久批便捷服务</text>
+</view>
+<!-- 详细信息 -->
+<view class='content'>
+  <!-- 店铺名称 -->
+  <view class='content-item'>
+    <text class='content-title'>店铺名称</text>
+    <input class='info-input' value='{{companyName}}' placeholder='请填写您的店铺名称' placeholder-class='ft-28 color-BDBDBD' maxlength='30' bindinput='bindinput' data-tag='companyName' />
+  </view>
+  <!-- 联系人 -->
+  <view class='content-item'>
+    <text class='content-title'>联系人</text>
+    <input class='info-input' value='{{userName}}' placeholder='请填写您的姓名' placeholder-class='ft-28 color-BDBDBD' maxlength='30' bindinput='bindinput' data-tag='userName' />
+  </view>
+  <!-- 所在地区 -->
+  <view class='content-item'>
+    <text class='content-title'>所在地区</text>
+    <text class='ft-28 color-BDBDBD' style='flex:1;line-height:28rpx;' catchtap='chooseAddress' wx:if="{{!province}}">请选择所在地区</text>
+    <text class='ft-28 color-333' style='flex:1;line-height:28rpx;' catchtap='chooseAddress' wx:else>{{province}} {{city}} {{county}}</text>
+    <!-- <input class='info-input' placeholder='请选择所在地区' placeholder-class='ft-28 color-BDBDBD' catchtap='chooseAddress' disabled/> -->
+    <image src='/assets/images/ic_arrow_m@2x.png' class='more'></image>
+  </view>
+  <!-- 街道/乡镇 -->
+  <view class='content-item'>
+    <text class='content-title'>街道/乡镇</text>
+    <text catchtap='goSelectStreet' class='ft-28 color-BDBDBD' style='flex:1;line-height:28rpx;' wx:if="{{!street}}">请选择街道/乡镇</text>
+    <text catchtap='goSelectStreet' class='ft-28 color-333' style='flex:1;line-height:28rpx;' c wx:else>{{street}}</text>
+    <!-- <input class='info-input' placeholder='请选择街道/乡镇' placeholder-class='ft-28 color-BDBDBD' catchtap='chooseAddress' disabled/> -->
+     <image src='/assets/images/ic_arrow_m@2x.png' class='more'></image>
+  </view>
+  <!-- 详细地址 -->
+  <view class='address-wrap'>
+    <text class='content-title'>详细地址</text>
+    <textarea class='address-textarea' disabled='{{fromLocation}}' placeholder='例：小区、楼栋、门牌号' placeholder-class="ft-28 color-BDBDBD {{placeholderHide?'place-index':''}}" maxlength='100' bindinput='bindinput' data-tag='detailAddress' value='{{detailAddress}}' />
+  </view>
+  <!-- 店铺名称 -->
+  <view class='content-item' wx:if="{{fromLocation}}">
+    <text class='content-title'>门牌号</text>
+    <input class='info-input' placeholder='例：16号楼427室' placeholder-class='ft-28 color-BDBDBD' maxlength='30' bindinput='bindinput' data-tag='houseNumber' />
+  </view>
+</view>
+<!-- 会员展示类别 -->
+<view class='user-display'>
+  <text class='ft-34 color-333'>我是？</text>
+  <view class='user-display-type'>
+    <!-- 烟酒店 -->
+    <view class='user-display-type-item' catchtap='switchType' data-tag='0'>
+      <image class='type-bg' src='{{userDisplayClass==0?"/assets/images/zhuceyuan_hong_ic@2x.png":"/assets/images/zhuceyuan_hui_ic@2x.png"}}' mode='aspectFit' />
+      <image class='type-img' src='/assets/images/zhuce_yanjiudian_icon@2x.png' mode='aspectFit' />
+      <text class='type-text'>烟酒店</text>
+    </view>
+    <!-- 便利店 -->
+    <view class='user-display-type-item' catchtap='switchType' data-tag='1'>
+      <image class='type-bg' src='{{userDisplayClass==1?"/assets/images/zhuceyuan_hong_ic@2x.png":"/assets/images/zhuceyuan_hui_ic@2x.png"}}' mode='aspectFit' />
+      <image class='type-img' src='/assets/images/zhuce_bianlidian_icon@2x.png' mode='aspectFit' />
+      <text class='type-text'>便利店</text>
+    </view>
+    <!-- 餐饮店 -->
+    <view class='user-display-type-item' catchtap='switchType' data-tag='2'>
+      <image class='type-bg' src='{{userDisplayClass==2?"/assets/images/zhuceyuan_hong_ic@2x.png":"/assets/images/zhuceyuan_hui_ic@2x.png"}}' mode='aspectFit' />
+      <image class='type-img' src='/assets/images/zhuce_canyingdian_icon@2x.png' mode='aspectFit' />
+      <text class='type-text'>餐饮店</text>
+    </view>
+  </view>
+</view>
+<view class='confirm-button' style='{{contentValid?"":"background-color:#bdbdbd;"}}' catchtap='onConfirm'>{{fromQuickRegister?'确定':'完成'}}</view>

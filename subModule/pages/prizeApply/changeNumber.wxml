@@ -1,0 +1,28 @@
+<!--pages/user/prizeApply/changeNumber.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<view class='prizeMessage' wx:for="{{prizeArray}}" wx:for-item="item" wx:for-index="index" wx:if="{{item.handleType!=2}}">
+  <view class='prize-name'>
+    <view class='name-number ft-24 '>{{index+1}}</view>
+    <text class='ft-30 color-333'>兑奖券名称：<text wx:if="{{item.handleType==1}}">{{item.awardName}}</text></text>
+  </view>
+  <textarea value='{{item.awardName}}' placeholder='例如：茶π柚子绿茶300ml瓶盖' placeholder-class='ft-26 color-999' class='remark-message' style='margin:24rpx;' bindinput='awardName' data-index="{{index}}" wx:if="{{item.handleType==0}}"></textarea>
+  <view class='prizeNumber'>
+    <text class='ft-30 color-333' style=''>兑奖券数量：</text>
+    <view class="number">
+      <view class='change-num-icon' catchtap='reduceNum' data-award-arr="{{item}}" data-index="{{index}}">
+        <image src='{{disable?"/assets/images/nengdian2x.png":"/assets/images/bunengdianchu@2x.png"}}' mode='aspectFit' class='change-img'></image>
+      </view>
+      <input value='{{item.awardNum}}' class='num-input ft-30 color-333' type='text' bindinput='awardNum' data-award-arr="{{item}}" data-index="{{index}}" bindblur="changeNum"></input>
+      <view class='change-num-icon' catchtap='addNum' data-award-arr="{{item}}" data-index="{{index}}">
+        <image src='/assets/images/jiahao.png' class='change-img-add'></image>
+      </view>
+    </view>
+  </view>
+  <view style='border-top:2rpx solid #E8EAED;' wx:if="{{prizeArray.length!=1}}">
+    <view class='delete' catchtap='removeList' data-index="{{index}}">删除</view>
+  </view>
+</view>
+<view class='addPrize' catchtap='addNewPrize'>添加新兑奖券</view>
+<view style='height:96rpx;'></view>
+<view class='{{tagType==false?"submitApply":"submitApply-one"}}' catchtap='holdNumber'>保存</view>

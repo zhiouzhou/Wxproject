@@ -1,0 +1,167 @@
+.add-to-shopcart-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 98rpx;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -2rpx 2rpx #e8eaed;
+  z-index: 25;
+}
+.add-to-shopcart-left{
+  flex:1;
+  padding: 12rpx 0 0 16rpx;
+}
+.add-to-shopcart-left view{
+  font-size: 30rpx;
+}
+.coupon-discount-tip{
+   margin-top: 8rpx;
+   font-size: 24rpx;
+   color: #333333;
+}
+
+
+.add-to-shopcart-img {
+  width: 66rpx;
+  height: 66rpx;
+  margin-left: 24rpx;
+}
+
+.add-to-shopcart-num {
+  margin: -40rpx 0 0 -20rpx;
+  color: #fff;
+  background-color: #e53935;
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  font-size: 16rpx;
+  text-align: center;
+  line-height: 24rpx;
+}
+
+.add-to-shopcart-button {
+  height: 100%;
+  width: 200rpx;
+  line-height: 98rpx;
+  color: #fff;
+  background-color: #e53935;
+  text-align: center;
+  font-size: 30rpx;
+}
+
+.bottom-view-holder {
+  height: 98rpx;
+  background-color: transparent;
+  width: 100%;
+}
+
+
+
+.detail-add-to-shopcart-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 98rpx;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0 -2rpx 2rpx #e8eaed;
+  z-index: 999;
+}
+
+.add-to-shopcart-frame-wrap {
+  width: 240rpx;
+  height: 66rpx;
+  border: 2rpx solid #bdbdbd;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 32rpx;
+  margin-right: 16rpx;
+  border-radius: 4rpx;
+}
+
+.add-to-shopcart-frame-touch-area {
+  width: 62rpx;
+  height: 62rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-to-shopcart-frame-img {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.add-to-shopcart-frame-input {
+  flex: 1;
+  height: 100%;
+  border-left: 2rpx solid #bdbdbd;
+  border-right: 2rpx solid #bdbdbd;
+  text-align: center;
+  line-height: 62rpx;
+  font-size: 36rpx;
+  color: #333;
+}
+
+.add-to-shopcart-orange-button {
+  font-size: 30rpx;
+  color: #fff;
+  text-align: center;
+  line-height: 98rpx;
+  height: 100%;
+  width: 200rpx;
+  background-color: #ffa825;
+}
+
+.add-to-shopcart-red-button {
+  font-size: 30rpx;
+  color: #fff;
+  text-align: center;
+  line-height: 98rpx;
+  height: 100%;
+  width: 200rpx;
+  background-color: #e53935;
+}
+.shopcart-gray-button{
+  background: #BDBDBD !important;
+}
+.add-to-shopcart-column{
+    flex:1;
+    display: -webkit-box;display: -ms-flexbox;display: flex; 
+}
+.add-to-shopcart-column .add-to-shopcart-orange-button{
+    display: inline-block;
+    -webkit-box-flex: 1;-ms-flex:1;flex:1;
+}
+.add-to-shopcart-column .add-to-shopcart-red-button{
+    display: inline-block;
+    -webkit-box-flex: 1;-ms-flex:1;flex:1;
+}
+/*独家包销产品详情底部通栏*/
+.underwrite-foot{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  height:98rpx;
+  background-color:#e53935;
+  text-align:center;
+  line-height:98rpx;
+  font-size:32rpx;
+  color:#fff;  
+}
+.black-half{
+  background: #bdbdbd;
+}
+.red-half{
+  background-color:#e53935;
+}

@@ -1,0 +1,28 @@
+<!--pages/user/myCollection/myCollection.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../../components/product/product.wxml" />
+<import src="../../../components/addToShopCart/addToShopCart.wxml" />
+<import src="../../../components/couponTitle/couponTitle.wxml" />
+
+ <!--全场通用 优惠券提示列表提示语-->
+<template  is="couponTitle" data="{{productListCouponDesc}}" />
+<!-- 产品列表 -->
+<scroll-view class='scroll-page-wrap' style='height:{{isVisitor?windowHeight+isVisitorHeight:windowHeight - 54}}px;' scroll-y scroll-with-animation scroll-into-view='{{scrollPosition}}' lower-threshold='4' bindscrolltolower='loadMore' wx:if="{{productList.length&&!initing}}">
+  <block wx:for="{{productList}}" wx:key="{{item.productSaleSpecId}}">
+    <template wx:if="{{item.saleMode==6}}" is="dealer-shop-product" data="{{...item,hiddenPriceText,isFromCollect}}" />
+    <template wx:if="{{item.saleMode!=6}}" is="product-list-product" data="{{...item,hiddenPriceText,isFromCollect}}" />
+  </block>
+</scroll-view>
+
+<view class='noData' wx:if="{{isEmpty}}">
+  <image class='noData-image' src='/assets/images/shoucang_emptylist_icon@2x.png'></image>
+  <view class='data-title'>您还没有收藏任何商品~</view>
+  <view class='backHome' catchtap='backHome'>返回首页</view>
+</view>
+
+<template is="add-to-shopcart-bottom-bar" data="{{addToShopCartNum,addToShopCartPrice,userCouponPrompt}}" />

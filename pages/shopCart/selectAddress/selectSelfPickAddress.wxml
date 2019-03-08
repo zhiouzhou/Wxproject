@@ -1,0 +1,10 @@
+<!--pages/shopCart/selectSelfPickAddress.wxml-->
+
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+
+<view class='self-pick-address-wrap' wx:for="{{wareHouseList}}" wx:key="{{item.warehouseId}}" catchtap='onSelectAddress' data-address='{{item}}'>
+  <image class='self-pick-address-img' src='{{item.warehouseId==selectAddress.warehouseId?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' />
+  <view class='self-pick-address-detail'>
+    <text class='ft-28 color-333 two-line'>{{WxsUtil.getAddressDetail(item)}}</text>
+  </view>
+</view>

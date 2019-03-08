@@ -1,0 +1,43 @@
+.icons-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fff;
+  padding-top: 32rpx;
+}
+
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.img-area {
+  position: relative;
+  width: 88rpx;
+  height: 88rpx;
+}
+
+.icon-img {
+  position: absolute;
+  width: 88rpx;
+  height: 88rpx;
+}
+
+.app-icons-corner {
+  position: absolute;
+  width: 52rpx;
+  height: 52rpx;
+  top: -20rpx;
+  right: -20rpx;
+}
+.app-icons-corner-old{
+  position: absolute;
+  width: 36rpx;
+  height: 36rpx;
+  top: -12rpx;
+  right: -14rpx;
+}

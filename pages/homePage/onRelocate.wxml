@@ -1,0 +1,34 @@
+<!--pages/homePage/onRelocate.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+<view class='currentCity'>
+  <view class='ft-30 color-333'>当前城市：{{cityName||'南京市'}}</view>
+  <view class='relocate' catchtap='relocate'>
+    <image src='/assets/images/ic-chongxindingwei@2x.png' class='location-img'></image>
+    <text class='ft-26 color-477AAC'>重新定位</text>
+  </view>
+</view>
+<scroll-view scroll-y scroll-into-view="{{toView}}" scroll-with-animation style='height:{{windowHeight}}px'>
+  <!-- 热门城市 -->
+  <view class='hotCity'>
+    <image src='/assets/images/ic-remen@2x.png' class='hotCity-img'></image>
+    <text class='ft-28 color-666'>热门城市</text>
+  </view>
+  <view class='hotCityList'>
+    <view class='hotCityMessage ' wx:for="{{hotCityList}}" wx:for-item="item" catchtap='selectHotCity' data-city-name="{{item}}">{{item}}</view>
+  </view>
+  <view class='cityList' wx:for="{{cityList}}" wx:for-item="item" wx:for-index="index">
+    <view class='cityMessage'>
+      <view class='{{item.viewType=="group"?"initials":"cityName"}}' catchtap='selectCity' data-city-name="{{item.cityName}}" data-city-id="{{item.cityId}}" id="{{item.cityName}}" data-view-type="{{item.viewType}}">{{item.cityName}}</view>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 侧边字母 -->
+<view class='letter'>
+  <image src='/assets/images/xing@2x.png' class='xiaoxingxing'></image>
+  <view class='ft-24 color-999 letter-ft' wx:for="{{letterList}}" wx:for-item="item" style='padding-top:8rpx;' catchtap='selectLetter' data-item="{{item}}">{{item}}</view>
+</view>

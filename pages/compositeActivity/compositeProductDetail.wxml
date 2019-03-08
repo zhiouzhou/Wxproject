@@ -1,0 +1,113 @@
+<!--pages/compositeActivity/compositeProductDetail.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../components/product/product.wxml" />
+<import src="../../components/addToShopCart/addToShopCart.wxml" />
+
+<scroll-view class='scroll-page-wrap' style='height:{{windowHeight}}px;' scroll-y scroll-with-animation scroll-into-view='{{scrollPosition}}'>
+  <view id="top" />
+  <!-- 商品图片区域 -->
+  <view class='activity-img-area'>
+    <image class='activity-img' src='{{activityDetail.imgUrl}}' mode='aspectFit' />
+  </view>
+  <!-- 价格以及时间 -->
+  <view class='activity-price-wrap'>
+    <text class='ft-24 color-FFF'>¥<text class='ft-64 color-FFF'>{{activityDetail.packagePrice}}</text>/{{activityDetail.priceUnit}}</text>
+    <view class='activity-price-detail'>
+      <view class='activity-reduce' wx:if="{{activityDetail.reducePrice}}">立减{{activityDetail.reducePrice}}元</view>
+      <text class='ft-24 color-FFF line-through' wx:if="{{activityDetail.regularPrice > activityDetail.packagePrice}}">¥{{activityDetail.regularPrice}}</text>
+    </view>
+    <view class='divider-line' />
+    <view class='activity-time'>{{activityDetail.timeNotice}}</view>
+  </view>
+  <!-- 活动名称，库存，会员等级 -->
+  <view class='activity-title'>
+    <view class='activity-title-name-wrap'>
+      <view class='activity-title-tag'>组</view>
+      <view class='ft-30 color-333 two-line' style='margin-left:12rpx;line-height:30rpx;'>{{activityDetail.name}}</view>
+    </view>
+    <view class='activity-title-remain-wrap'>
+      <text class='ft-26 color-E53935'>{{activityDetail.stockText=='已抢光'?'库存 缺货':activityDetail.stockText?activityDetail.stockText:'库存充足'}}</text>
+      <text class='ft-26 color-E53935' wx:if="{{activityDetail.levelNotice}}">{{activityDetail.levelNotice}}</text>
+    </view>
+  </view>
+  <!-- 限购，促销标签 -->
+  <view class='activity-display-tags-wrap' wx:if="{{activityDetail.accumulationText||activityDetail.unAccumulationText||activityDetail.bonusText||activityDetail.unBonusText||activityDetail.couponText||activityDetail.unCouponText||activityDetail.limitBuyTag}}">
+    <text class='ft-26 color-999' wx:if="{{activityDetail.limitBuyTag}}">限购：<text class='ft-26 color-333'>{{activityDetail.limitBuyTag.tagDetail}}</text></text>
+    <view class='activity-display-tags' wx:if="{{activityDetail.accumulationText||activityDetail.unAccumulationText||activityDetail.bonusText||activityDetail.unBonusText||activityDetail.couponText||activityDetail.unCouponText}}">
+      <image class='product-display-tag-img' src='{{activityDetail.accumulationText?"/assets/images/icon_gou@2x.png":"/assets/images/ic2_tip_left_icon.png"}}' mode='aspectFit' wx:if="{{activityDetail.accumulationText||activityDetail.unAccumulationText}}" />
+      <text class='ft-22 color-999' style='margin-right:24rpx;margin-left:8rpx;' wx:if="{{activityDetail.accumulationText||activityDetail.unAccumulationText}}">{{activityDetail.accumulationText?activityDetail.accumulationText:activityDetail.unAccumulationText}}</text>
+      <image class='product-display-tag-img' src='{{activityDetail.bonusText?"/assets/images/icon_gou@2x.png":"/assets/images/ic2_tip_left_icon.png"}}' mode='aspectFit' wx:if="{{activityDetail.bonusText||activityDetail.unBonusText}}" />
+      <text class='ft-22 color-999' style='margin-right:24rpx;margin-left:8rpx;' wx:if="{{activityDetail.bonusText||activityDetail.unBonusText}}">{{activityDetail.bonusText?activityDetail.bonusText:activityDetail.unBonusText}}</text>
+      <image class='product-display-tag-img' src='{{activityDetail.couponText?"/assets/images/icon_gou@2x.png":"/assets/images/ic2_tip_left_icon.png"}}' mode='aspectFit' wx:if="{{activityDetail.couponText||activityDetail.unCouponText}}" />
+      <text class='ft-22 color-999' style='margin-right:24rpx;margin-left:8rpx;' wx:if="{{activityDetail.couponText||activityDetail.unCouponText}}">{{activityDetail.couponText?activityDetail.couponText:activityDetail.unCouponText}}</text>
+    </view>
+  </view>
+  <!-- 活动描述 -->
+  <view class='activity-desc ft-24 color-666' wx:if="{{activityDetail.activityDesc}}">{{activityDetail.activityDesc}}</view>
+  <!-- 促销活动标签 -->
+  <view class='activity-promotion-wrap' wx:if="{{activityDetail.showTags.length}}">
+    <view class='activity-promotion-title ft-28 color-333'>促销活动</view>
+    <view class='activity-promotion-tags-wrap'>
+      <view class='activity-promotion-tag-wrap' wx:for="{{activityDetail.showTags}}" wx:key="{{item.tagType}}">
+        <view class='activity-promotion-tag' style='border-color:{{item.tagType==5?"#bdbdbd":"#e53935"}};color:{{item.tagType==5?"#bdbdbd":"#e53935"}}'>{{item.tagName}}</view>
+        <text class='ft-26 color-333 tow-line'>{{item.tagDetail}}</text>
+      </view>
+    </view>
+  </view>
+  <!-- 切换地址 -->
+  <view class='activity-address-switch' wx:if="{{!isVisitor}}">
+    <text class='ft-28 color-999' style='min-width:60rpx;margin-right:16rpx;line-height:28rpx;'>送货</text>
+    <image class='activity-address-marker-img' src='/assets/images/ic-dingwei-xianhgqing@2x.png' />
+    <text class='ft-26 color-333 two-line' style='flex:1;line-height:26rpx;'>{{detailAddressText}}</text>
+    <image class='activity-address-switch-img' src='/assets/images/proinfo_ic_more@2x.png' mode='aspectFit' catchtap='onSwitchAddress' />
+  </view>
+  <!-- 服务 -->
+  <view class='activity-service-wrap' wx:if="{{activityDetail.serverDesc||activityDetail.citySelfPickUp}}">
+    <view class='activity-service-tag-wrap' wx:if="{{activityDetail.serverDesc&&activityDetail.deliveryMode!=2}}">
+      <image class='activity-service-tag-img' src='/assets/images/icon_gou@2x.png' />
+      <text class='ft-24 color-666'>{{activityDetail.serverDesc}}</text>
+    </view>
+    <view class='activity-service-tag-wrap' wx:if="{{activityDetail.citySelfPickUp&&activityDetail.deliveryMode!=1}}">
+      <image class='activity-service-tag-img' src='/assets/images/icon_gou@2x.png' />
+      <text class='ft-24 color-666'>支持自提</text>
+    </view>
+  </view>
+  <!-- 产品信息 -->
+  <view class='activity-products-wrap'>
+    <view class='activity-promotion-title ft-28 color-333'>产品信息</view>
+    <block wx:for="{{productList}}" wx:key="{{item.productSku.productSaleSpecId}}">
+      <template is="composite-product-detail" data="{{...item.productSku,productCount:item.productCount,productUnitParams:item.productUnit,hiddenPriceText,product:item.productSku}}" />
+    </block>
+  </view>
+  <view style='height:98rpx;'></view>
+  <!-- 底部通栏 -->
+  <block wx:if="{{isVisitor}}">
+    <view class='cant-buy-bottom-bar-red' catchtap='goToLogin'>{{hiddenBuyText}}</view>
+  </block>
+  <!-- 待审核和审核拒绝并且隐藏价格 -->
+  <block wx:elif="{{userState!=1&&!activityDetail.packagePrice}}">
+    <view class='cant-buy-bottom-bar'>{{PendingAuditBuyDesc}}</view>
+  </block>
+  <!-- 不能购买，活动状态不对或者会员等级不够 -->
+  <block wx:elif="{{cantBuy}}">
+    <view class='cant-buy-bottom-bar' wx:if="{{cantBuy}}">{{cantBuyText}}</view>
+  </block>
+  <!-- 加入购物车底部通栏 -->
+  <block wx:else>
+    <template is="detail-add-to-shopcart-bottom-bar" data="{{...addShopCartObj}}" />
+  </block>
+</scroll-view>
+<!-- 返回顶部按钮 -->
+<image class='back-to-top-float-button' src='/assets/images/ic_zhiding@2x.png' catchtap='backToTop' />
+<!-- 悬浮购物车按钮 -->
+<image class='go-to-shop-cart-float-button' src='/assets/images/ic_fuchuanggouwuche@2x.png' catchtap='goToShopCart' wx:if="{{!isVisitor}}" />
+<view class='shop-cart-float-button-corner-num' wx:if="{{!isVisitor&&hasAddToShopCartNum}}">{{addShopCartObj.productSkuId==addShopCartObj.productSaleSpecId?hasAddToShopCartNum:hasAddToShopCartNum*addShopCartObj.saleSpecQuantity}}</view>
+<!-- 去登陆按钮 -->
+<image class='go-to-login-float-button' src='/assets/images/clicklogin@2x.png' catchtap='goToLogin' wx:if="{{isVisitor}}" />
+<!--返回首页  -->
+<image class='go-to-home-float-button' src='/assets/images/fanhuishouye@2x.png' catchtap='goToHomePage' wx:if="{{isFromShare}}" /> 

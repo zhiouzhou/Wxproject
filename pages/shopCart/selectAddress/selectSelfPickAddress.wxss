@@ -1,0 +1,21 @@
+/* pages/shopCart/selectSelfPickAddress.wxss */
+
+.self-pick-address-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.self-pick-address-img {
+  width: 48rpx;
+  height: 48rpx;
+  margin-left: 12rpx;
+}
+
+.self-pick-address-detail {
+  flex: 1;
+  padding: 24rpx;
+  box-sizing: border-box;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+}

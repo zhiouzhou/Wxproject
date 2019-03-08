@@ -1,0 +1,2 @@
+<!--pages/user/prizeApply/Explain.wxml-->
+<web-view src="{{ruleUrl}}"></web-view>

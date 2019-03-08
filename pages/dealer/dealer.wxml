@@ -1,0 +1,182 @@
+<!--pages/dealer/dealer.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../components/product/product.wxml" />
+<import src="../../components/addToShopCart/addToShopCart.wxml" />
+
+<wxs src="../../utils/WxsUtil.wxs" module="WxsUtil" />
+
+<!-- 店铺顶部 -->
+<view class='shop-hd'>
+  <image class='shop-hd-bg' src='{{shopDetail.backgroundUrl||"/assets/images/bg_jingxiaoshang@2x.png"}}' />
+  <!-- 搜索框 -->
+  <view class='shop-hd-top'>
+    <view class='shop-search-input-wrap'>
+      <image class='shop-hd-search-img' src='/assets/images/ic_sousuo@2x.png' mode='aspectFit' />
+      <input class='shop-hd-search-input ft-24 color-333' placeholder='搜一搜' placeholder-class='ft-24 color-666' bindblur='setSearchKeyword' />
+    </view>
+    <text class='shop-hd-search-button ft-24 color-FFF' catchtap='onSearchShop'>搜本店</text>
+  </view>
+  <view class='shop-hd-bottom'>
+    <!-- 店铺logo -->
+    <image class='shop-logo' src='{{shopDetail.logoImgUrl}}' />
+    <!-- 店铺信息 -->
+    <view class='shop-info-wrap'>
+      <text class='ft-26 color-FFF'>{{shopDetail.shopName}}</text>
+      <text class='ft-22 color-FFF'>{{shopDetail.userFavoriteCount}}人关注</text>
+    </view>
+    <view class='shop-favorite' catchtap='onFavoriteShop' data-shop-id='{{shopDetail.shopId}}'>
+      <image class='shop-favorite-img' src='{{shopDetail.haveFavorite?"/assets/images/jingxiaoshang_yiguanzhu@2x.png":"/assets/images/jingxiaoshang_guanzhu@2x.png"}}' mode='aspectFill' />
+      <text class='ft-26 color-E53935'>{{shopDetail.haveFavorite?'已关注':'关注'}}</text>
+    </view>
+  </view>
+</view>
+<!-- 店铺切换tab页面 -->
+<view class='shop-switcher'>
+  <!-- 商品tab -->
+  <view class='shop-switch-item' catchtap='onSwitchTab' data-tab='0'>
+    <view class='shop-switch-item-content'>
+      <text class='ft-34 {{currentTab==0?"color-E53935":"color-333"}}'>{{productListTotalCount}}</text>
+      <text class='ft-26 {{currentTab==0?"color-E53935":"color-333"}}' style='margin-top:8rpx;'>商品</text>
+    </view>
+    <view class='slider' wx:if="{{currentTab==0}}" />
+  </view>
+  <!-- 活动tab -->
+  <view class='shop-switch-item' catchtap='onSwitchTab' data-tab='3'>
+    <view class='shop-switch-item-content'>
+      <image class='shop-tab-img' src='{{currentTab==3?"/assets/images/ic_youhuiquan_jingxiaoshang1@2x.png":"/assets/images/ic_youhuiquan_jingxiaoshangcopy 2@2x.png"}}' mode='aspectFit' />
+      <text class='ft-26 {{currentTab==3?"color-E53935":"color-333"}}' style='margin-top:8rpx;'>活动</text>
+    </view>
+    <view class='slider' wx:if="{{currentTab==3}}" />
+  </view>
+  <!-- 优惠券tab -->
+  <view class='shop-switch-item' catchtap='onSwitchTab' data-tab='1'>
+    <view class='shop-switch-item-content'>
+      <image class='shop-tab-img' src='{{currentTab==1?"/assets/images/ic_youhuiquanhong_jingxiaoshang@2x.png":"/assets/images/ic_youhuiquan_jingxiaoshang@2x.png"}}' mode='aspectFit' />
+      <text class='ft-26 {{currentTab==1?"color-E53935":"color-333"}}' style='margin-top:8rpx;'>优惠券</text>
+    </view>
+    <view class='slider' wx:if="{{currentTab==1}}" />
+  </view>
+  <!-- 关于经销商tab -->
+  <view class='shop-switch-item' catchtap='onSwitchTab' data-tab='2'>
+    <view class='shop-switch-item-content'>
+      <image class='shop-tab-img' src='{{currentTab==2?"/assets/images/ic_guanyujingxiaoshang_hongse@2x.png":"/assets/images/ic_guanyujingxiaoshang@2x.png"}}' mode='aspectFit' />
+      <text class='ft-26 {{currentTab==2?"color-E53935":"color-333"}}' style='margin-top:8rpx;'>关于经销商</text>
+    </view>
+    <view class='slider' wx:if="{{currentTab==2}}" />
+  </view>
+</view>
+<!-- 经销商活动 -->
+<view class='shop-activities' wx:if="{{currentTab==3}}">
+  <view class='shop-activity' wx:for="{{activities}}" catchtap='goToActivitiesDetail' data-activity="{{item}}">
+    <view class='activity-title'>
+      <text class='ft-30 color-333'>{{item.name}}</text>
+      <image class='activity-arrow' src="/assets/images/ic_arrow@2x.png" mode='aspectFit' />
+    </view>
+    <image class='activity-img' src="{{item.imgUrl}}" />
+  </view>
+</view>
+<!-- 关于经销商 -->
+<view class='about-shop' wx:if="{{currentTab==2}}">
+  <view class='ft-30 about-item' wx:if="{{shopDetail.score||shopDetail.score==0}}">
+    <text class='color-666' style='min-width:180rpx;'>店铺评分</text>
+    <view class='shop-score'>
+      <image class='shop-score-star' src='{{index+1>shopDetail.score&&index<shopDetail.score?"/assets/images/ic_pingfen_banke@2x.png":index+1>shopDetail.score?"/assets/images/ic_pingfen_huise@2x.png":"/assets/images/ic_pingfen@2x.png"}}' wx:for="{{[0,1,2,3,4]}}"
+      />
+    </view>
+  </view>
+  <view class='ft-30 about-item'>
+    <text class='color-666' style='min-width:180rpx;'>所在地区</text>
+    <text class='color-333'>{{shopDetail.shopAddress}}</text>
+  </view>
+  <view class='ft-30 about-item'>
+    <text class='color-666' style='min-width:180rpx;'>入驻时间</text>
+    <text class='color-333'>{{shopDetail.openingTime}}</text>
+  </view>
+  <view class='ft-30 about-item'>
+    <text class='color-666' style='min-width:180rpx;'>联系人</text>
+    <text class='color-333'>{{shopDetail.contactName}}-{{shopDetail.contactMobileNo}}</text>
+  </view>
+  <view class='ft-30 about-item' wx:if="{{shopDetail.brokerName&&shopDetail.brokerMobileNo}}">
+    <text class='color-666' style='min-width:180rpx;'>经纪人</text>
+    <text class='color-333'>{{shopDetail.brokerName}}-{{shopDetail.brokerMobileNo}}</text>
+  </view>
+  <view class='ft-30 about-item-summary'>
+    <text class='color-666' style='min-width:180rpx;'>经销商简介</text>
+    <text class='color-333'>{{shopDetail.shopDescription}}</text>
+  </view>
+</view>
+<!-- 优惠券 -->
+<view class='shop-coupons' wx:if="{{currentTab==1}}">
+  <!-- 优惠券列表 -->
+  <block wx:if="{{shopCoupons.length}}">
+    <view class='shop-coupon' wx:for="{{shopCoupons}}" wx:key="{{item.promotionId}}">
+      <view class='coupon-left'>
+        <image class='coupon-left-img' src='{{item.surplusCount==0&&!item.alreadyReceived?"/assets/images/youhuiquanzuo_huise@2x.png":"/assets/images/youhuiquanzuo_hongse@2x.png"}}' />
+        <view class='coupon-left-content'>
+          <text class='ft-30 color-FFF'>¥ <text class='ft-48'>{{WxsUtil.splitNum(item.amount,true).integerNumStr}}</text>{{WxsUtil.splitNum(item.amount,true).decimalNumStr}}</text>
+          <text class='ft-22 color-FFF' style='margin-top:12rpx;'>限领1次</text>
+        </view>
+      </view>
+      <view class='coupon-middle'>
+        <text class='ft-26 color-333'>{{item.couponDesc}}</text>
+        <text class='ft-22 color-999'>使用期限：{{item.effectDate}}-{{item.expireDate}}</text>
+      </view>
+      <view class='coupon-right'>
+        <image class='coupon-right-img' src='/assets/images/youhuiquanyou@2x.png' />
+        <view class='coupon-right-content'>
+          <view class='receive-button-received' catchtap='onConfirmAlreadyReceiveCoupons' wx:if="{{item.alreadyReceived}}">已领取</view>
+          <image class='coupons-sale-out-img' src='/assets/images/icon_yilingwanzhang@2x.png' mode='scaleToFill' wx:elif="{{item.surplusCount==0}}" />
+          <block wx:else>
+            <view class='receive-button-unreceived' catchtap='receiveCoupons' data-id='{{item.promotionId}}' data-index="{{index}}">领取</view>
+            <text class='ft-26 color-BDBDBD' wx:if="{{item.surplusCount<=item.warningNum}}" style="margin-top:16rpx;">仅剩{{item.surplusCount}}张</text>
+          </block>
+        </view>
+      </view>
+    </view>
+  </block>
+  <!-- 优惠券空列表 -->
+  <view class='shop-coupon-empty' wx:else>
+    <image class='shop-coupon-empty-img' src='/assets/images/youhuiquan_emptylist_icon@2x.png' />
+    <text class='ft-32 color-666'>该经销商暂时没有优惠券~</text>
+  </view>
+</view>
+<!-- 商品 -->
+<view class='shop-products' wx:if="{{currentTab==0}}">
+  <!-- 筛选菜单 -->
+  <view class='products-menu-wrap'>
+    <!-- 分类 -->
+    <view class='products-menu-item' catchtap='switchMenu' data-tag='categoryMenuShow' data-menu-type='categoryMenu'>
+      <text class='ft-30 {{categoryMenuShow?"color-E53935":"color-333"}}'>{{categoryMenuText}}</text>
+      <image class='products-menu-item-img' src='{{categoryMenuShow?"/assets/images/ic-jiantouhongseup@2x.png":"/assets/images/ic_shangpingliebiao_xiala@2x.png"}}' mode='aspectFit' />
+    </view>
+    <!-- 品牌 -->
+    <view class='products-menu-item' catchtap='switchMenu' data-tag='brandMenuShow' data-menu-type='brandMenu'>
+      <text class='ft-30 {{brandMenuShow?"color-E53935":"color-333"}}'>{{brandMenuText}}</text>
+      <image class='products-menu-item-img' src='{{brandMenuShow?"/assets/images/ic-jiantouhongseup@2x.png":"/assets/images/ic_shangpingliebiao_xiala@2x.png"}}' mode='aspectFit' />
+    </view>
+    <!-- 排序 -->
+    <view class='products-menu-item' catchtap='switchMenu' data-tag='sortMenuShow' data-menu-type='sortMenu'>
+      <text class='ft-30 {{sortMenuShow?"color-E53935":"color-333"}}'>{{sortMenuText}}</text>
+      <image class='products-menu-item-img' src='{{sortMenuShow?"/assets/images/ic-jiantouhongseup@2x.png":"/assets/images/ic_shangpingliebiao_xiala@2x.png"}}' mode='aspectFit' />
+    </view>
+  </view>
+  <!-- 商品列表 -->
+  <view class='scroll-wrap' wx:if="{{productList.length}}">
+    <scroll-view class='product-list-wrap' scroll-y lower-threshold='4' bindscrolltolower='loadMore'>
+      <block wx:for="{{productList}}">
+        <template is="dealer-shop-product" data="{{...item,product:item,shopId,isVisitor}}" />
+      </block>
+    </scroll-view>
+  </view>
+  <!-- 商品空列表 -->
+  <view class='shop-products-empty' wx:if="{{!productList.length&&!initing}}">
+    <image class='shop-coupon-empty-img' src='/assets/images/youhuiquan_emptylist_icon@2x.png' />
+    <text class='ft-32 color-666'>该经销商暂时没有产品~</text>
+  </view>
+  <template is="add-to-shopcart-bottom-bar" data="{{addToShopCartNum,addToShopCartPrice}}" wx:if="{{!isVisitor}}" />
+</view>

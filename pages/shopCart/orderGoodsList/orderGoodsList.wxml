@@ -1,0 +1,24 @@
+<!--pages/product/productList.wxml-->
+<import src="../../../components/product/product.wxml" />
+
+<scroll-view class='scroll-page-wrap' style='height:{{isVisitor?windowHeight+98:windowHeight}}rpx;' scroll-y scroll-with-animation scroll-into-view='{{scrollPosition}}' lower-threshold='4' bindscrolltolower='loadMore' wx:if="{{productList.length}}">
+  <view id='top' />
+  <!-- 换货列表 -->
+  <block wx:if="{{tip==2}}">
+    <view wx:for="{{productList}}" wx:key="{{item.productSkuId}}">
+      <template is="order-swapList-product" data="{{...item,swapType}}" />
+    </view>
+  </block>
+  <!-- 商品清单列表   包含 订单详情 退货单详情-->
+  <block wx:if="{{tip==1}}">
+    <view wx:for="{{productList}}" wx:key="{{item.product.productSaleSpecId}}">
+      <template is="orderdetail-list-product" data="{{...item.product,product:item.product,sourceType : item.sourceType,sourceId:item.sourceId}}" />
+    </view>
+  </block>
+  <!--赠品清单列表  -->
+  <block wx:if="{{tip==''}}">
+    <view wx:for="{{productList}}" wx:key="{{item.productSaleSpecId}}">
+      <template is="order-list-product" data="{{...item,product:item}}" />
+    </view>
+  </block>
+</scroll-view>

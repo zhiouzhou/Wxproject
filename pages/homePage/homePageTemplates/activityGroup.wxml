@@ -1,0 +1,19 @@
+
+<template name="activity-group-list">
+  <view wx:for="{{activityGroup}}" class='activity-group-list' catchtap='goToGroupActivity' data-id="{{item.promotionId}}">  
+    <view class='activity-pic'>
+      <image class='promotionList-big-img' src='{{item.bigImgUrl}}' mode="aspectFit" />
+    </view>
+    <view class='activity-name'>
+      <text>{{item.productName}}</text>
+    </view>
+    <view class='activity-spec'>
+      <view class='activity-goods'>
+        <text class='price'>{{item.groupPrice}}<text class='small'>元/{{item.productPriceUnit}}</text></text>
+        <text class='specification'>规格 {{item.productSpecName}}</text>
+      </view>
+      <view class="activity-btn">去拼团</view>
+    </view>
+  </view>
+  
+</template>

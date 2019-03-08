@@ -1,0 +1,82 @@
+<import src="../../../components/product/product.wxml" />
+
+
+<template name="promotionList">
+  <!-- 单个活动列表外层 -->
+  <view class='promotionList-wrap' wx:for="{{promotionList}}" wx:key="{{item.activityId}}" catchtap='goToPromotionDetail' data-activity-id='{{item.activityId}}' data-promotion-type='{{item.promotionType}}'>
+    <view class='promotionList-hd'>
+      <view class='promotionList-hd-name'>
+        <text class='ft-32 color-333'>{{item.title}}</text>
+        <image class='promotionList-hd-arrow' src='/assets/images/ic_arrow_m@2x.png' mode='aspectFit' />
+      </view>
+      <view class='promotionList-hd-time'>
+        <text class='ft-26 color-666'>{{item.timeNotice}}</text>
+        <text class='ft-24 color-D91F2F' style="margin-left:12px" wx:if="{{item.showMember}}">{{item.showMember}}</text>
+      </view>
+    </view>
+    <template is="homepage-promo-display-0" data="{{imgUrl:item.imgUrl}}" wx:if="{{item.displayType==0}}" />
+    <template is="homepage-promo-display-1" data="{{products:item.promotionProducts,isVisitor,hiddenPriceText}}" wx:if="{{item.displayType==1}}" />
+    <template is="homepage-promo-display-2" data="{{products:item.promotionProducts,isVisitor,hiddenPriceText}}" wx:if="{{item.displayType==2}}" />
+    <template is="homepage-promo-display-3" data="{{products:item.promotionProducts,isVisitor,promotionType:item.promotionType,hiddenPriceText}}" wx:if="{{item.displayType==3}}" />
+  </view>
+</template>
+
+
+<!-- 活动大图 -->
+<template name="homepage-promo-display-0">
+  <image class='promotionList-big-img' src='{{imgUrl}}' mode="aspectFit" />
+</template>
+
+
+
+<!-- 水平平铺（一行多个） -->
+<template name="homepage-promo-display-1">
+  <view class='promotionList-horizontal-wrap'>
+    <view class='promotionList-horizontal-item-wrap' wx:for="{{products}}" wx:key="{{item.productSkuId}}">
+      <image class='promotionList-horizontal-img ' src='{{item.imgUrl}}' mode='aspectFit ' />
+      <text class='ft-24 color-E53935 ' wx:if="{{item.promotionPrice}}">¥ <text class='ft-36 color-E53935 '>{{item.promotionPrice}}</text> {{item.priceUnit}}</text>
+      <text class='ft-24 color-E53935 ' wx:else>{{hiddenPriceText}}</text>
+      <text class='ft-24 color-666 line-through ' wx:if="{{item.originalPrice>0&&item.originalPrice != item.promotionPrice}}">¥{{item.originalPrice}}</text>
+      <view class='promotionList-horizontal-red-button ' wx:if="{{item.storeState!=3}}">购买</view>
+      <view class='promotionList-horizontal-grey-button ' wx:else>售罄</view>
+    </view>
+  </view>
+</template>
+
+
+
+<!-- 左右平铺（一行两个） -->
+<template name="homepage-promo-display-2">
+  <view class='promotionList-twoside-wrap'>
+    <view class='promotionList-twoside-item-wrap' wx:for="{{products}}" wx:key="{{item.productSkuId}}">
+      <view class='relative-wrap' style='width:240rpx;height:240rpx;'>
+        <view class='promotionList-twoside-img-area'>
+          <image class='promotionList-twoside-img' src='{{item.imgUrl}}' mode='aspectFit ' />
+          <view class='promotionList-twoside-stock-text' wx:if="{{item.stockText}}">{{item.stockText}}</view>
+          <view class='promotionList-twoside-reduce-text' wx:if="{{item.reducePrice}}">
+            <text class='ft-16 color-FFF'>立减</text>
+            <text class='ft-24 color-FFF'>{{item.reducePrice}}</text>
+          </view>
+        </view>
+      </view>
+      <text class='ft-30 color-333 two-line'>{{item.productName}}</text>
+      <text class='ft-24 color-666'>规格：{{item.productSpecName}}</text>
+      <view class='promotionList-twoside-price'>
+        <text class='ft-24 color-E53935' style='line-height:24rpx;' wx:if="{{item.promotionPrice}}">¥<text class='ft-36 color-E53935 ' style='line-height:36rpx;'>{{item.promotionPrice}}</text>{{item.priceUnit}}</text>
+        <text class='ft-24 color-E53935 ' wx:else>{{hiddenPriceText}}</text>
+        <text class='ft-24 color-666 line-through ' style='margin-left:24rpx;line-height:24rpx;' wx:if="{{item.originalPrice>0&&item.originalPrice != item.promotionPrice}}">¥{{item.originalPrice}}</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+
+
+<!-- 上下平铺 -->
+<template name="homepage-promo-display-3">
+  <view class='promotionList-vertical-wrap '>
+    <view class='promotionList-vertical-item-wrap' wx:for="{{products}}" wx:key="{{item.productSkuId}}">
+      <template is="home-page-promotion-product" data="{{hiddenPriceText, promotionType,...item,product:item}}" />
+    </view>
+  </view>
+</template>

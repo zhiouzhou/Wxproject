@@ -1,0 +1,37 @@
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<!-- 订单提交成功领券弹窗 -->
+<import src="../../../components/dialog/orderCoupons/orderCoupons.wxml" />
+<template is="orderCoupons-dialog" data="{{orderCouponsArr}}" wx:if="{{hasOrderCoupons && showOrderCouponDialog}}" />
+<scroll-view class='scroll-page-wrap' style='height:{{windowHeight}}px;' scroll-y scroll-with-animation lower-threshold='4' bindscrolltolower='loadMoreRecommendList' scroll-into-view='{{scrollPosition}}'>
+  <view class='result-state'>
+    <image class='result-img' src='/assets/images/dingdan_chenggong@2x.png' mode='aspectFit' />
+    <view class='result-state-text'>
+      <text class='ft-34 color-4CAF50' style='line-height:34rpx;'>订单支付成功</text>
+      <text class='ft-26 color-666' style='line-height:26rpx;'>您的订单已支付成功！</text>
+    </view>
+  </view>
+
+  <view class='result-detail'>
+    <text class='ft-24 color-666'>支付方式：{{payTypeText}}</text>
+    <text class='ft-24 color-666' style='margin-top:32rpx;'>下单时间：{{placeOrderTime}}</text>
+    <text class='ft-24 color-666' style='margin-top:32rpx;'>实付金额：<text class='ft-24 color-E53935'>¥{{WxsUtil.toFixed(totalPayableAmount,2)}}</text></text>
+  </view>
+  <view class='button ft-34 color-FFF' catchtap='goToOrderDetail' wx:if="{{isGroupBuy}}" data-order-n-o='{{orderNOs[0]}}'>订单详情</view>
+  <view class='button ft-34 color-FFF' catchtap='goToHomePage' wx:elif="{{!isGoToShopcart}}">返回首页</view>
+  <view class='button ft-34 color-FFF' catchtap='goToShopCart' wx:else data-shopcart-type='{{shopcartType}}'>返回购物车</view>
+
+ <view id='top' />
+  <!--为你推荐产品 -->
+  <block wx:if="{{recommendList.length}}">
+    <view class="recommend-list-title" mode='aspectFit'>
+      <image src='/assets/images/tejiacuxiao.png'/> 
+    </view>
+    <view wx:for="{{recommendList}}" wx:key="{{item.productSaleSpecId}}" class='product-recommend-wrap'>
+      <product-recommend product="{{item}}"> </product-recommend>
+    </view>
+  </block>
+</scroll-view>
+<!-- 返回顶部按钮 -->
+<image class='back-to-top-float-button' src='/assets/images/ic_zhiding@2x.png' catchtap='backToTop' />

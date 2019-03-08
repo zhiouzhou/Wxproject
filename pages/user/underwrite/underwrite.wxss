@@ -1,0 +1,132 @@
+page{
+   background: #f2f2f2; 
+}
+.state{
+  display:flex;
+  flex-direction: row;
+  border-bottom:1rpx solid #f2f2f2;
+  padding:0 24rpx;
+  background-color:#fff;
+  
+}
+.state-row{
+  width:33.3%;
+  text-align: center;
+  line-height: 80rpx;
+  color:#666;
+  font-size:28rpx;
+  position: relative;
+}
+.state-row text{
+    display: inline-block;
+    padding: 0 20rpx;
+}
+.state-row-active text{
+    color: #E53935;
+    border-bottom: 2px solid #E53935;
+}
+.underwrite-box{
+  background: #efeff4;
+  margin-top: 12rpx;
+}
+.underwrite-list{
+  margin-bottom: 12rpx;
+  background: #fff;
+  color: #666;
+  font-size:24rpx;
+}
+.underwrite-list-goods-name {
+    display: flex;
+    display: -moz-box;
+    display: -webkit-box;
+}
+.underwrite-list-state-column {
+    display: flex;
+    display: -moz-box;
+    display: -webkit-box;
+}
+.underwrite-list-state-column {
+    padding: 0 24rpx;
+    line-height: 72rpx;
+    color: #666;
+}
+.underwrite-list-state-column>text:nth-of-type(1) {
+    box-flex: 1;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    display: block;
+}
+.underwrite-list-goods-column {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 18rpx 24rpx;
+}
+.underwrite-list-goods-name>text:nth-of-type(1) {
+    box-flex: 1;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    display: block;
+    font-size:28rpx;
+    color:#333;
+}
+.underwrite-list-goods-guige {
+    margin: 16rpx 0;
+}
+.underwrite-list-btn{
+  font-size:26rpx;
+  padding:16rpx 0;
+}
+.underwrite-list-btn text {
+    float: right;
+    border: 1px solid #666;
+    border-radius: 6rpx;
+    line-height: 50rpx;
+    padding: 0 20rpx;
+    margin-right: 24rpx;
+    color: #666;
+    box-sizing: border-box;
+}
+.color-red{
+  color:#E53935;
+}
+.clearfix {
+  position: relative;
+}
+.clearfix:after {
+    clear: both;
+    display: block;
+    content: "...";
+    visibility: hidden;
+    height: 0;
+    font-size: 0;
+}
+.no-data-tipbar{
+  margin-top:200rpx;
+  text-align: center;
+}
+.tipbar-pic{
+  width: 152rpx;
+  height: 152rpx;
+}
+.tipbar-text{
+  font-size:28rpx;
+  color:#666;
+  padding:30rpx 0 20rpx;
+  display:flex;
+  align-items:center;
+  margin-left:50%;
+  transform:translateX(-40%);
+}
+.tipbar-text .icon{
+  width:40rpx;
+  height:40rpx;
+  margin-right: 15rpx;
+}
+.underwrite-list-tip-btn {
+    display: inline-block;
+    color: #E53935;
+    border: 1px solid #E53935;
+    border-radius: 2px;
+    padding: 8rpx 14rpx;
+    font-size: 28rpx;
+}

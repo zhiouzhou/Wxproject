@@ -1,0 +1,80 @@
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+<import src="../../../components/product/product.wxml" />
+<import src="../../../components/addToShopCart/addToShopCart.wxml" />
+<import src="../../../components/dialog/staticDialog/staticDialog.wxml" />
+
+<view class='state'>
+  <view class='state-row {{swtichType==0?"state-row-active":""}}' catchtap='switchColumn' data-type='0'>
+    <text>包销产品</text>
+  </view>
+  <view class='state-row {{swtichType==2?"state-row-active":""}}' catchtap='switchColumn' data-type='2'>
+    <text>我的关注</text>
+  </view> 
+  <view class='state-row {{swtichType==1?"state-row-active":""}}' catchtap='switchColumn' data-type='1'>
+    <text>我的包销</text>
+  </view> 
+</view>
+
+<!-- 筛选菜单 -->
+<view class='products-menu-wrap' hidden='{{swtichType==1||swtichType==2}}'>
+  <!-- 分类 -->
+  <view class='products-menu-item' catchtap='switchMenu' data-tag='underwriteMenuShow' data-menu-type='underwriteMenu'>
+    <text class='ft-30 {{underwriteMenuShow?"color-E53935":"color-333"}}'>{{underwriteMenuText}}</text>
+    <image class='products-menu-item-img' src='{{underwriteMenuShow?"/assets/images/ic-jiantouhongseup@2x.png":"/assets/images/ic_shangpingliebiao_xiala@2x.png"}}' mode='aspectFit' />
+  </view>
+  <!-- 品牌 -->
+  <view class='products-menu-item' catchtap='switchMenu' data-tag='brandMenuShow' data-menu-type='brandMenu'>
+    <text class='ft-30 {{brandMenuShow?"color-E53935":"color-333"}}'>{{brandMenuText}}</text>
+    <image class='products-menu-item-img' src='{{brandMenuShow?"/assets/images/ic-jiantouhongseup@2x.png":"/assets/images/ic_shangpingliebiao_xiala@2x.png"}}' mode='aspectFit' />
+  </view>
+  <!-- 排序 -->
+  <view class='products-menu-item' catchtap='switchMenu' data-tag='sortMenuShow' data-menu-type='sortMenu'>
+    <text class='ft-30 {{sortMenuShow?"color-E53935":"color-333"}}'>{{sortMenuText}}</text>
+    <image class='products-menu-item-img' src='{{sortMenuShow?"/assets/images/ic-jiantouhongseup@2x.png":"/assets/images/ic_shangpingliebiao_xiala@2x.png"}}' mode='aspectFit' />
+  </view>
+</view>
+
+<!--包销产品列表-->
+<scroll-view class='underwrite-box' scroll-y bindscrolltolower='lower' lower-threshold='4' wx:if="{{swtichType==0&&!isEmpty}}" style='height:{{windowHeight}}px;'>
+  <!--包销产品提示-->
+  <view class='underwrite-tips' wx:if='{{tipsShow}}'>
+    <text>包销产品是由易久批精选的利润性产品，包装精美，性价比高， 送货上门。</text>
+    <image catchtap='closeUnderwriteTips' class='underwrite-tips-close' src='/assets/images/cha_ic@2x.png' mode='aspectFit' />
+  </view>
+  <!-- 产品列表 -->
+  <block wx:for="{{goodsUnderwriteList}}" wx:key="{{item.productSkuId}}">
+    <template is="underwrite-list-product" data="{{...item,product:item,list:goodsUnderwriteList,idx:index,listName:'goodsUnderwriteList'}}" />
+  </block>
+</scroll-view>
+
+<!--我的关注产品列表-->
+<scroll-view class='underwrite-box' scroll-y bindscrolltolower='lower' lower-threshold='4' wx:if="{{swtichType==2&&!isEmpty}}" style='height:{{windowHeight}}px;'>
+  <!-- 产品列表 -->
+  <block wx:for="{{myCollectUnderwriteList}}" wx:key="{{item.productSkuId}}">
+    <template is="underwrite-list-product" data="{{...item,product:item,list:myCollectUnderwriteList,idx:index,listName:'myCollectUnderwriteList'}}" />
+  </block>
+</scroll-view>
+
+
+<!--我的包销产品列表-->
+<scroll-view class='underwrite-box' scroll-y bindscrolltolower='lower' lower-threshold='4' wx:if="{{swtichType==1&&!isEmpty}}" style='height:{{windowHeight}}px;'>
+  <!-- 产品列表 -->
+  <block wx:for="{{contractUnderwriteList}}" wx:key="{{item.productSkuId}}">
+    <template is="underwrite-list-product" data="{{...item,product:item,list:contractUnderwriteList,idx:index}}" />
+  </block>
+</scroll-view>
+
+<!--暂无数据-->
+<view class="no-data-tipbar" wx:if="{{isEmpty}}">
+  <image class='tipbar-pic' src='/assets/images/pro_emptylist_icon.png' mode='aspectFit' />
+  <view class='tipbar-text'><image class='icon' src='/assets/images/tips-light@2x.png' mode='aspectFit' />{{emptycontent}}</view>
+  <view class="underwrite-list-tip-btn" catchtap='underwriteDialog'>了解独家包销</view>				
+</view>
+<!--独家包销弹窗说明-->
+<template is="underwrite-explain" wx:if="{{isEmpty&&dialogExplain}}" />
+
+<!-- 立即购买 -->
+<template is="add-to-shopcart-bottom-bar" wx:if="{{swtichType==1}}" data="{{addToShopCartNum,addToShopCartPrice,callSource:callSource}}" />

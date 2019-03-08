@@ -1,0 +1,8 @@
+<template name="toast">
+  <view class="yjp-toast {{ animateCss }} {{ className }}" hidden="{{!visible||!text}}">
+    <view class="yjp-toast__bd">
+      <image class='yjp-toast__img' src="{{imgUrl}}" wx:if="{{imgUrl}}"/>
+      <view class="yjp-toast__text">{{ text }}</view>
+    </view>
+  </view>
+</template>

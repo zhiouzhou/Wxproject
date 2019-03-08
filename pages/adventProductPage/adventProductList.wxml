@@ -1,0 +1,67 @@
+<!--pages/product/productList.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../components/product/product.wxml" />
+<import src="../../components/addToShopCart/addToShopCart.wxml" />
+
+<!-- 顶部搜索框 -->
+<view class='search-section-wrap'>
+  <view class='search-wrap'>
+    <image class='search-img' src='/assets/images/ic_sousuo@2x.png' mode='aspectFit' />
+    <input class='search-input ft-28 color-333' maxlength='60' placeholder='{{productSearchLabel}}' placeholder-class='ft-28 color-BDBDBD' bindfocus='hidePullDownDialog' bindinput='onChangeSearchKey' />
+  </view>
+  <text class='ft-30 color-333' style='min-width:108rpx;text-align:center;' catchtap='onClickSearchButton'>搜索</text>
+</view>
+
+
+<!-- 产品菜单栏 -->
+<view class='product-menu-wrap'>
+  <view class='product-menu-item' catchtap='switchMenu' data-menu-type='categoryMenu'>
+    <text class='{{categoryMenuShow?"color-E53935":"color-333"}} ft-30'>{{categoryMenuText}}</text>
+    <image class='product-menu-img' src='{{categoryMenuShow?"/assets/images/ic-jiantouhongseup@2x.png":"/assets/images/ic_shangpingliebiao_xiala@2x.png"}}' mode='aspectFit' />
+  </view>
+  <view class='product-menu-item' catchtap='switchMenu' data-menu-type='brandMenu'>
+    <text class='{{brandMenuShow?"color-E53935":"color-333"}} ft-30'>{{brandMenuText}}</text>
+    <image class='product-menu-img' src='{{brandMenuShow?"/assets/images/ic-jiantouhongseup@2x.png":"/assets/images/ic_shangpingliebiao_xiala@2x.png"}}' mode='aspectFit' />
+  </view>
+  <view class='product-menu-item' catchtap='switchMenu' data-menu-type='sortMenu'>
+    <text class='{{sortMenuShow?"color-E53935":"color-333"}} ft-30'>{{sortMenuText}}</text>
+    <image class='product-menu-img' src='{{sortMenuShow?"/assets/images/ic-jiantouhongseup@2x.png":"/assets/images/ic_shangpingliebiao_xiala@2x.png"}}' mode='aspectFit' />
+  </view>
+</view>
+
+
+<scroll-view class='scroll-page-wrap' style='height:{{isVisitor?windowHeight+isVisitorHeight:windowHeight}}px;' scroll-y scroll-with-animation scroll-into-view='{{scrollPosition}}' lower-threshold='4' bindscrolltolower='loadMore' wx:if="{{productList.length}}">
+  <view id='top' />
+  <!--大宗提示  -->
+  <view class="bulk-tip" wx:if="{{LargeCargoProductDesc}}">
+      <view class='bulk-tip-left'>提示</view>
+      <text class='bulk-tip-text'> {{LargeCargoProductDesc}} </text>
+      <image class='bulk-tip-del' catchtap='hiddenBulkBtn' src='{{"/assets/images/ic_bank_list_dialog_closer.png"}}'></image>
+  </view> 
+  <block wx:for="{{productList}}" wx:key="{{item.productSaleSpecId}}" >   
+       <product-directive product-item = "{{item}}" bind:update = "updateBottomBar" bulk = "{{bulk}}" is-visitor="{{isVisitor}}"> 
+         	 <number-picker  buy-num = "{{item.buyNum}}"  min-buy-num = "{{item.minBuyNum}}" max-buy-num ="{{item.maxBuyNum}}">  </number-picker>
+       </product-directive>
+  </block>
+</scroll-view>
+
+<!-- 空列表 -->
+<view class='empty-product-list' style='height:{{isVisitor?windowHeight:windowHeight-98}}rpx;' wx:if="{{isEmpty}}">
+  <image class='empty-product-list-img' src='/assets/images/ic_fuchuanggouwuche@2x.png' mode='aspectFit' />
+  <text class='ft-30 color-666'>抱歉没有找到相关产品</text>
+</view>
+
+<!-- 返回顶部按钮 -->
+<!-- <image class='back-to-top-float-button' src='/assets/images/ic_zhiding@2x.png' catchtap='backToTop' /> -->
+<scroll-top-directive bind:scrollEvent = "backToTop"> </scroll-top-directive>
+
+<!-- 加入购物车 -->
+<template is="add-to-shopcart-bottom-bar" data="{{...bottomBarObj}}" wx:if="{{!isVisitor}}" />
+
+<!-- 去登陆按钮 -->
+<image class='go-to-login-float-button' src='/assets/images/clicklogin@2x.png' catchtap='goToLogin' wx:if="{{isVisitor}}" />

@@ -1,0 +1,76 @@
+<!--pages/exchange/exchangeThree.wxml-->
+<!-- 退货商品  -->
+<import src="/components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="/components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil"/>
+
+<view class='exchange-goods'>
+  <view class='goods-list-title'>退货商品</view>
+  <view class='exchange-goods-item' wx:for="{{swapOrder.returnItems}}">
+  <!--产品图片  -->
+    <view class='exchange-goods-img'>
+      <image src='{{item.product.imgUrl}}'></image>
+    </view>
+    <!--产品信息  -->
+    <view class='exchange-goods-info'>
+        <view class='exchang-goods-name'>{{item.product.productName}}</view>
+        <view class='exchang-goods-row'>
+          <view>规格 {{item.product.specName}}</view>
+        </view>
+        <view class='exchang-goods-row' style='justify-content:flex-end;' wx:if="{{item.product.productSkuId == item.product.productSaleSpecId}}">
+          退货商品数量：{{item.returnCount}}{{item.product.saleUnit}}
+        </view>
+        <view class='exchang-goods-row' style='justify-content:flex-end;' wx:if="{{item.product.productSkuId != item.product.productSaleSpecId}}">
+          退货商品数量：{{item.returnCount*(item.product.saleSpecQuantity || 1)}}{{item.product.minUnit}}
+        </view>
+    </view>
+  </view>
+</view>
+<view class='exchange-goods'>
+  <view class='goods-list-title'>换货商品</view>
+  <view class='exchange-goods-item' wx:for="{{swapOrder.swapItems}}">
+  <!--产品图片  -->
+    <view class='exchange-goods-img'>
+      <image src='{{item.imgUrl}}'></image>
+    </view>
+    <!--产品信息  -->
+    <view class='exchange-goods-info'>
+        <view class='exchang-goods-name'>{{item.productName}}</view>
+        <view class='exchang-goods-row'>
+          <view>规格 {{item.specName}}</view>
+        </view>
+        <view class='exchang-goods-row' style='justify-content:flex-end;' wx:if="{{item.productSkuId==item.productSaleSpecId}}">
+          换货商品数量：{{item.buyNum}}{{item.saleUnit}}
+        </view>
+         <view class='exchang-goods-row' style='justify-content:flex-end;' wx:if="{{item.productSkuId!=item.productSaleSpecId}}">
+          换货商品数量：{{item.buyNum * (item.saleSpecQuantity || 1)}}{{item.minUnit}}
+        </view>
+    </view>
+  </view>
+</view>
+<view class='exchang-cells'>
+  <view class='exchang-cell'>
+    <view class='exchang-cell-hd'>换货原因</view>
+    <view class='exchang-cell-fd'>{{swapOrder.swapReason}}</view>
+  </view>
+  <view class='exchang-cell'>
+    <view class='exchang-cell-hd'>备注</view>
+    <view class='exchang-cell-fd' wx:if="{{swapOrder.userRemark}}">{{swapOrder.userRemark}}</view>
+    <view class='exchang-cell-fd' wx:if="{{!swapOrder.userRemark}}">暂无</view>
+  </view>
+</view>
+<!--  -->
+<view class='total-price-wrapper'>
+  退货商品值：<text class='color-E53935'>￥{{WxsUtil.toFixed(swapOrder.totalItemEstimatePrice,2)}}</text>，换货商品金额：<text class='color-E53935'>{{WxsUtil.toFixed(swapOrder.totalPrice,2)}}</text>
+</view>
+<view class='exchang-bottom'>
+  <view class='next-left'>
+    <view class='goods-price'>
+      <text>需补差价：</text> <text class='color-E53935 ft-36'>￥<text>{{WxsUtil.toFixed(swapOrder.totalPrice-swapOrder.totalItemEstimatePrice,2)}}</text></text>
+    </view>
+  </view>
+  <view class='next-right' catchtap='checkoutOrder'>提交</view>
+</view>

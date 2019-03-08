@@ -1,0 +1,49 @@
+<!--pages/complaints/complaintDetail.wxml-->
+<view class='evaluate-title' wx:if="{{complaintDetail.canEvaluate}}">
+  <image src='/assets/images/ic_tishi@2x_pingjia.png'></image>
+  <text>请对我们的服务进行评价</text>
+</view>
+<view class='complaint'>
+  <view class='complaint-header'>
+    <text>原反馈</text>
+    <text class='time'>{{complaintDetail.createTimestr}}</text>
+  </view>
+  <view class='complaint-content'>
+    <view catchtap='goOrderDetail' data-tag="{{complaintDetail.orderNo}}" class='title' wx:if="{{complaintDetail.orderNo&&complaintDetail.orderNo!='undefined'}}">订单号：<text class='blue-text'>{{complaintDetail.orderNo}}></text></view>
+    <view class='title'>
+      投诉类型：{{complaintDetail.complaintType}}
+    </view>
+    <view>
+    {{complaintDetail.complaintRemarks}}
+    </view>
+    <view class='pic-wrapper' wx:if="{{complaintDetail.picUrl&&complaintDetail.picUrl.length>0}}">
+      <image catchtap='lookBigImg' wx:for="{{complaintDetail.picUrl}}" data-tag='{{pic}}' wx:for-item="pic" src='{{pic}}'></image>
+    </view>
+    <image class='evaluate-pic' wx:if="{{complaintDetail.handleResultEvaluate===0}}" src='/assets/images/ic_mayizhangzi@2x.png'></image>
+    <image class='evaluate-pic' wx:if="{{complaintDetail.handleResultEvaluate===1}}" src='/assets/images/ic_yibanzhangzi@2x.png'></image>
+    <image class='evaluate-pic' wx:if="{{complaintDetail.handleResultEvaluate===2}}" src='/assets/images/ic_bumanyizhangzi@2x.png'></image>
+  </view>
+  
+</view>
+<view class='reply' wx:if="{{complaintDetail.replyContent}}">
+  <view class='complaint-header'>
+    <text>回复内容</text>
+    <text class='time'>{{complaintDetail.replyTimeStr}}</text>
+  </view>
+  <view class='complaint-content'>
+    {{complaintDetail.replyContent}}
+  </view>
+</view>
+<view class='complaint-evaluated' wx:if="{{complaintDetail.hasEvaluated&&(complaintDetail.handleResultEvaluate==2||(complaintDetail.handleResultEvaluate!=2&&complaintDetail.handleEvaluateRemarks))}}">
+  <view class='complaint-header'>
+    <text wx:if="{{complaintDetail.handleResultEvaluate==2}}">不满意原因</text>
+    <text wx:if="{{complaintDetail.handleResultEvaluate!=2}}">您的评价</text>
+    <text class='time'>{{complaintDetail.evaluateTime}}</text>
+  </view>
+  <view class='complaint-content'>
+    <view wx:if="{{complaintDetail.unSatisfiedReason}}" class='title'>{{complaintDetail.unSatisfiedReason}}</view>
+    <view wx:if="{{complaintDetail.handleEvaluateRemarks}}">{{complaintDetail.handleEvaluateRemarks}}</view>
+  </view>
+</view>
+<view wx:if="{{!complaintDetail.replyContent}}" class='none-reply'>平台正在处理，请耐心等候！</view>
+<view class='evaluate-btn' catchtap='evaluateComplaint' wx:if="{{complaintDetail.canEvaluate}}">评价</view>

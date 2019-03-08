@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "product-directive": "../../myComponents/productDirective/productDirective",
+    "number-picker": "../../myComponents/numberPicker/numberPicker",
+    "scroll-top-directive": "../../myComponents/scrollTopDirective/scrollTopDirective"
+  }
+}

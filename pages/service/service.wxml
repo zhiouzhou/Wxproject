@@ -1,0 +1,30 @@
+<!--pages/service/service.wxml-->
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<view class='service-wrap'>
+  <view class='service-item' catchtap='goPrizeApply'>
+    <image class='service-item-img' src='/assets/images/ic_duijiangshenqing@2x.png' />
+    <text class='ft-30 color-333'>兑奖申请</text>
+  </view>
+  <view class='service-item' catchtap='goFindGoods'>
+    <image class='service-item-img' src='/assets/images/ic_bangwozhaohuo@2x.png' />
+    <text class='ft-30 color-333'>帮我找货</text>
+  </view>
+  <view class='service-item' catchtap='goComplaints'>
+    <image class='service-item-img' src='/assets/images/ic_tousujianyi@2x.png' />
+    <text class='ft-30 color-333'>投诉建议</text>
+  </view>
+  <view class='service-item' catchtap='goVideoGuide' wx:if="{{showPurchaseGuide}}">
+    <image class='service-item-img' src='/assets/images/ic_jinhuozhinan@2x.png' />
+    <text class='ft-30 color-333'>进货指南</text>
+  </view>
+  <view class='service-item' catchtap='goMallAnswer' wx:if="{{showMallAnswer}}">
+    <view class='service-item-area'>
+      <image class='service-items-img' src='/assets/images/ic_dati.png' />
+      <image class='service-item-corner' src='/assets/images/ic_new@2x.png' />
+    </view>
+    <text class='ft-30 color-333'>易久批答题</text>
+  </view>
+
+</view>

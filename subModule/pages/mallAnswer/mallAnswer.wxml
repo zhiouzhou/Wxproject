@@ -1,0 +1,2 @@
+<!--pages/mallAnswer/mallAnswer.wxml-->
+<web-view src="{{answerUrl}}"></web-view>

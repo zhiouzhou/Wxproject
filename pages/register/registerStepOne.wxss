@@ -1,0 +1,108 @@
+/* pages/register/registerStepOne.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.notice {
+  width: 100%;
+  height: 82rpx;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  background-color: #f2f2f2;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.red-block {
+  height: 4rpx;
+  width: 48rpx;
+  background-color: #e53935;
+  margin-right: 24rpx;
+}
+
+.grey-block {
+  height: 4rpx;
+  width: 48rpx;
+  background-color: #bdbdbd;
+}
+
+.info-wrap {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+}
+
+.account-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.info-item-wrap {
+  height: 92rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.vcode-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  height: 92rpx;
+  box-sizing: border-box;
+  margin: 48rpx 0 32rpx 0;
+}
+
+.code-text {
+  align-self: flex-end;
+  margin-bottom: 24rpx;
+}
+
+.protocol {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 24rpx 24rpx 0 24rpx;
+}
+
+.protocol-img {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.protocolUnselected {
+  height: 32rpx;
+  width: 32rpx;
+  background-color: transparent;
+  border: 2rpx solid #bdbdbd;
+  box-sizing: border-box;
+  border-radius: 4rpx;
+}
+
+.confirm-button {
+  height: 88rpx;
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 34rpx;
+  text-align: center;
+  line-height: 88rpx;
+  border-radius: 8rpx;
+  background-color: #e53935;
+  margin-top: 48rpx;
+}

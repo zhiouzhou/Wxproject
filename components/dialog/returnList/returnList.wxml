@@ -1,0 +1,15 @@
+<template name="returnList">
+  <view class='return-content-wrap'>
+    <text class='ft-30 color-333' style='text-align:left;margin-left:24rpx;'>您申请退货的商品(共{{returnTotalCount}})如下：</text>
+    <view class='retrun-list-item' wx:for="{{returnList}}" wx:key="">
+      <view class='point'></view>
+      <view class=' return-detail'>
+        <text class='ft-30 color-333 one-line' style='text-align:left;'>{{item.product.productName}}</text>
+        <view style='margin-top:12rpx;text-align:left;'>
+          <text class='ft-26 color-666' >规格：{{item.product.specName}}</text>
+          <text class='ft-26 color-666' style='margin-left:48rpx;'> 退货数量{{item.product.productSaleSpecId==item.product.productSkuId?(item.returnCount):(item.returnCount*item.product.saleSpecQuantity)}}{{item.product.productSaleSpecId==item.product.productSkuId?(item.product.saleUnit):(item.product.minUnit)}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

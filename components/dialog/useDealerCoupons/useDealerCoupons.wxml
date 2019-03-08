@@ -1,0 +1,25 @@
+<template name="useDealerCoupons">
+  <view class='dealer-coupons-wrap'>
+    <view class='dealer-coupon-wrap' wx:for="{{couponGroups[0].coupons}}" catchtap='onSelectDealerCoupon' data-coupon='{{item}}'>
+      <view class='dealer-coupon-info'>
+        <text class='ft-34 color-E53935'>{{item.amount}}元</text>
+        <text class='ft-26 color-333' style='margin-top:24rpx;'>{{item.useDescription}}；每个用户限领一次</text>
+        <text class='ft-26 color-333' style='margin-top:24rpx;'>{{item.couponTemplate.desc}}</text>
+        <text class='ft-22 color-999' style='margin-top:24rpx;'>使用期限：{{item.timeEffective}}~{{item.timeExpired}}</text>
+      </view>
+      <image class='dealer-coupon-img' src="{{item.select?'/assets/images/zhifufangshi_xuanze_icon@2x.png':'/assets/images/ic_gouwucheweigouxuan@2x.png'}}" mode='aspectFit' />
+    </view>
+    <view class='dealer-cant-use-coupon-wrap' wx:for="{{couponGroups[0].unuseableCoupons}}">
+      <view class='dealer-coupon-info'>
+        <text class='ft-34 color-666'>{{item.amount}}元</text>
+        <text class='ft-26 color-999' style='margin-top:24rpx;'>{{item.useDescription}}；每个用户限领一次</text>
+        <text class='ft-26 color-999' style='margin-top:24rpx;'>{{item.couponTemplate.desc}}</text>
+        <text class='ft-22 color-999' style='margin-top:24rpx;'>使用期限：{{item.timeEffective}}~{{item.timeExpired}}</text>
+        <view class='dealer-coupons-line'></view>
+        <text class='ft-22 color-999' style='margin-top:24rpx;'>不可用原因：{{item.canNotUseReason}}</text>
+      </view>
+    </view>
+  </view>
+  <view style='height:98rpx;'></view>
+  <view class='dealer-coupons-button ft-36 color-FFF' catchtap='{{onDismiss}}'>完成</view>
+</template>

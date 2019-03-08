@@ -1,0 +1,21 @@
+.notices-wrap {
+  height: 72rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.notices-img {
+  width: 88rpx;
+  height: 32rpx;
+  margin-right: 12rpx;
+}
+
+.notices-swp {
+  height: 28rpx;
+  flex: 1;
+}

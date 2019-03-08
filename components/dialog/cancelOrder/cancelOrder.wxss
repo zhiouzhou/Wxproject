@@ -1,0 +1,58 @@
+.cancel-order-wrap {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.cancel-order-resons-wrap {
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.cancel-order-reson {
+  width: 50%;
+  margin-bottom: 16rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.cancel-order-reson-img {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.cancel-order-button-wrap {
+  height: 88rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.cancel-order-cancel-button {
+  flex: 1;
+  height: 100%;
+  background-color: #ffa726;
+  text-align: center;
+  line-height: 88rpx;
+  color: #fff;
+  font-size: 28rpx;
+}
+
+.cancel-order-confirm-button {
+  flex: 1;
+  height: 100%;
+  background-color: #e53935;
+  text-align: center;
+  line-height: 88rpx;
+  color: #fff;
+  font-size: 28rpx;
+}

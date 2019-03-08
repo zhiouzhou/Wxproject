@@ -1,0 +1,49 @@
+<!-- 商品列表的产品项 -->
+  <view class='normal-product-wrap' catchtap='goToProductDetail'  data-product-sku-id='{{productItem.productSkuId}}'>
+    <!-- 左侧图片，生产日期 -->
+    <view class='product-left-side'>
+      <view class='product-img-area' >
+        <image class='product-img' src='{{productItem.imgUrl || "/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <view class='product-reduce' wx:if="{{productItem.productPrice.reducePrice}}">
+          <text class='ft-16 color-FFF'>立减</text>
+          <text class='ft-24 color-FFF'>{{productItem.productPrice.reducePrice}}</text>
+        </view>
+         <view class='product-stock' wx:if="{{productItem.stockText}}">{{productItem.stockText}}</view>
+         <!-- <view class='product-stock' wx:if="{{!productItem.stockText}}">
+              <text wx:if="{{productItem.minPurchaseNum}}">起购{{productItem.minPurchaseNum}}{{productItem.saleUnit}}</text> 
+         </view> -->
+      </view>
+      <view class='product-production-date one-line' wx:if="{{productItem.productionDate}}">生产日期{{productItem.productionDate}}</view>
+    </view>
+    <!-- 右侧流式布局 -->
+    <view class='product-right-side'>
+      <!-- 商品信息 -->
+      <view class='product-main-info'>
+        <text class='ft-30 color-333'>{{productItem.productName}}</text>
+        <!-- 商品价格 -->
+
+        <view class='product-price-area' style='flex:initial;' wx:if="{{productItem.mainPrice}}">
+          <text class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{productItem.mainPrice}}</text> {{productItem.priceunit}}</text>
+          <text class='ft-24 color-666 line-through' style='margin-left:24rpx;margin-top:6rpx;' wx:if="{{productItem.mainPrice < productItem.productPrice.sellPrice}}">¥{{productItem.productPrice.sellPrice}}</text>
+    
+        </view>
+        <text class='ft-24 color-E53935' wx:if="{{!productItem.mainPrice}}">{{hiddenPriceText}}</text>
+        <!-- 产品规格 -->
+        <view class='product-spec-wrap product-wrap-column'>
+          <text class='ft-24 color-666 product-wrap-column-spec'>规格 {{productItem.specName}}</text>
+          <!-- 产品加减框 没库存，游客，隐藏价格不展示-->   
+         <view wx:if="{{!isVisitor && productItem.canSellStoreCount>0}}"> 
+             <!--产品加减框指令 -->
+             <slot></slot> 
+         </view>
+        </view>
+        <!-- 起购限购 -->
+         <view class='shop-cart-product-limit' style='margin-bottom:16rpx;' wx:if="{{productItem.minPurchaseNum || productItem.limitBuyCount}}">
+               <text class='ft-24 color-333' style='margin-right:8rpx;' wx:if="{{productItem.minPurchaseNum}}">起购{{productItem.minPurchaseNum}}{{productItem.saleUnit}}</text>
+                  <text class='ft-24 color-333' style='margin-right:8rpx;' wx:if="{{productItem.limitBuyCount}}">{{'  '}}限购{{productItem.limitBuyCount}}{{productItem.saleUnit}}</text>
+         </view>
+
+      </view>
+    
+    </view>
+  </view>

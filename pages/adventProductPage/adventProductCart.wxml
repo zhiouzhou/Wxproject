@@ -1,0 +1,55 @@
+
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="./template-cart/template-cart.wxml" />
+
+<wxs src="../../utils/WxsUtil.wxs" module="WxsUtil" />
+<!-- 临期产品购物车template  -->
+<!-- 全选，编辑 -->
+<view class='global-select-bar global-select-bar-column' wx:if="{{!isEmpty}}">
+  <image class='select-img' src='{{goodsList.allSelected?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' mode='aspectFit' bindtap="bindAllSelect"/>
+  <text class='ft-28 color-333 global-select-bar-column-allbtn'>全选</text>
+  <text class='ft-28 color-333' catchtap='editTap' hidden="{{goodsList.editing}}">编辑</text>
+  <text class='ft-28 color-333' catchtap='deleteSelected' hidden="{{!goodsList.editing}}" style='margin-right:24rpx;'>删除所选</text>
+  <text class='ft-28 color-333' catchtap='saveTap'  hidden="{{!goodsList.editing}}">完成</text> 
+</view>
+
+
+  <scroll-view class='scroll-wrap' style='height:{{windowHeight + 36}}px;' scroll-y wx:if="{{!isEmpty}}">
+    <!-- 商品分组列表 -->
+    <view class='product-list-wrap'>
+      <!--大宗提示  -->
+      <view class="bulk-tip" wx:if="{{bulk==1 && LargeCargoProductDesc}}">
+            <view class='bulk-tip-left'>提示</view>
+            <text class='bulk-tip-text'> {{LargeCargoProductDesc}} </text>
+            <image class='bulk-tip-del' catchtap='hiddenBulkBtn' src='{{"/assets/images/ic_bank_list_dialog_closer.png"}}'></image>
+      </view>
+      <block wx:for="{{goodsList.list}}" wx:for-item="productItem" wx:key="{{index}}">
+           <template is="shop-cart-advent-product" data="{{productItem,index}}"></template>
+      </block>
+    </view>
+  </scroll-view>
+
+  <!--  底部按钮  -->
+  <view class='bottom-bar' style='height:98rpx;' hidden="{{goodsList.editing || !goodsList.totalCount}}">
+    <view class='total-price'>
+      <text class='ft-24 color-666'>已选：{{goodsList.totalCount}}</text>
+      <!-- <text class='ft-24 color-666' wx:if="{{productReduce}}">优惠：¥{{WxsUtil.toFixed(productReduce,2)}}</text> -->
+    </view>
+    <view class='confirm-button' style='background-color:#e53935;' catchtap='placeOrder' data-tag='normal'>
+      <text class='ft-30 color-FFF'>结算</text>
+      <text class='ft-24 color-FFF'>总计：¥{{goodsList.totalPriceAmount}}</text>
+    </view>
+ </view>
+
+<!-- 空页面 -->
+<view class='empty-page' wx:if="{{isEmpty}}">
+  <image class='empty-page-img' src='/assets/images/ic_fuchuanggouwuche@2x.png' mode='aspectFit' />
+  <text class='ft-30 color-666' style='margin-top:60rpx;'>您的购物车还没有商品</text>
+  <text class='ft-26 color-999' style='margin-top:24rpx;'>去逛逛~ </text>
+  <view class='empty-page-button' catchtap='goToHomePage'>返回</view>
+</view>

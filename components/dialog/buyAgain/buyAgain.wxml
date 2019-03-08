@@ -1,0 +1,87 @@
+  <wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil"/>
+  <view class="yjp-backdrop {{ animateCss }}" bindtap='closePop'  />
+  <view class='half-window-dialog-wrap  {{ animateCss }}'>
+    <view class='half-window-dialog-hd'>
+      <view class='half-window-dialog-title'>再次购买</view>
+      <image class='half-window-dialog-quit' src='/assets/images/tanchuang_guanbi_ic@2x.png' bindtap='closePop'/>
+    </view>
+    <view class="yjp-dialog__content" style='padding-left:0;padding-right:0;padding-bottom:88rpx;'>
+    <!--可购买产品  -->
+       <view>
+          <view class='again-product-item' wx:for="{{canBuyList}}">
+            <view class='add-product-cut-down'>
+              <image src='{{item.imgUrl}}'></image>
+              <view class='usedhb' wx:if="{{item.stockState!=3&&item.productState!=0&&item.saleMode !=2 && item.storeCount>0 && item.storeCount<item.insufficientNum}}">
+                仅剩{{item.storeCount}}{{item.storeUnit}}
+              </view>
+              <view class='usedhb' wx:if="{{item.stockState!=3&&item.isPresale && item.saleMode !=2 && item.storeCount<=0 && item.presaleStoreCount}}">
+                预售{{item.presaleStoreCount}}{{item.storeUnit}}
+              </view>
+            </view>
+            <!-- 商品信息  -->
+            <view class='product-info'>
+            <!--商品名称  -->
+              <view class='product-name'>
+                <text wx:if="{{item.price<=0}}">赠品</text><text wx:if="{{item.stockState==4}}">预售</text>
+                {{item.productName||item.name}}
+              </view>
+              <!--商品价格  -->
+              <view class='color-E53935' wx:if="{{!item.gatherOrderPrice || item.gatherOrderPrice == 0||!item.saleSpec.isDefault}}">
+                ￥<text class='ft-36' wx:if="{{!item.hideProduct}}">{{WxsUtil.toFixed(item.price,2)}}</text>
+                  <text class='ft-36' wx:if="{{item.hideProduct}}">***</text><text wx:if="{{item.gatherActUnit||item.priceunit||item.priceUnit}}">{{item.gatherActUnit||item.priceunit||item.priceUnit}}</text>
+                      <text wx:if="{{item.sellPrice>0}}" style="text-decoration:line-through">{{item.sellPrice}}</text>
+              </view>
+              <view class='color-E53935' wx:if="{{item.gatherOrderPrice>0 &&item.saleSpec.isDefault}}">
+                ￥<text class='ft-36' wx:if="{{!item.hideProduct}}">{{WxsUtil.toFixed(item.gatherOrderPrice,2)}}</text>
+                  <text class='ft-36' wx:if="{{item.hideProduct}}">***</text><text wx:if="{{item.gatherActUnit||item.priceunit||item.priceUnit}}">{{item.gatherActUnit||item.priceunit||item.priceUnit}}</text>
+                    <text wx:if="{{item.sellPrice>0}}" style="text-decoration:line-through">{{item.sellPrice}}</text>
+              </view>
+              <!--规格  -->
+              <view wx:if="{{item.specName}}">规格  {{item.specName}}</view>
+              <!--描述  -->
+              <view wx:if="{{item.sourceDesc}}">{{item.sourceDesc}}</view>
+            </view>
+          </view>
+      </view>
+      <!-- 不可购买产品  -->
+      <view wx:if="{{notBuyList&&notBuyList.length>0}}" class="bg-gary">
+        <view class='not-buy-title'>以下商品暂不支持购买</view>
+        <view class='again-product-item' wx:for="{{notBuyList}}">
+            <view class='add-product-cut-down gary-img'>
+              <image src='{{item.imgUrl}}'></image>
+              <view class='usedhb' wx:if="{{item.stockState==3||item.productState!=0 &&item.saleMode !=2 && item.storeCount<=0 && (item.presaleStoreCount<=0 || (item.presaleStoreCount>0 && !item.isPresale))}}">
+                已抢光
+              </view>
+              <view class='usedhb' wx:if="item.productState==0">
+                已下架
+              </view>
+              <view class='usedhb' wx:if="{{item.compositeState==3}}">已下架</view>
+            </view>
+            <!-- 商品信息  -->
+            <view class='product-info'>
+            <!--商品名称  -->
+              <view class='product-name'>
+                <text wx:if="{{item.price<=0}}">赠品</text><text wx:if="{{item.stockState==4}}">预售</text>
+                {{item.productName||item.name}}
+              </view>
+              <!--商品价格  -->
+              <view  wx:if="{{!item.gatherOrderPrice || item.gatherOrderPrice == 0||!item.saleSpec.isDefault}}">
+                ￥<text class='ft-36' wx:if="{{!item.hideProduct}}">{{WxsUtil.toFixed(item.price,2)}}</text>
+                  <text class='ft-36' wx:if="{{item.hideProduct}}">***</text><text wx:if="{{item.gatherActUnit||item.priceunit||item.priceUnit}}">{{item.gatherActUnit||item.priceunit||item.priceUnit}}</text>
+                      <text wx:if="{{item.sellPrice>0}}" style="text-decoration:line-through">{{item.sellPrice}}</text>
+              </view>
+              <view  wx:if="{{item.gatherOrderPrice>0 &&item.saleSpec.isDefault}}">
+                ￥<text class='ft-36' wx:if="{{!item.hideProduct}}">{{WxsUtil.toFixed(item.gatherOrderPrice,2)}}</text>
+                  <text class='ft-36' wx:if="{{item.hideProduct}}">***</text><text wx:if="{{item.gatherActUnit||item.priceunit||item.priceUnit}}">{{item.gatherActUnit||item.priceunit||item.priceUnit}}</text>
+                    <text wx:if="{{item.sellPrice>0}}" style="text-decoration:line-through">{{item.sellPrice}}</text>
+              </view>
+              <!--规格  -->
+              <view wx:if="{{item.specName}}">规格  {{item.specName}}</view>
+              <!--描述  -->
+              <view wx:if="{{item.sourceDesc}}">{{item.sourceDesc}}</view>
+            </view>
+          </view>
+      </view>
+      <view class='but-again-btn' catchtap='sectionAddCart'>确定</view>
+    </view>
+  </view>

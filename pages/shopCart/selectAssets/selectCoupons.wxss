@@ -1,0 +1,95 @@
+/* pages/shopCart/selectCoupons.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.coupon-group-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  background-color: #fff;
+  margin-bottom: 12rpx;
+}
+
+.group-header {
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+}
+
+.group-header-img {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.coupon-wrap {
+  padding: 32rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-top: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.coupon-select-img {
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 12rpx;
+  align-self: flex-start;
+}
+
+.coupon-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.couponMessage{
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.coupon-amount, coupon-percent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 98rpx;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.select-info {
+  flex: 1;
+  padding: 16rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.confirm-button {
+  width: 200rpx;
+  background-color: #e53935;
+  text-align: center;
+  line-height: 98rpx;
+}

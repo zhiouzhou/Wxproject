@@ -1,0 +1,10 @@
+<template name='brandMenu'>
+  <view class='brand-menu-wrap'>
+    <scroll-view class='brand-menu-scroll' scroll-y>
+      <view class='{{item.brandId==brandId?"brand-menu-item-select":"brand-menu-item"}}' wx:for="{{brandList}}" wx:key="{{item.brandId}}" catchtap='onClickBrand' data-brand-id='{{item.brandId}}' data-brand-name='{{item.brandName}}'>
+        <text class='ft-26'>{{item.brandName}}</text>
+        <image class='category-menu-img' src='/assets/images/icon_xuanzegou@2x.png' wx:if="{{item.brandId==brandId}}" mode='aspectFit' />
+      </view>
+    </scroll-view>
+  </view>
+</template>

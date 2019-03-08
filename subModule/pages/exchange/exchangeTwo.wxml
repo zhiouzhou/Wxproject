@@ -1,0 +1,114 @@
+<!--pages/exchange/exChangeTwo.wxml-->
+<import src="/components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="/components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="/components/product/product.wxml" />
+<import src="/components/addToShopCart/addToShopCart.wxml" />
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil"/>
+
+<view class='exchange-header' >
+  <view class='exchange-goods-prompt' wx:if="{{titleShow}}">
+    <text class='exchange-goods-title'>提示</text>
+    <text>本公司只支持部分商品14天退货，部分商品1个月换货服务，退换货货值计算均以当时订单为准。</text>
+    <image src='/assets/images/ic_bank_list_dialog_closer.png' class='close-icon' catchtap='closeTitle'></image>
+  </view>
+  <view class='search-tab'>
+    <view class='search-warp'>
+      <image mode='aspectFit' src='/assets/images/ic_sousuo@2x.png'></image>
+      <input bindinput='inoutKeywords' bindconfirm="doSearch" placeholder='{{productSearchLabel}}'></input>
+    </view>
+    <text class='search-text' catchtap='doSearch'>搜索</text>
+  </view>
+  <view class='exchange-tab'>
+    <view class='exchange-navbar'>
+      <view class="exchange-nav-item {{categoryShow?'selected':''}}" catchtap='toggleCategoryList'>
+        <text>{{categoryMenuText}}</text>
+        <image class="exchange-nav-img" mode="aspectFit" src="{{categoryShow?'/assets/images/ic-jiantouhongseup@2x.png':'/assets/images/ic_shangpingliebiao_xiala@2x.png'}}"></image>
+      </view>
+      <view class="exchange-nav-item {{brandShow?'selected':''}}" catchtap='toggleBrandList'>
+        <text>{{brandMenuText}}</text>
+        <image class="exchange-nav-img" mode="aspectFit" src="{{brandShow?'/assets/images/ic-jiantouhongseup@2x.png':'/assets/images/ic_shangpingliebiao_xiala@2x.png'}}"></image>
+      </view>
+      <view class="exchange-nav-item {{filterShow?'selected':''}}" catchtap='toggleFilterList'>
+        <text>{{sortMenuText}}</text>
+        <image class="exchange-nav-img" mode="aspectFit" src="{{filterShow?'/assets/images/ic-jiantouhongseup@2x.png':'/assets/images/ic_shangpingliebiao_xiala@2x.png'}}"></image>
+      </view>
+    </view>
+    <!--类目筛选  -->
+    <view wx:if="{{categoryShow}}" class='category-wrap'>
+      <scroll-view class='category-scroll' scroll-y="true">
+        <view class="category-left-item {{firstCategoryId==item.categoryId?'selected':''}}" wx:for="{{firstCategoryList}}" data-category-id="{{item.categoryId}}" catchtap='selectFirstCategory'><text class='ft-26'>{{item.categoryName}}</text></view>
+      </scroll-view>
+      <scroll-view class='category-scroll' scroll-y="true" style='padding-left:12px;padding-right:12px;box-sizing:border-box;'>
+        <view wx:for="{{categoryList}}" class="category-right-item {{categoryId==item.categoryId&&item.parentId==showFirstCategoryId?'selected':''}}" data-category-id="{{item.categoryId}}" catchtap='selectCategory'>
+          <text class='ft-26'>{{item.categoryName}}</text>
+          <image wx:if="{{categoryId==item.categoryId&&item.parentId==showFirstCategoryId}}" class='category-img' src='/assets/images/icon_xuanzegou@2x.png' mode='aspectFit'></image>
+        </view>
+      </scroll-view>
+    </view>
+    <!--品牌筛选  -->
+    <view class="brand-wrap" wx:if="{{brandShow}}">
+      <scroll-view class='brand-scroll '>
+        <view wx:for="{{brandList}}" class="brand-item {{brandId== item.brandId?'selected':''}}" data-brand-id='{{item.brandId}}' catchtap='selectBrand'>
+          <text class='ft-26'>{{item.brandName}}</text>
+          <image wx:if="{{brandId== item.brandId}}" class='category-img' src='/assets/images/icon_xuanzegou@2x.png' mode='aspectFit'></image>
+        </view>
+      </scroll-view>
+    </view>
+    <!--筛选条件  -->
+    <view class='brand-wrap' wx:if="{{filterShow}}">
+      <scroll-view class='brand-scroll'>
+        <view wx:for="{{sortList}}" class="brand-item {{sortType==item.sortType?'selectId':''}}" data-sort-type='{{item.sortType}}' catchtap='selectFilter'>
+          <text class='sort'>{{item.sortText}}</text>
+          <image wx:if="{{sortType==item.sortType}}" class='category-img' src='/assets/images/icon_xuanzegou@2x.png' mode='aspectFit'></image>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>
+<view class='exchange-goods-prompt' style='visibility: hidden;' wx:if="{{titleShow}}">
+    <text class='exchange-goods-title'>提示</text>
+    <text>本公司只支持部分商品14天退货，部分商品1个月换货服务，退换货货值计算均以当时订单为准。</text>
+</view>
+<view class='search-tab' style='visibility: hidden;'>
+    <view class='search-warp'>
+      <image mode='aspectFit' src='/assets/images/ic_sousuo@2x.png'></image>
+      <input placeholder='百威雁荡山好卖又赚钱'></input>
+    </view>
+    <text class='search-text'>搜索</text>
+  </view>
+  <view class='exchange-tab' style='visibility: hidden;'>
+    <view class='exchange-navbar'>
+      <view class='exchange-nav-item'>全部类目</view>
+      <view class='exchange-nav-item'>全部品牌</view>
+      <view class='exchange-nav-item'>综合排序</view>
+    </view>
+  </view>
+<view class='scroll-page-wrap' lower-threshold='4'  wx:if="{{productList.length}}">
+  <view id='top' />
+  <!-- 产品列表 -->
+  <block wx:for="{{productList}}" wx:key="{{item.productSaleSpecId}}">
+    <template is="product-list-product" data="{{...item,isVisitor,hiddenPriceText}}" />
+  </block>
+</view>
+<!-- 空列表 -->
+<view class='empty-product-list'  wx:if="{{isEmpty}}">
+  <image class='empty-product-list-img' src='/assets/images/ic_fuchuanggouwuche@2x.png' mode='aspectFit' />
+  <text class='ft-30 color-666'>抱歉没有找到相关产品</text>
+</view>
+<!--  -->
+<view class='total-price-wrapper'>
+  退货商品值：<text class='color-E53935'>￥{{WxsUtil.toFixed(totalItemEstimatePrice,2)}}</text>，换货商品金额：<text class='color-E53935'>{{WxsUtil.toFixed(totalPrice,2)}}</text>
+</view>
+<view class='exchang-bottom'>
+  <view class='next-left' wx:if="{{totalItemEstimatePrice<=totalPrice}}">
+    <view class='goods-price'>
+      <text>需补差价：</text> <text class='color-E53935 ft-36'>￥<text>{{WxsUtil.toFixed(totalPrice-totalItemEstimatePrice,2)}}</text></text>
+    </view>
+  </view>
+  <view class="next-right {{totalItemEstimatePrice<=totalPrice?'':'bg-gary'}}" catchtap='goNextStep'>下一步</view>
+</view>
+<view class='yjp-backdrop' wx:if="{{categoryShow||brandShow||filterShow}}" catchtap='hiddenTab'></view>

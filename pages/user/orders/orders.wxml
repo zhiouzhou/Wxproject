@@ -1,0 +1,86 @@
+<!--pages/user/orders/orders.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../../components/product/product.wxml" />
+
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+
+<include src="../../../components/dialog/buyAgain/buyAgain.wxml" wx:if="{{sectionBuy}}" />
+<view class='classification ft-28 color-666'>
+  <view class='{{orderState==-1?"orderType_one":"orderType"}}' catchtap='allOrder'>
+    <text>全部</text>
+    <view class='line' wx:if="{{orderState==-1}}"></view>
+  </view>
+  <view class='{{orderState==8?"orderType_one":"orderType"}}' catchtap='paymentOrder'>
+    <text>待付款</text>
+    <view class='line' wx:if="{{orderState==8}}"></view>
+  </view>
+  <view class='{{orderState==20?"orderType_one":"orderType"}}' catchtap='receivedOrder'>
+    <text>待收货</text>
+    <view class='line' wx:if="{{orderState==20}}"></view>
+  </view>
+  <view class='{{orderState==9?"orderType_one":"orderType"}}' catchtap='pendingEvaluate'>
+    <text>待评价</text>
+    <view class='line' wx:if="{{orderState==9}}"></view>
+  </view>
+  <view class='{{orderState==3?"orderType_one":"orderType"}}' catchtap='completed'>
+    <text>已完成</text>
+    <view class='line' wx:if="{{orderState==3}}"></view>
+  </view>
+</view>
+<scroll-view class='orders-list-wrap' wx:if="{{!isEmpty}}" style='height:{{windowHeight}}rpx' scroll-y lower-threshold='4' bindscrolltolower='loadMore'>
+  <view class='order-wrap' wx:for="{{orders}}" wx:key="{{item.orderNO}}" catchtap='goToOrderDetail' data-order='{{item}}' data-order-n-o='{{item.orderNO}}'>
+    <!-- 订单信息 -->
+    <view class='order-hd'>
+      <view class='order-hd-line-1'>
+        <text class='ft-28 color-333' catchtap='goToDealerShop' data-shop-id='{{item.companyId}}' data-order-type='{{item.orderType}}'>{{item.companyName}}{{item.classify==2?'-预售':''}}{{item.orderType==2?' >':''}}<text class="order-group-tag" wx:if="{{item.classify == 3}}">团</text></text>
+        <text class='ft-24 color-E53935'>{{item.state==1?'待发货':item.state==2?'已发货':item.state==3?'已完成':item.state==4?'审核拒绝':item.state==5?'已取消':item.state==6?'已删除':item.state==7?'配送失败':item.state==8?'待支付':item.state==9?'待评价':''}}</text>
+      </view>
+      <!-- 订单支付倒计时 -->
+      <view class='order-hd-line-1' style='margin-top:16rpx;'>
+        <text class='ft-26 color-666'>{{item.createTime}}</text>
+        <text class='ft-26 color-666' wx:if="{{item.state==8&&item.payType==1&&item.onlinePayCountDown}}">{{item.onlinePayCountDown}}后将取消</text>
+      </view>
+      <text class='ft-28 color-333' wx:if="{{item.state==8&&item.payType==1&&!item.onlinePayCountDown}}">很遗憾！您的订单45分钟内未支付，订单超时已自动取消，您可以返回首页，再次购买商品并提交订单。</text>
+    </view>
+    <!-- 订单产品预览 -->
+    <view class='product-preview'>
+      <block wx:if="{{item.items.length>1}}">
+        <template is="order-multi-product" data="{{items:item.items,totalCount:item.totalCount}}" />
+      </block>
+      <block wx:else>
+        <template is="order-single-product" data="{{items:item.items,totalCount:item.totalCount}}" />
+      </block>
+    </view>
+    <!-- 订单实付款 -->
+    <view class='order-amount'>
+      <text class='ft-26 color-333' wx:if="{{item.discountAmount}}" style='margin-right:16rpx;'>优惠 <text class='ft-26 color-E53935 bold'>¥ {{WxsUtil.toFixed(item.discountAmount,2)}}</text></text>
+      <text class='ft-26 color-333'>实付款 <text class='ft-26 color-E53935 bold'>¥ {{WxsUtil.toFixed(item.payableAmount,2)}} </text></text>
+    </view>
+    <!-- 订单操作按钮 -->
+    <view class='order-button'>
+      <!-- <view class='button-grey' catchtap="exchangeOrder" wx:if="{{true}}" data-order-n-o='{{item.orderNO}}'>申请换货</view> -->
+      <view class='button-grey' catchtap="deleteOrder" wx:if="{{item.canDeleteOrder}}" data-order-n-o='{{item.orderNO}}'>删除订单</view>
+      <view class='button-grey' catchtap="cancelOrder" wx:if="{{(item.classify!=3&&item.canCancelOrder)||(item.classify==3&&item.state==8)}}" data-order-n-o='{{item.orderNO}}'>取消订单</view>
+      <view class='button-grey' catchtap="confirmDelivery" wx:if="{{item.canConfirmDelivery}}" data-order-n-o='{{item.orderNO}}'>确认收货</view>
+      <view class='button-grey' catchtap="traceOrder" data-order-n-o='{{item.orderNO}}' data-deliveryModeValue="{{item.deliveryModeValue}}">
+        订单追踪</view>
+      <view class='button-grey' catchtap="evaluateOrder" data-order-n-o='{{item.orderNO}}' data-deliveryModeValue="{{item.deliveryModeValue}}" wx:if="{{item.canEvaluate}}">
+        {{pjbtnName||"评价并确认收货"}}</view>
+
+      <view class='button-grey' style='border-color: #e53935;color:#e53935;' catchtap="buyAgain" wx:if="{{item.canBuyAgain}}" data-tag='{{item}}'>再次购买</view>
+      <view class='button-grey' style='border-color: #e53935;color:#e53935;' catchtap="onlinePay" wx:if="{{item.state==8&&item.payType==1&&item.onlinePayCountDown}}" data-order-n-o='{{item.orderNO}}'>去支付</view>
+    </view>
+  </view>
+</scroll-view>
+<view class='noData' wx:if="{{isEmpty}}">
+
+  <!-- <image class='noData-image' src='assets/images/order_emptylist_icon@2x.png'></image> -->
+  <view class='data-title'>您还没有此类订单</view>
+  <view class='goHome'>去首页逛逛~</view>
+  <view class='backHome' catchtap='backHome'>返回首页</view>
+</view>

@@ -1,0 +1,238 @@
+/* pages/compositeActivity/compositeProductDetail.wxss */
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.activity-img-area {
+  height: 376rpx;
+  position: relative;
+}
+
+.activity-img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.activity-price-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 24rpx;
+  box-sizing: border-box;
+  height: 120rpx;
+  background: linear-gradient(to right, rgba(244, 92, 67, 1), rgba(235, 51, 73, 1));
+}
+
+.activity-price-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  margin-left: 36rpx;
+  height: 64rpx;
+}
+
+.activity-reduce {
+  padding: 0 8rpx;
+  box-sizing: border-box;
+  border: 2rpx solid #fff;
+  border-radius: 4rpx;
+  font-size: 20rpx;
+  color: #fff;
+  margin-bottom: 8rpx;
+}
+
+.divider-line {
+  height: 48rpx;
+  width: 2rpx;
+  background-color: #fff;
+  margin-right: 32rpx;
+}
+
+.activity-time {
+  width: 160rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #fff;
+}
+
+.activity-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 32rpx 24rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.activity-title-name-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.activity-title-tag {
+  min-width: 28rpx;
+  height: 28rpx;
+  background-color: #e53935;
+  color: #fff;
+  font-size: 20rpx;
+  line-height: 28rpx;
+  text-align: center;
+  border-radius: 4rpx;
+  margin-right: 12rpx;
+}
+
+.activity-title-remain-wrap {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.activity-display-tags-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 32rpx 24rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-top: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.activity-display-tags {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 24rpx;
+}
+
+.product-display-tag-img {
+  width: 26rpx;
+  height: 26rpx;
+}
+
+.activity-desc {
+  padding: 24rpx;
+  box-sizing: border-box;
+  background-color: #fafafb;
+  border-top: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.activity-promotion-wrap {
+  background-color: #fff;
+  margin-top: 12rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 12rpx;
+}
+
+.activity-promotion-title {
+  height: 80rpx;
+  padding-left: 24rpx;
+  box-sizing: border-box;
+  text-align: left;
+  line-height: 80rpx;
+}
+
+.activity-promotion-tags-wrap {
+  border-top: 2rpx solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding-bottom: 24rpx;
+}
+
+.activity-promotion-tag-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: 18rpx;
+  margin-right: 24rpx;
+}
+
+.activity-promotion-tag {
+  height: 28rpx;
+  min-width: 74rpx;
+  border-radius: 4rpx;
+  border: 2rpx solid #e53935;
+  box-sizing: border-box;
+  font-size: 22rpx;
+  color: #e53935;
+  line-height: 28rpx;
+  text-align: center;
+  margin-left: 24rpx;
+  margin-right: 16rpx;
+}
+
+.activity-address-switch {
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.activity-address-marker-img {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 8rpx;
+}
+
+.activity-address-switch-img {
+  width: 48rpx;
+  height: 48rpx;
+  margin-top: -12rpx;
+}
+
+.activity-service-wrap {
+  border-top: 2rpx solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0 24rpx 24rpx 24rpx;
+  box-sizing: border-box;
+  background-color: #fafafb;
+  margin-bottom: 16rpx;
+}
+
+.activity-service-tag-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 24rpx;
+}
+
+.activity-service-tag-img {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 16rpx;
+}
+
+.activity-products-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  background-color: #fff;
+}
+

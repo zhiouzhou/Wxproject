@@ -1,0 +1,14 @@
+
+ <view class='product-number-frame'>
+            <view class='product-number-button'>
+                  <view class='crease-mask decrease-mask' catchtap='decrease' data-current-val = "{{buyNum}}"></view>
+                  <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+            </view>
+            
+            <input class='product-number' catchtap='nothing' bindblur="editNumber" type='number' value='{{buyNum}}' maxlength='5'/>
+
+            <view class='product-number-button'>
+                  <view class='crease-mask increase-mask' catchtap='increase' data-current-val = "{{buyNum}}"></view>
+                  <image class='product-number-img' style='{{buyNum==productItem.maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+            </view>
+  </view>

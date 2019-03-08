@@ -1,0 +1,90 @@
+/* pages/user/orders/orderTrack.wxss */
+
+page {
+  background: #fff;
+}
+
+.track-top {
+  background: #fff;
+  padding: 0 24rpx;
+  border-bottom:16rpx solid #EFEFF4;
+}
+
+.payment {
+  display: flex;
+  padding-top: 25rpx;
+}
+
+.payment-one {
+  color: #666;
+  font-size: 28rpx;
+  width: 146rpx;
+}
+
+.payment-two {
+  color: #333;
+  font-size: 28rpx;
+}
+
+.orderTrack {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.stub{
+  width:0;
+  height:24rpx;
+  background-color:#BCBCBC;
+}
+.stub1{
+  width:2rpx;
+  height:32rpx;
+  background-color:#BCBCBC;
+}
+.image1{
+  width: 35rpx;
+  height:35rpx;
+}
+.icon{
+  width:11rpx;
+  height:11rpx;
+  background:#BCBCBC;
+  border-radius: 50%;
+  margin:4rpx;
+}
+
+.line {
+  flex: 1;
+  height: 100%;
+  width: 2rpx;
+  background: #bcbcbc;
+  
+}
+
+.line1 {
+  flex: 1;
+  height: 100%;
+  width: 0rpx;
+  background: #bcbcbc;
+  
+}
+
+.message-left {
+  
+   display: flex;   
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width:88rpx;
+}
+
+.message-right {
+  padding:24rpx 74rpx 24rpx 0;
+  flex: 1;
+}

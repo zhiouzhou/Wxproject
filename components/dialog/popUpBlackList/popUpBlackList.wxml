@@ -1,0 +1,8 @@
+<template name="popUpBlackList">
+    <view class='blackProductList'>
+      <view class='productMessage' wx:for="{{blackList}}" class='blackList'>
+        <view class='listImg_view'><image src='{{item.imgUrl}}' class='list-img'></image></view>
+        <view class='ft-24 color-666 productName' >{{item.productName}}</view>
+      </view>
+    </view>
+</template>

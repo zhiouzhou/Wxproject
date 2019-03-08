@@ -1,0 +1,11 @@
+<template name="splitPay">
+  <view class='split-pay-content-wrap'>
+    <view class='split-pay-list-item' wx:for="{{splitPayList}}" wx:key="">
+      <image class='split-pay-list-img' src='{{item.select?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' mode='aspectFit' catchtap='onSplitPaySelect' data-id='{{item.id}}' />
+      <view class=' split-pay-detail'>
+        <text class='ft-30 color-333'>{{item.companyName}}</text>
+        <text class='ft-30 color-999' style='margin-top:12rpx;'>共{{item.buyCount}}，合计：<text class='ft-30 color-E53935'>¥{{item.amount}}</text></text>
+      </view>
+    </view>
+  </view>
+</template>

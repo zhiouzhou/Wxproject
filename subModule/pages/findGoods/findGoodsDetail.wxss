@@ -1,0 +1,42 @@
+/* pages/findGoods/findGoodsDetail.wxss */
+page {
+  background: #F2F2F2;
+  font-size: 28rpx;
+  color: #333;
+}
+.complaint {
+  margin-bottom: 12rpx;
+  background: #ffffff;
+  position: relative;
+}
+.complaint-header {
+  padding: 24rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+.complaint-header .time {
+  font-size: 24rpx;
+  color: #999;
+}
+.complaint-content {
+  padding: 24rpx;
+  color: #666;
+  position: relative;
+}
+.none-reply {
+  margin-top: 64rpx;
+  text-align: center;
+  color: #999;
+}
+.complaint-content .pic-wrapper {
+  margin-top: 24rpx;
+  display: flex;
+}
+.complaint-content .pic-wrapper image {
+  display: inline-block;
+  width: 150rpx;
+  height: 150rpx;
+  margin-right: 24rpx;
+}

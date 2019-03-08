@@ -1,0 +1,3 @@
+<template name="defaultText">
+  <view class='ft-28 color-333' style='text-align:center;'>{{text}}</view>
+</template>

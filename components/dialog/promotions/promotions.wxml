@@ -1,0 +1,11 @@
+<template name="promotions">
+  <view class='promotionsList' wx:for="{{promotionsInfo}}"  wx:if="{{item.tagType!=99}}">
+    <image class='product-tag-img' src='/assets/images/ic_xiangou@2x.png' wx:if="{{item.tagType==1}}" />
+    <image class='product-tag-img' src='/assets/images/bigoqian_hongbao@2x.png' wx:if="{{item.tagType==2}}" />
+    <image class='product-tag-img' src='/assets/images/biaoqian_quan@2x.png' wx:if="{{item.tagType==3}}" />
+    <image class='product-tag-img' src='/assets/images/biaoqian_bi@2x.png' wx:if="{{item.tagType==4}}" />
+    <image class='product-tag-img' src='/assets/images/biaoqian_zeng@2x.png' wx:if="{{item.tagType==7}}" />
+    <image class='product-tag-img' src='/assets/images/icon_huiyuanbaioshi@2x.png' wx:if="{{item.tagType==97}}" />
+    <text class='ft-24 color-666 one-line'>{{item.tagDetail}}</text>
+  </view>
+</template>

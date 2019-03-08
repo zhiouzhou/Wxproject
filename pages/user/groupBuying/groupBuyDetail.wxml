@@ -1,0 +1,114 @@
+<!--pages/user/groupBuying/groupBuyDetail.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<view class='groupBuy-shop'>
+  <image class='shop-image' src='/assets/images/pingtuanxiangqing_touxiang_ic@2x.png' style='height:80rpx;width:80rpx;'></image>
+  <view class='shop-message'>
+    <text class='ft-30 color-333 bold' style='padding-bottom:12rpx;'>{{groupBuyDetail.masterUserName}}</text>
+    <text class='ft-26 color-999'>发起了{{groupBuyDetail.minParticipantCount}}人拼团</text>
+  </view>
+</view>
+<view class='commodity-message'>
+  <image src='{{groupBuyDetail.productImgUrl||"/assets/images/defaul_product.png"}}' class='commodity-image'></image>
+  <view >
+    <view class='commodity-message-detail'>
+      <view class='ft-30 color-333'>{{groupBuyDetail.productName}}</view>
+      <view class='commodity-price'>
+        <view>
+          <text class="ft-36 color-E53935">{{groupBuyDetail.groupPrice}}</text>
+          <text class="ft-26 color-E53935">元/{{groupBuyDetail.productPriceUnit}}</text>
+        </view>
+        <view class='icon'>{{groupBuyDetail.minParticipantCount}}人成团</view>
+      </view>
+      <view class='ft-26 color-666'>批价：
+        <text style='text-decoration:line-through'>{{groupBuyDetail.sellingPrice}}元/{{groupBuyDetail.productPriceUnit}}</text>
+      </view>
+      
+    </view>
+    <view class="distribution" wx:if="{{groupBuyDetail.serviceDesc}}">
+        <image src='/assets/images/icon_gou@2x.png' class='distribution-image'></image>
+        <text class="ft-24 color-666">{{groupBuyDetail.serviceDesc||'由易酒批提供售后服务'}}</text>
+      </view>
+  </view>
+</view>
+<!-- 拼团状态 -->
+<view class='groupBuyState'>
+  <!-- 活动到时间了设置状态为已到期 -->
+  <block wx:if="{{groupBuyDetail.groupPurchaseState==0}}">
+    <text class='ft-30 color-333'>还差<text class='color-E53935'>{{groupBuyDetail.lackParticipantCount}}人</text>拼团成功</text>
+  </block>
+  <block wx:elif="{{groupBuyDetail.groupPurchaseState==1}}">
+    <text class='ft-30 color-333'>该团长已经按时凑齐人数,拼团成功</text>
+  </block>
+  <block wx:elif="{{groupBuyDetail.groupPurchaseState==2}}">
+    <text class='ft-30 color-333'>该团长未能按时凑齐人数，拼团失败</text>
+  </block>
+  <!--剩余时间    倒计时-->
+  <view class="group-buy-count-time" style='margin-top:22rpx;' wx:if="{{countDownArr.length&&groupBuyDetail.groupPurchaseState==0}}">
+    <text class="ft-28 color-666" style='padding-right:16rpx;'>剩余时间</text>
+    <view class='time'>{{countDownArr[0]}}</view>
+    <text class='ft-20 color-333'>天</text>
+    <view class='time'>{{countDownArr[1]}}</view>
+    <text class='ft-26 color-666'>:</text>
+    <view class='time'>{{countDownArr[2]}}</view>
+    <text class='ft-26 color-666'>:</text>
+    <view class='time'>{{countDownArr[3]}}</view>
+  </view>
+  <!-- 拼团人员头像 -->
+  <view class='colonel'>
+    <view class='colonel-image-wrap' wx:for="{{loopTimesArr}}">
+      <image src='/assets/images/tuanzhang_touxiang_ic@2x.png' class='colonel-image' wx:if="{{index==0}}" />
+      <image src='/assets/images/kongbai_touxing_ic@2x.png' class='colonel-image' wx:elif="{{groupBuyDetail.groupPurchaseState!=1&&(index==loopTimesArr.length-1)}}" />
+      <image src='/assets/images/pingtuanxiangqing_touxiang_ic@2x.png' class='colonel-image' wx:else />
+    </view>
+  </view>
+  <!-- 拼团按钮 -->
+  <!-- 拼团人齐了或者拼团到期 -->
+  <view class='moreGroupBuy' wx:if="{{groupBuyDetail.groupPurchaseState!=0}}" catchtap='onMoreGroup'>更多拼购火热进行中，点击查看</view>
+  <view class='joinGroupBuy' wx:else>
+    <button class='select-action' catchtap='onClickJoinGroup'>我要参团</button>
+    <button class='select-action' open-type="share">分享邀请</button>
+  </view>
+  <!-- 成功失败图标 -->
+  <image class='groupBuyState-image' src='{{groupBuyDetail.groupPurchaseState==1?"/assets/images/ic_chenggongzhangzi@2x.png":groupBuyDetail.groupPurchaseState==2?"/assets/images/ic_shibaizhangzi@2x.png":""}}' />
+</view>
+<view class='groupBuyRule'>
+  <view class='ruleDetail'>
+    <text class="ft-30 color-333 bold">拼购玩法</text>
+    <view class='ruleDetail-more'>
+      <text class="ft-26 color-666" catchtap='goToRule'>详细规则</text>
+      <image src='/assets/images/ic_arrow@2x.png' class='more'></image>
+    </view>
+  </view>
+  <view class='groupBuy-step'>
+    <text class='ft-28 color-333'>1.开团/参团</text>
+    <image src='/assets/images/ic_arrow@2x.png' class='next'></image>
+    <text class='ft-28 color-333'>2.邀请好友</text>
+    <image src='/assets/images/ic_arrow@2x.png' class='next'></image>
+    <text class='ft-28 color-333'>3.满员发货</text>
+  </view>
+</view>
+<!-- 相关推荐 -->
+<!-- <view class='recommendText'>相关推荐</view>
+<view class='recommendShop'>
+  <view class='recommendShop-message'>
+    <image src='/assets/images/defaul_product.png' class='shop-image'></image>
+    <text class='ft-28 color-333' style='padding:0 24rpx 20rpx 24rpx;'>维他奶 原味豆奶植物蛋白饮料 250ml*16盒</text>
+    <view style='padding:0 24rpx 24rpx 24rpx;'>
+      <text class='ft-36 color-E53935'>39.</text>
+      <text class='ft-24 color-E53935'>90元/件</text>
+    </view>
+  </view>
+  <view class='recommendShop-message'>
+    <image src='/assets/images/defaul_product.png' class='shop-image'></image>
+    <text class='ft-28 color-333' style='padding:0 24rpx 20rpx 24rpx;'>维他奶 原味豆奶植物蛋白饮料 250ml*16盒</text>
+    <view style='padding:0 24rpx 24rpx 24rpx;'>
+      <text class='ft-36 color-E53935'>39.</text>
+      <text class='ft-24 color-E53935'>90元/件</text>
+    </view>
+  </view>
+</view> -->

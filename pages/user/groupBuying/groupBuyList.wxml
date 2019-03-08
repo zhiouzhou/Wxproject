@@ -1,0 +1,70 @@
+<!--pages/user/groupBuying/groupBuyList.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../../components/product/product.wxml" />
+
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+<view class='classification ft-28 color-666'>
+  <view class='{{data==-1?"groupBuyState-select":"groupBuyState"}}' catchtap='allOrder'>
+    <text>全部</text>
+    <view class='line' wx:if="{{data==-1}}"></view>
+  </view>
+  <view class='{{data==0?"groupBuyState-select":"groupBuyState"}}' catchtap='paymentOrder'>
+    <text>拼团中</text>
+    <view class='line' wx:if="{{data==0}}"></view>
+  </view>
+  <view class='{{data==1?"groupBuyState-select":"groupBuyState"}}' catchtap='receivedOrder'>
+    <text>已拼成</text>
+    <view class='line' wx:if="{{data==1}}"></view>
+  </view>
+  <view class='{{data==2?"groupBuyState-select":"groupBuyState"}}' catchtap='pendingEvaluate'>
+    <text>已失败</text>
+    <view class='line' wx:if="{{data==2}}"></view>
+  </view>
+</view>
+<scroll-view class='group-buying-wrap' style='height:{{windowHeight}}px;' scroll-y lower-threshold='4' bindscrolltolower='loadMore' wx:if="{{!isEmpty}}">
+  <view class='order-wrap' wx:for="{{orders}}" wx:key="{{item.groupPurchaseId}}" catchtap='gotoOrderDetail' data-order-id='{{item.orderId}}' data-order-n-o='{{item.orderNO}}'>
+    <!-- 订单信息 -->
+    <view class='order-hd'>
+      <view class='order-hd-line-1'>
+        <text class='ft-30 color-333' catchtap='goToDealerShop' data-shop-id='{{item.companyId}}' data-order-type='{{item.orderType}}'>{{item.companyName}}</text>
+        <text class='ft-24 {{item.state==5?"color-666":"color-E53935"}}'>{{item.groupPurchaseState==0?"拼团中":item.groupPurchaseState==1?"已拼成":item.groupPurchaseState==2?"已取消":""}}</text>
+      </view>
+      <!-- 订单支付倒计时 -->
+      <view class='order-hd-line-1' style='margin-top:16rpx;'>
+        <text class='ft-26 color-666'>{{item.createTime}}</text><text class='ft-26 color-666' wx:if="{{item.state==8&&item.payType==1&&item.onlinePayCountDown}}">{{item.lastUpdateTime}}后将取消</text>
+      </view>
+    </view>
+    <!-- 订单产品预览 -->
+    <view class='product-preview'>
+      <block wx:if="{{item.items.length>1}}">
+        <template is="order-multi-product" data="{{items:item.items,totalCount:item.totalCount}}" />
+      </block>
+      <block wx:else>
+        <template is="order-single-product" data="{{items:item.items,totalCount:item.totalCount,groupBuyState:1}}" />
+      </block>
+    </view>
+    <!-- 订单实付款 -->
+    <view class='order-amount'>
+      <!-- <text class='ft-26 color-333' wx:if="{{item.discountAmount}}" style='margin-right:16rpx;'>优惠 <text class='ft-26 color-E53935 bold'>¥ {{WxsUtil.toFixed(item.discountAmount,2)}}</text></text> -->
+      <text class='ft-28 color-333'>实付款： <text class='ft-28 color-E53935 bold'>¥ {{WxsUtil.toFixed(item.payableAmount,2)}} </text></text>
+    </view>
+    <!-- 订单操作按钮 -->
+    <view class='order-button'>
+      <view class='button-grey' catchtap="gotoGroupBuyDetail" data-data='{{item.groupPurchaseId}}'>拼购详情</view>
+      <view class='button-grey' catchtap="goToOrderTrack"  data-order-n-o='{{item.orderNO}}' wx:if="{{item.groupPurchaseState==1}}">订单追踪</view>
+      <button class='button-red' catchtap='doNothing' open-type='share' wx:if="{{item.groupPurchaseState==0}}" style='background-color:#fff;margin-right:0;' data-image-url = "{{item.items[0].product.imgUrl}}" data-group-purchase-id='{{item.groupPurchaseId}}' data-product-name = "{{item.items[0].product.productName}}">邀请好友</button>
+    </view>
+  </view>
+
+</scroll-view>
+<view class='noData' wx:if="{{isEmpty}}">
+  <!-- <image class='noData-image' src='assets/images/order_emptylist_icon@2x.png'></image> -->
+  <view class='data-title'>您还没有此类订单</view>
+  <view class='goHome'>去首页逛逛~</view>
+  <view class='backHome' catchtap='backHome'>返回首页</view>
+</view>

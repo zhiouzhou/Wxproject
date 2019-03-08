@@ -1,0 +1,154 @@
+<!--pages/shopCart/shopCart.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../components/product/product.wxml" />
+
+<import src="../../components/dialog/orderCoupons/orderCoupons.wxml"/>
+
+<wxs src="../../utils/WxsUtil.wxs" module="WxsUtil" />
+<!-- 全选，编辑 -->
+<view class='global-select-bar global-select-bar-column' style='max-height:80rpx;' wx:if="{{!isEmpty}}">
+  <image class='select-img' src='{{globalSelect?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' mode='aspectFit' catchtap='onTap' data-tag='globalSelect' />
+  <text class='ft-28 color-333 global-select-bar-column-allbtn'>全选</text>
+  <text class='ft-28 color-333' catchtap='onTap' data-tag='globalEdit' wx:if="{{!editing}}">编辑</text>
+  <text class='ft-28 color-333' catchtap='onTap' data-tag='deleteSelect' wx:if="{{editing}}" style='margin-right:24rpx;'>删除所选</text>
+  <text class='ft-28 color-333' catchtap='onTap' data-tag='finish' wx:if="{{editing}}">完成</text>
+</view>
+<view style='height:80rpx;' wx:if="{{!isEmpty}}" />
+<!-- 顶部提示标签 -->
+<view class='tags-wrap' wx:if="{{!isEmpty}}" >
+  <view class="notice-tag-wrap {{item.keyWord=='降价'||item.keyWord=='限购'?'bg-pink':'bg-orange'}}" wx:for="{{noticeTags}}" wx:key="{{item.keyWord}}" wx:if="{{item.show}}" catchtap='goToSpecialItem' data-key-word='{{item.keyWord}}'>
+    <image class='notice-tag-img' src='/assets/images/ic_tishi@2x.png' wx:if="{{item.keyWord=='降价'||item.keyWord=='限购'}}" />
+    <view class='notice-tag-type' wx:else>{{item.keyWord}}</view>
+    <view class='notice-tag-content-white' wx:if="{{item.keyWord=='降价'}}">购物车中有{{cutPriceNum}}件商品已降价，快去看看</view>
+    <view class='notice-tag-content-white' wx:if="{{item.keyWord=='限购'}}">购物车中有
+      <text wx:if="{{productBelowLimitCount}}"> {{productBelowLimitCount}}件商品低于起购</text>
+      <text wx:if="{{productOverLimitCount}}"> {{productOverLimitCount}}件商品高于限购</text>
+      <text wx:if="{{jiuCoinLimitCount}}"> {{jiuCoinLimitCount}}件产品酒币不足</text>
+    </view>
+    <view class='notice-tag-content-black' wx:if="{{item.keyWord=='凑单'}}">另购其他商品金额满{{WxsUtil.toFixed(extraBuyTotalNeedAmount,2)}}元，即可享受凑单价，省{{WxsUtil.toFixed(allGatherReduce,2)}}元，还差{{WxsUtil.toFixed(allGatherNeedAmount,2)}}元，
+      <text class='color-666' catchtap='goToGatherList'>去凑单 ></text>
+    </view>
+     <view class='notice-tag-content-black' wx:if="{{item.keyWord=='自提'}}">所选商品支持上门自提，不再送货上门，自提可节省{{WxsUtil.toFixed(selfPickUpReduce,2)}}元</view> 
+     <view class='notice-tag-content-black ft-24' wx:if="{{item.keyWord=='优惠'}}">{{jiupiUseCouponPrompt}}</view>
+
+    <image class='notice-tag-close-img' hidden='{{item.keyWord=="优惠"}}' src="/assets/images/ic_bank_list_dialog_closer.png" catchtap='onTagHideTag' data-tag='{{item.keyWord}}' mode='aspectFit' />
+    <!--BEGIN全场优惠券按钮 -->
+    <text class='color-E53935 ft-24' wx:if="{{item.keyWord=='优惠' && !wiiUseCoupon.canUse}}" catchtap='goToCouponGatherList'>去凑单 ></text>
+    <text class='color-E53935 ft-24' wx:if="{{item.keyWord=='优惠' &&  wiiUseCoupon.canUse}}" catchtap='goToCouponGatherList'>去逛逛 ></text>
+    <!--END全场优惠券按钮 -->
+  </view>
+</view>
+
+<scroll-view class='scroll-wrap' style='height:{{editing?(windowHeight+98):windowHeight}}px;' scroll-y wx:if="{{!isEmpty}}" scroll-with-animation scroll-into-view='{{scrollPosition}}' bindscrolltolower='loadMoreRecommendList'>
+
+  <!-- 商品分组列表 -->
+  <!-- <view class='product-list-wrap'> -->
+  <block wx:for="{{productList}}" wx:key="{{item.shopCartId}}">
+    <template is="group-bar" data="{{...item,minBuyAmount,jiupiPayAmount}}" wx:if="{{item.viewType=='group'&&!item.isSubGroup}}" />
+    <template is="sub-group-bar" data="{{...item}}" wx:elif="{{item.viewType=='group'&&item.discountVO}}" />
+    <template is="sub-group-bar-normal" data="{{...item}}" wx:elif="{{item.viewType=='group'}}" />
+    <template is="shop-cart-product" data="{{...item,product:item,canSelfPickUp,hiddenPriceText}}" wx:elif="{{item.viewType=='product'}}" />
+  </block>
+  <!-- </view> -->
+  <!-- 失效商品列表 -->
+  <view class='invalid-product-list-wrap' wx:if="{{invalidProductList&&invalidProductList.length}}">
+    <view class='invalid-product-list-header'>
+      <text class='ft-28 color-333' style='flex:1;'>失效商品</text>
+      <image class='invalid-product-list-img' src='/assets/images/dele_ic@2x.png' mode='aspectFit' />
+      <text class='ft-24 color-666' catchtap='onTap' data-tag='deleteInvalid'>清空失效商品</text>
+    </view>
+    <block wx:for="{{invalidProductList}}" wx:key="{{item.shopCartId}}">
+      <view class='invalid-product-wrap'>
+        <view class='invalid-product-tag'>失效</view>
+        <image class='invalid-product-img' src='{{item.imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <view class='invalid-product-detail'>
+          <text class='ft-30 color-666'>{{item.productName}}</text>
+          <text class='ft-24 color-333' style='margin-top:16rpx;'>{{item.invalidDesc}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+  <!--为你推荐产品 -->
+  <block wx:if="{{recommendList.length}}"> 
+    <view class="recommend-list-title" mode='aspectFit'>
+      <image src='/assets/images/tejiacuxiao.png'/> 
+    </view>
+    <view wx:for="{{recommendList}}" wx:key="{{item.productSaleSpecId}}" class='product-recommend-wrap'>
+    <product-recommend product = "{{item}}" is-visitor="{{isVisitor}}">  </product-recommend>
+    </view>
+  </block> 
+</scroll-view>
+<!-- 底部下单按钮 -->
+<view style='height:98rpx;' wx:if="{{!isEmpty&&!editing}}" />
+<view class='bottom-bar' wx:if="{{!isEmpty&&!editing}}">
+  <view class='total-price'>
+    <text class='ft-24 color-666'>已选：{{selectedCount}}</text>
+    <text class='ft-24 color-666' wx:if="{{productReduce}}">优惠：¥{{WxsUtil.toFixed(productReduce,2)}}</text>
+  </view>
+  <view class='confirm-button' style='background-color:#ffa726;' catchtap='placeOrder' data-tag='selfPick' wx:if="{{canSelfPickUp}}">
+    <text class='ft-30 color-FFF'>自提下单</text>
+    <text class='ft-24 color-FFF' wx:if="{{selfPickUpReduce}}">再省：¥{{WxsUtil.toFixed(selfPickUpReduce,2)}}</text>
+  </view>
+  <view class='confirm-button' style='background-color:#e53935;' catchtap='placeOrder' data-tag='normal'>
+    <text class='ft-30 color-FFF'>送货下单</text>
+    <text class='ft-24 color-FFF'>总计：¥{{WxsUtil.toFixed(payAmount,2)}}</text>
+  </view>
+</view>
+<!-- 空页面 -->
+<!-- <view class='empty-page' wx:if="{{isEmpty}}">
+  <image class='empty-page-img' src='/assets/images/ic_fuchuanggouwuche@2x.png' mode='aspectFit' />
+  <text class='ft-30 color-666' style='margin-top:60rpx;'>您的购物车还没有商品</text>
+  <text class='ft-26 color-999' style='margin-top:24rpx;'>去首页逛逛~ </text>
+  <view class='empty-page-button' catchtap='goToHomePage'>返回首页</view>
+</view> -->
+<!-- 主分组 -->
+<template name="group-bar">
+  <view class='group-bar-wrap' catchtap='onTap' data-tag='groupSelect' data-shop-cart-id='{{shopCartId}}'>
+    <image class='select-img' src='{{select?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' mode='aspectFit' />
+    <text class='ft-28 color-333' catchtap='goToDealerShop' data-shop-id='{{companyId}}' data-sale-mode='{{saleMode}}'>{{groupName}}</text>
+    <image class='dealer-arrow' src='/assets/images/ic_arrow@2x.png' catchtap='goToDealerShop' data-shop-id='{{companyId}}' data-sale-mode='{{saleMode}}' wx:if="{{saleMode==6}}" />
+    <text class='ft-28 color-333' style='flex:1;text-align:right;' catchtap='onReceiveCoupons' data-shop-name='{{groupName}}' data-shop-id='{{companyId}}' wx:if="{{hasCoupon}}">领券</text>
+    <view class='ft-24 color-333' style='flex:1;text-align:right;' catchtap='goToProductList' wx:if="{{groupName=='易久批'&&minBuyAmount>jiupiPayAmount}}">全场满{{minBuyAmount}}元起送，
+      <text class='color-E53935'>还差{{WxsUtil.toFixed(minBuyAmount-jiupiPayAmount,2)}}元，去购买 ></text>
+    </view>
+  </view>
+</template>
+
+<!-- 酒批商品满减活动子分组 -->
+<template name="sub-group-bar">
+  <view class='sub-group-bar-wrap'>
+    <view class='notice-tag-type'>满减</view>
+    <text class='ft-24 color-333' style='flex:1;line-height:24rpx;'>{{discountText}}</text>
+    <view class='ft-24 color-E53935' style='line-height:24rpx;' catchtap='goToFullReduceList' data-full-reduce-list-notice='{{fullReduceListNotice}}' data-discount-id='{{discountVO.discountId}}'>{{fit?'再逛逛 >':'去凑单 >'}}</view>
+  </view>
+</template>
+
+<!-- 酒批商品不参与满减活动子分组 -->
+<template name="sub-group-bar-normal">
+  <view class='sub-group-bar-wrap'>  
+    <image class='select-img' src='/assets/images/ic_tishidengpao@2x.png' mode='aspectFit' />
+    <text class='ft-28 color-333' style='flex:1;'>以下产品不参与满减活动</text>
+  </view>
+</template>
+<!--为你推荐  -->
+<scroll-view class='scroll-page-wrap' style='height:{{windowHeight+98}}px;' scroll-y scroll-with-animation scroll-into-view='{{scrollPosition}}'lower-threshold='4' bindscrolltolower='loadMoreRecommendList' wx:if="{{isEmpty}}" >
+  <template wx:if="{{displayCoupon}}" is="empty-cart-coupon" data="{{item:displayCoupon}}"/>
+  <!-- 空列表 -->
+   <empty-page bind:first-evt = "goToHomePage" bind:second-evt = "secondEvt" text="购物车是空的" img-url="/assets/images/ic_fuchuanggouwuche@2x.png"
+     first-btn-txt="返回首页" second-btn-txt="查看特价商品"></empty-page>
+  <view id='top' />
+  <!--为你推荐产品 -->
+  <block wx:if="{{recommendList.length}}"> 
+    <view class="recommend-list-title" mode='aspectFit'>
+      <image src='/assets/images/tejiacuxiao.png' mode='aspectFit'/>
+    </view>
+    <view wx:for="{{recommendList}}" wx:key="{{item.productSaleSpecId}}" class='product-recommend-wrap'>
+    <product-recommend product = "{{item}}" is-visitor="{{isVisitor}}">  </product-recommend>
+    </view>
+  </block> 
+</scroll-view>

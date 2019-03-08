@@ -1,0 +1,75 @@
+<!--pages/user/prizeApply/applyDetail.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<view class='applyMessage'>
+  <view class='applyMessage-one'>
+    <view class='ft-30 color-666 '>
+      <view >申请单号：{{applyDetail.orderNo}}</view>
+      <view style='padding:24rpx 0;'>申请时间：{{applyDetail.applyTime}}</view>
+      <view class='color-E53935' wx:if="{{applyDetail.stateValue==3}}">兑奖红包总金额：{{applyDetail.totalBonusAmount}}元</view>
+    </view>
+    <!-- {{item.stateValue==1||item.stateValue==2?"applyState-stateValue-one":item.stateValue==3?"applyState-stateValue-one":item.stateValue==4||item.stateValue==5?"applyState-stateValue-three":""}} -->
+    <view class='{{applyDetail.stateValue==1||applyDetail.stateValue==2?"applyState-stateValue-one":applyDetail.stateValue==3?"applyState-stateValue-two":applyDetail.stateValue==4||applyDetail.stateValue==5?"applyState-stateValue-three":""}}'>{{applyDetail.state}}</view>
+  </view>
+  <view class='user-message'>
+    <image src='/assets/images/ic-shouhuo@2x.png' mode='aspectFit' class='address-icon'></image>
+    <view catchtap='selectAddress'>
+      <view class='ft-30 color-333' style='padding-bottom:16rpx;'>
+        <text style='padding-right:34rpx;'>{{applyDetail.addressVO.contact}}</text>
+        <text>{{applyDetail.addressVO.mobileNo}}</text>
+      </view>
+      <view class='ft-26 color-666'>取券地址：{{applyDetail.addressVO.province}}{{applyDetail.addressVO.city}}{{applyDetail.addressVO.county}}{{applyDetail.addressVO.street}}{{applyDetail.addressVO.detailAddress}}</view>
+    </view>
+  </view>
+  <view class='applyRemark' wx:if="{{applyDetail.remark}}">
+    <image src='/assets/images/ic_daipingjia@2x.png' mode='aspectFit' class='remark-icon-img'></image>
+    <view class='remark-icon'>
+      <text class='ft-30 color-333'>备注</text>
+      <view class='ft-26 color-666' style='padding-top:16rpx;'>{{applyDetail.remark}}</view>
+    </view>
+  </view>
+</view>
+<view class='prizeMessage' wx:for="{{applyDetail.itemList}}" wx:for-item="item" wx:for-index="index">
+  <view class='prize-name'>
+    <view style='display:flex;align-items:center'>
+      <view class='name-number ft-24 '>{{index+1}}</view>
+      <text class='ft-30 color-333'>兑奖券名称</text>
+    </view>
+    <view class='ft-30 color-333' style='padding-right:24rpx;'>{{item.awardName}}</view>
+  </view>
+  <view class='prizeNumber' wx:if="{{applyDetail.stateValue==1||applyDetail.stateValue==2||applyDetail.stateValue==4}}">
+    <text class='ft-30 color-333' style=''>兑奖券数量：</text>
+    <text class='ft-30 color-333'>{{item.awardNum}}</text>
+  </view>
+  <view class='prizeNumber-icon ft-26 color-333' wx:else>
+    <view class='icon-number'>
+      <image src='/assets/images/duijiangshulliang@2x.png' class="apply-icon" mode='aspectFit'></image>
+      <text>兑奖券数量：{{item.awardNum}}</text>
+    </view>
+    <view class='icon-number' >
+      <image src='/assets/images/keduihuan@2x.png' class="apply-icon" mode='aspectFit'></image>
+      <text>可兑换数量：{{item.canAwardNum}}</text>
+    </view>
+    <view class='icon-number' style='padding-top:29rpx;'>
+      <image src='/assets/images/hongbao-@2x.png' class="apply-icon-num" mode='aspectFit'></image>
+      <text>兑奖红包金额：{{item.bonusAmount}}</text>
+    </view>
+  </view>
+  <view class='leavingMessage ft-26 color-666' wx:if="{{applyDetail.stateValue==3||applyDetail.stateValue==5}}" wx:if="{{item.auditRemark}}">
+    <text style='min-width:140rpx;'>审核留言：</text>
+    <text>{{item.auditRemark}}</text>
+  </view>
+</view>
+<!-- wx:if="{{(applyDetail.stateValue==3||applyDetail.stateValue==5)&&applyDetail.rejectImgs.length!=0}}"-->
+<view class='canNotAward' wx:if="{{(applyDetail.stateValue==3||applyDetail.stateValue==5)&&applyDetail.rejectImgs.length!=0}}">  
+  <view class='canNot-title ft-30 color-333'>不可兑换奖券图片</view>
+  <view class="canNot-image" wx:for="{{applyDetail.rejectImgs}}" wx:for-item="item" wx:for-index="index">
+    <image src='{{item}}' class='canNot-image-show'></image>
+  </view>
+</view>
+<view style='height:96rpx;'></view>
+<view class='check-button'>
+  <view class='check-button-style' catchtap='deleteApply' wx:if="{{applyDetail.canDelete}}" data-order-id="{{applyDetail.orderId}}">删除</view>
+  <view class='check-button-style' catchtap='cancelApply' wx:if="{{applyDetail.canCancel}}" data-order-id="{{applyDetail.orderId}}">取消</view>
+  <view class='check-button-style' catchtap='changeApply' wx:if="{{applyDetail.canModify}}" data-item="{{applyDetail.itemList}}" data-order-id="{{applyDetail.orderId}}">修改数量</view>
+</view>

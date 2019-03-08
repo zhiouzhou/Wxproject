@@ -1,0 +1,59 @@
+<!--pages/activity/activityDetail.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../components/product/product.wxml" />
+<import src="../../components/addToShopCart/addToShopCart.wxml" />
+<import src="../../components/couponTitle/couponTitle.wxml" />
+<!-- lower-threshold 设置在5以下就只会触发一次，默认的50或者超过10都会多次触发 -->
+ <!--全场通用 优惠券提示列表提示语-->
+ <view hidden="{{promotionType==4}}">
+     <template is="couponTitle" data="{{productListCouponDesc}}" />
+ </view>
+
+<scroll-view class='scroll-page-wrap' style='height:{{windowHeight}}rpx;' scroll-y lower-threshold='4' scroll-with-animation scroll-into-view='{{scrollPosition}}' bindscrolltolower='loadMore'>
+  <view id='top' />
+  <image style='width:100%;margin-bottom:-8rpx;background:#fff;' src='{{activityDetail.imgUrl}}' mode='aspectFit' />
+  <view class='activity-title'>
+    <view class='title-line-1'>
+      <view class='title-tag'>{{promotionType==3?'促':promotionType==4?'秒':promotionType==6?'凑':promotionType==8?'精':''}}</view>
+      <text class='ft-30 color-333'>{{activityDetail.name}}</text>
+    </view>
+    <view class='title-line-2'>
+      <text class='ft-26 color-E53935'>{{activityDetail.timeNotice}}</text>
+      <text class='ft-26 color-E53935'>{{activityDetail.levelNotice}}</text>
+    </view>
+  </view>
+  <view class='activity-sub-title ft-24 color-666' wx:if="{{activityDetail.activityDesc}}">{{activityDetail.activityDesc}}</view>
+  <view class='product-list-wrap'>
+    <view class='product-list-hd ft-30 color-333'>产品信息</view>
+    <block wx:for="{{productList}}" wx:key="{{item.productSkuId}}">
+      <template is="normal-product" data="{{ ...item,product:item,isVisitor,hiddenPriceText,bottomBarState}}" />
+    </block>
+  </view>
+   <!--为你推荐产品 -->
+  <view wx:if="{{recommendList.length}}" class="clearfix"> 
+    <view class="recommend-list-title">
+      <image src='/assets/images/tejiacuxiao.png' mode='aspectFit'> </image>
+    </view>
+    <view wx:for="{{recommendList}}" wx:key="{{item.productSaleSpecId}}" class='product-recommend-wrap'>
+    <product-recommend product = "{{item}}" is-visitor="{{isVisitor}}">  </product-recommend>
+    </view>
+  </view> 
+</scroll-view>
+<!-- 返回顶部按钮 -->
+<image class='back-to-top-float-button' src='/assets/images/ic_zhiding@2x.png' catchtap='backToTop' />
+<!--返回首页  -->
+<image class='go-to-shop-cart-float-button' src='/assets/images/fanhuishouye@2x.png' catchtap='goToHomePage' wx:if="{{isFromShare}}" /> 
+<!-- 底部状态栏 -->
+<view class='cant-buy-bottom-bar' wx:if="{{bottomBarState==1}}">活动未开始</view>
+<view class='cant-buy-bottom-bar' wx:if="{{bottomBarState==2}}">活动已结束</view>
+<view class='cant-buy-bottom-bar' wx:if="{{bottomBarState==3}}">活动已下架</view>
+<view class='cant-buy-bottom-bar' wx:if="{{bottomBarState==4}}">您的会员等级不足，暂时不能购买</view>
+<!-- 加入购物车底部通栏 -->
+<template is="add-to-shopcart-bottom-bar" data="{{addToShopCartNum,addToShopCartPrice,userCouponPrompt}}" wx:if="{{!isVisitor&&(bottomBarState==0||bottomBarState==5)&&promotionType!=4}}" />
+<template is="add-to-shopcart-bottom-bar" data="{{addToShopCartNum,addToShopCartPrice,userSendPrompt}}" wx:if="{{!isVisitor&&(bottomBarState==0||bottomBarState==5)&&promotionType==4}}" />
+<!-- 去登陆按钮 -->
+<image class='go-to-login-float-button' src='/assets/images/clicklogin@2x.png' catchtap='goToLogin' wx:if="{{isVisitor}}" />

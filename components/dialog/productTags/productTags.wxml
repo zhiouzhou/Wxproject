@@ -1,0 +1,11 @@
+<template name="productTags">
+  <view class='product-tag-wrap' wx:for="{{showTags}}" wx:key="{{item.tagType}}">
+    <image class='product-tag-img' src='/assets/images/bigoqian_hongbao@2x.png' wx:if="{{item.tagType==2}}" />
+    <image class='product-tag-img' src='/assets/images/biaoqian_quan@2x.png' wx:if="{{item.tagType==3}}" />
+    <image class='product-tag-img' src='/assets/images/biaoqian_bi@2x.png' wx:if="{{item.tagType==4}}" />
+    <image class='product-tag-img' src='/assets/images/biaoqian_zeng@2x.png' wx:if="{{item.tagType==7}}" />
+    <image class='product-tag-img' src='/assets/images/icon_huiyuanbaioshi@2x.png' wx:if="{{item.tagType==97}}" />
+    <image class='product-tag-img' src='/assets/images/biaoqian_ziti-@2x.png' wx:if="{{item.tagType==99}}" />
+    
+  </view>
+</template>

@@ -1,0 +1,212 @@
+/* pages/user/prizeApply/applyDetail.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.applyMessage {
+  margin: 12rpx 24rpx 16rpx 24rpx;
+  background-color: #fff;
+  padding: 0 24rpx;
+  border-radius: 2rpx;
+}
+
+.applyMessage-one {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid #e8eaed;
+}
+
+.applyState-stateValue-one {
+  min-width: 96rpx;
+  height: 32rpx;
+  color: #c39800;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  text-align: center;
+  background-color: #f0bb02;
+  border-radius: 16rpx;
+}
+
+/* 已兑奖 */
+
+.applyState-stateValue-two {
+  min-width: 96rpx;
+  height: 32rpx;
+  color: #e53935;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  text-align: center;
+  background-color: #f9dddf;
+  border-radius: 16rpx;
+}
+
+/* 已取消 已拒绝 */
+
+.applyState-stateValue-three {
+  min-width: 96rpx;
+  height: 32rpx;
+  color: #fff;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  text-align: center;
+  background-color: #d0d0d0;
+  border-radius: 16rpx;
+}
+
+.user-message {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 24rpx 0;
+  /* justify-content: space-between; */
+}
+
+.address-icon {
+  width: 31rpx;
+  height: 40rpx;
+  padding-right: 20rpx;
+}
+
+/* shuliang */
+
+.applyRemark {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-top: 2rpx solid #e8eaed;
+  padding: 24rpx 0;
+}
+
+.remark-icon-img {
+  width: 34rpx;
+  height: 32rpx;
+  padding-right: 17rpx;
+}
+
+.remark-icon {
+  padding-bottom: 24rpx;
+}
+
+.prizeMessage {
+  margin: 16rpx 24rpx;
+  background-color: #fff;
+  padding-bottom: 24rpx;
+}
+
+.name-number {
+  width: 28rpx;
+  height: 28rpx;
+  background-color: #e53935;
+  text-align: center;
+  line-height: 28rpx;
+  color: #fff;
+  margin-right: 11rpx;
+}
+
+.prize-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 34rpx 0;
+}
+
+.prizeNumber {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 24rpx;
+  padding: 24rpx 0;
+  border-top: 2rpx solid #e8eaed;
+}
+
+.leavingMessage {
+  border-top: 2rpx solid #e8eaed;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 23rpx;
+  margin: 0 26rpx;
+}
+
+.prizeNumber-icon {
+  margin: 0 24rpx;
+  /* padding:24rpx 0 0 24rpx; */
+  padding: 24rpx 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border-top: 2rpx solid #e8eaed;
+}
+
+.apply-icon {
+  width: 26rpx;
+  height: 30rpx;
+  padding-right: 9rpx;
+}
+
+.apply-icon-num {
+  width: 28rpx;
+  padding-right: 9rpx;
+  height: 28rpx;
+}
+
+.icon-number {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* 不可兑奖 */
+
+.canNotAward {
+  margin: 12rpx 24rpx 16rpx 24rpx;
+  background-color: #fff;
+  padding: 0 24rpx;
+  border-radius: 2rpx;
+}
+.canNot-title{
+  padding:32rpx 0;
+  border-bottom:2rpx solid #E8EAED;
+}
+.canNot-image{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding:26rpx 0 14rpx 0;
+  justify-content: space-between;
+}
+.canNot-image-show{
+  width:210rpx;
+  height:210rpx;
+  padding-bottom:12rpx;
+}
+.check-button {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 96rpx;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.check-button-style {
+  font-size: 30rpx;
+  color: #666;
+  height: 64rpx;
+  padding: 0 22rpx;
+  line-height: 62rpx;
+  border: 2rpx solid #bfbfbf;
+  border-radius: 4rpx;
+  margin-right: 24rpx;
+  margin-left: 8rpx;
+}

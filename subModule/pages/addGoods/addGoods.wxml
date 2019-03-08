@@ -1,0 +1,52 @@
+
+<import src="/components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<view class='scan-no-goods'>
+  <view class='scan-no-goods-icon'>
+    <image src="/subModule/images/zanwushuju@2x.png" mode='aspectFit' />
+  </view>
+  <view class='scan-no-goods-text'>
+    <text>抱歉，没有查找到您所需的商品</text>
+    <text>赶快通知城市经理补货吧！</text>
+  </view>
+</view>
+
+<view class='scan-input-box'>
+  <view class='scan-input-column'>
+    <text>产品名称</text>
+    <view>
+      <input placeholder='请输入产品名称' bindinput='inputProductInfo' data-type='name'></input>
+    </view>
+  </view>
+  <view class='scan-input-column'>
+    <text>条形码</text>
+    <view>
+      <input wx:if="{{!goodsInfo.productCode}}" placeholder='请输入产品条形码' readonly="readonly" value='{{goodsInfo.productCode}}' bindinput='inputProductInfo' data-type='code'></input>
+      <text wx:if="{{goodsInfo.productCode}}">{{goodsInfo.productCode}}</text>
+    </view>
+  </view>  
+</view>
+
+<view class='scan-upload-box'>
+  <view class='scan-upload-title'>
+    <text>*</text>
+    <text>产品拍照</text>
+    <text>(必填)</text>
+  </view>
+  <view class='scan-upload-column'>
+    <view class='scan-upload-item' wx:for="{{imgUrlList}}">
+      <image class='real-pic' src="{{item}}" mode='aspectFit' />
+      <view class='remove-icon' catchtap='removeImg' data-idx='{{index}}'>
+        <image src="/subModule/images/qingchuzhaopian@2x.png" mode='aspectFit' />
+      </view>
+    </view>    
+    <view class='scan-upload-item' catchtap='chooseImg' wx:if="{{imgUrlList.length < 1}}">
+      <image class='default-pic' src="/subModule/images/tianjia@2x.png" mode='aspectFit' />
+    </view>
+  </view>
+</view>
+<view class='scan-tips'>温馨提示：请拍产品正面照片，确保上传图片清晰。</view>
+<view class="scan-btn {{isRed?'red-btn':''}}" catchtap='submitInfo'>
+  <text>添加产品</text>
+</view>

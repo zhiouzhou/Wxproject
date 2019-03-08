@@ -1,0 +1,139 @@
+/* pages/login/login.wxss */
+
+page {
+  border-top: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.vertical-divider {
+  width: 2rpx;
+  height: 30rpx;
+  background-color: #cecece;
+}
+
+.login-type {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 48rpx;
+  margin-bottom: 66rpx;
+}
+
+.login-info-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0 24rpx;
+  margin-bottom: 48rpx;
+  box-sizing: border-box;
+}
+
+.login-info-item-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 24rpx 0;
+  box-sizing: border-box;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.login-info-img {
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 12rpx;
+}
+
+.account-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.vcode-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  height: 92rpx;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 48rpx;
+  margin-bottom: 32rpx;
+}
+
+.show-psw-img {
+  width: 100rpx;
+  height: 100rpx;
+  margin-left: 12rpx;
+  margin-top: -30rpx;
+}
+
+.login-button {
+  height: 88rpx;
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 34rpx;
+  text-align: center;
+  line-height: 88rpx;
+  border-radius: 8rpx;
+  background-color: #e53935;
+}
+
+.sign-up {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx 24rpx 0 24rpx;
+  box-sizing: border-box;
+}
+
+.login-third {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.login-third-title {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 66rpx;
+}
+
+.lines {
+  width: 120rpx;
+  height: 2rpx;
+  background-color: #e5e5e5;
+}
+
+.wx-login-area {
+  width: 88rpx;
+  height: 88rpx;
+  margin-bottom: 66rpx;
+  position: relative;
+}
+
+.wx-login-img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.wx-login-button {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: transparent;
+  border: 0rpx solid transparent;
+  border-radius: 50%;
+}

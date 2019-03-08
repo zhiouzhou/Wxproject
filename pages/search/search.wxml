@@ -1,0 +1,51 @@
+<!--pages/search/search.wxml-->
+<!-- 搜索框 --> 
+<template name="fuzzy-search-mask">
+   <view class="fuzzy-search-mask" style="height:{{fuzzyHeight-40}}px" hidden="{{!fuzzySearchList.length}}">
+      <view wx:for="{{fuzzySearchList}}" wx:key="{{index}}" class='fuzzy-search-item'
+      data-word="{{item}}" catchtap='clickFuzzyItem'>
+        {{item}}
+      </view> 
+   </view>
+</template>
+<view class='search-wrap'>
+  <view class='search-area'>
+    <image class='history-search-img' mode='aspectFit' src='/assets/images/ic_sousuo@2x.png' />
+    <input class='history-search-input ft-26 color-333' placeholder='{{tab=="product"?productSearchLabel:"请输入经销商名称"}}' placeholder-class='ft-26 color-666' bindinput='onInputKeyWords' bindconfirm='onSearch' value='{{keyWords}}' />
+  </view>
+  <text class='ft-28 color-333' style='margin-left:24rpx;' catchtap='onSearch'>搜索</text>
+</view>
+<!-- 标签 -->
+<view class='switcher'>
+  <view class='switcher-item' catchtap='onSwitchTab' data-tag='product'>
+    <text class='ft-30 {{tab=="product"?"color-E53935":"color-333"}} switcher-text'>商品</text>
+    <view class='slider' wx:if="{{tab=='product'}}" />
+  </view>
+  <view class='switcher-item' catchtap='onSwitchTab' data-tag='dealer'>
+    <text class='ft-30 {{tab=="dealer"?"color-E53935":"color-333"}} switcher-text'>经销商</text>
+    <view class='slider' wx:if="{{tab=='dealer'}}" />
+  </view>
+</view>
+<!-- 热门搜索 -->
+<view class='hot-search-wrap' wx:if="{{tab=='product'}}">
+  <text class='ft-30 color-333'>热门搜索</text>
+  <view class='hot-search-key-words'>
+    <view class='hot-search-key-word ft-26 color-333' wx:for="{{hotKeyWords}}" catchtap='goToHistorySearch' data-key-words='{{item}}'>{{item}}</view>
+  </view>
+</view>
+<!-- 历史搜索 -->
+<!-- wx:if="{{(tab=='product'&&searchHistory.length)||(tab=='dealer'&&dealerHistory.length)}}" -->
+<view class='history-search' >
+  <view class='search-header'>
+    <text class='ft-30 color-333' style='flex:1'>历史搜索</text>
+    <image class='history-search-delete' mode='aspectFit' src='/assets/images/dele_ic@2x.png' catchtap='deleteSearchHistory' />
+    <text class='ft-26 color-999' catchtap='deleteSearchHistory'>清除历史记录</text>
+  </view>
+  <view class='history-search-item' wx:for="{{tab=='product'?searchHistory:dealerHistory}}" catchtap='goToHistorySearch' data-key-words='{{item}}'>
+    <image class='history-search-time' mode='aspectFit' src='/assets/images/ic-zitishijian@2x.png' />
+    <text class='ft-30 colro-666' style='flex:1'>{{item}}</text>
+    <image class='history-search-arrow' mode='aspectFit' src='/assets/images/ic_youjiantou@2x.png' />
+  </view>
+</view>
+<!--  -->
+<template is="fuzzy-search-mask" data="{{fuzzySearchList,fuzzyHeight}}"/>

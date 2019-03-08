@@ -1,0 +1,63 @@
+@import "./../../assets/styles/color.wxss";
+@import "./../../assets/styles/font.wxss";
+.product-number-frame {
+  width: 196rpx;
+  height: 58rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 2rpx solid #bdbdbd;
+  box-sizing: border-box;
+  border-radius: 4rpx;
+  margin-right: 16rpx;
+ 
+}
+
+.product-arrival-notice {
+  height: 48rpx;
+  padding: 0 12rpx;
+  line-height: 48rpx;
+  text-align: center;
+  border: 2rpx solid #bdbdbd;
+  border-radius: 4rpx;
+}
+
+.product-number-button {
+  position: relative;
+  width: 54rpx;
+  height: 54rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-number-img {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.product-number {
+  flex: 1;
+  height: 54rpx;
+  border-left: 2rpx solid #bdbdbd;
+  border-right: 2rpx solid #bdbdbd;
+  text-align: center;
+  line-height: 54rpx;
+  color: #333;
+  font-size: 26rpx;
+}
+.crease-mask{
+  position:absolute;
+  top:-15rpx;
+  width:90rpx;
+  height:90rpx;
+  z-index: 10;
+}
+.decrease-mask{
+  right:0;
+}
+.increase-mask{
+  left:0;
+}

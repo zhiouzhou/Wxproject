@@ -1,0 +1,12 @@
+<template name="appIcons">
+  <view class='icons-wrap'>
+    <view class='icon-item' style='width:{{appIcons.length==8?25:appIcons.length==10?20:25}}%;' wx:for="{{appIcons}}" wx:key="{{item.iconType}}" catchtap='onClickAppIcons' data-icon-type='{{item.iconType}}' data-icon-value='{{item.iconValue}}'>
+    <view class='img-area'>
+      <image class='icon-img' src='{{item.imgUrl}}' />
+      <image class='app-icons-corner-old' src='/assets/images/icon_tag_xin.png' style='width:18px;height:18px;' wx:if="{{item.iconType==31||item.iconType==32}}"/>
+      <image class='app-icons-corner' src='/assets/images/ic_songhongbao.png' wx:if="{{item.iconType==16}}"/>
+    </view>
+      <text class='ft-28 color-333' style='margin-top:24rpx;'>{{item.title}}</text>
+    </view>
+  </view>
+</template>

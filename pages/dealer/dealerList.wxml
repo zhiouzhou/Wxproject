@@ -1,0 +1,19 @@
+<!--pages/dealer/dealerList.wxml-->
+
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<block wx:if="{{!initing&&shopList.length!=0}}">
+  <view class='shop-wrap' wx:for="{{shopList}}" wx:for-item="shop" wx:key="{{item.shopId}}" data-shop-id="{{shop.shopId}}" data-state="{{shop.state}}" data-open-dealer-shop='{{shop.openDealerShop}}' catchtap='goToDealerShopDetail'>
+    <image class='shop-logo' src='{{shop.logoImgUrl}}' />
+    <view class='shop-info'>
+      <text class='ft-30 color-333'>{{shop.shopName}}</text>
+      <text class='ft-22 color-E53935' wx:if="{{shop.state == 0||!shop.openDealerShop}}">该经销商已关闭</text>
+      <text class='ft-22 color-666'>{{shop.userFavoriteCount}}人关注</text>
+    </view>
+    <image class='shop-arrow' src='/assets/images/ic_arrow@2x.png' mode='aspectFit' />
+  </view>
+</block>
+<view class='empty-page' wx:if="{{!initing&&shopList.length==0}}">
+  <image class='empty-img' src='/assets/images/gantan_icon@2x.png' mode='aspectFit' />
+  <text class='ft-32 color-666'>暂无经销商</text>
+</view>

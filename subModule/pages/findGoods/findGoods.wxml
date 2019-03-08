@@ -1,0 +1,34 @@
+<!--pages/findGoods/findGoods.wxml-->
+<view class='empty-wrapper' wx:if="{{isEmpty}}">
+  <image src='/assets/images/order_emptylist_icon.png'></image>
+  <text>暂无帮我找货明细</text>
+</view>
+<view class='complaint-item' wx:for="{{findGoodsList}}" catchtap='goDatail' data-tag='{{item.findGoodsId}}' >
+  <view class='complaint-header'>
+    <view style='flex:1'>
+      <view class='header-title'>
+        <image class='complaint-icon'src="/assets/images/ic_zhaohuo@2x.png"></image><text>{{item.productName}}</text>
+      </view>
+      <view class='time'>
+        {{item.findGoodsTime}}
+      </view>
+    </view>
+    <view class='color-E53935' wx:if="{{item.state==0}}">
+      待反馈
+    </view>
+    <view class='color-66BB6A' wx:if="{{item.state!=0}}">
+      已反馈
+    </view>
+  </view>
+  <view class='complaint-content'>
+    {{item.findGoodsRemarks}}
+  </view>
+  <!-- <view class='complaint-footer'>
+    <text>评价</text>
+  </view> -->
+</view>
+<view class='add-complaint-btn' catchtap='addFindGoods'>
+  <image src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACO0lEQVRYR82XTYiNURjHf381JpmUJLOxkVGS7DAymSxsrGRkZIu1DRbKQlnM2Nj62IpCVjYWIvK1kyaFbGx8JCViKI/+47l677jc9zWZM2dzF/c95/md//N5RM0VEX3AdmArsA5YASzK7R+AF8Aj4AZwTdLHOker20cRsRI4AuwBFnb7Pv//BFwAxiQ9/9uePwJERC9wHDgIzAe+A7d9O+Ae8Ax4n4cvBgaAwVRpCJgHfAVOAcckTXYC6QgQEf3AVWAjEMAV4Kikp3UUiIhVwAlgJ2Ab94Edkl5N3/8bQESszVsuT7/uleQDGq+I8AXOZ7y8tDqSHlcPagPImz8EbPwmMCLpXWPLlQ0RsQS4DAwDhlhfVeIXQPrcRk3t322Svs3EeGtvRPQA1xPCag63YqIKMAYcTtlNOaObTwdPJayu03dckjNrKkDIVJsATLqprs8jwgGKpK7pnHas7l3Ayq5xirYAzgL77CtJu+rK3hQgIS45toBzkvYrK5zTYwGwum6q5WGNFMg9TtEnwGeg3wC7gYvALUmO1NrrXxRICAf5FmDUAKeBAw5ASSdrW/8ZO40VSIBDDkTgjAGcFhuAIUl3Zglgc5b1BwZ4Ayyd8of0epYAlgGOu7cG+AK48fRKcvNoWy2Zm4C1ldoOKRoRbm5uTpNzAqC4C4oHYfE0LF6IPGyWK8VZmco1oznRjhOi3ECSAK6G5UayhPA4XmYorQyQ5cbyCkS5h0kFotzTrNpOiz1OO8wF/+V5/gPE9JFY1CeMZgAAAABJRU5ErkJggg=='></image>
+  <text>我要找货</text>
+</view>
+

@@ -1,0 +1,8 @@
+<template name="couponTitle">
+  <view class='coupon-discount-text' wx:if="{{productListCouponDesc && productListCouponDesc!=' '}}">
+    <image src="/assets/images/chengsetishi_ic.png" mode='aspectFit'/>
+    <text>{{productListCouponDesc}}</text>
+    <image src="/assets/images/ic_bank_list_dialog_closer.png" catchtap='hideCouponDiscountTip' mode='aspectFit'/>
+  </view>
+</template>
+

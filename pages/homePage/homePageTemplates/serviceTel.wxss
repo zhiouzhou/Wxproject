@@ -1,0 +1,12 @@
+.serviceTel-wrap {
+  height: 72rpx;
+  width: 100%;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  display: flex;
+  border-top: 2rpx solid #f2f2f2;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fff;
+}

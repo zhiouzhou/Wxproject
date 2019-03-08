@@ -1,0 +1,25 @@
+<!--pages/user/myCoin/myCoin.wxml-->
+<import src="/components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+ <view class="coinTop">
+  <image src='/assets/images/wode_beijing@2x.png' class='coinBg'></image>
+  <view class='name'>{{userName}}共有</view>
+  <view class='allCoin'>
+    <view style='font-size:64rpx;'>{{wineScoreAmount>=1000?"999":wineScoreAmount}}</view>
+    <view style='font-size:24rpx;'>{{wineScoreAmount>=1000?"+":""}}</view>
+  </view>
+  <view class="gain">
+    <view >三个月共收获：{{gainWineScoreAmount}}</view>
+    <view style='padding-left:200rpx;'>三个月共花费：{{spendWineScoreAmount*-1}}</view>
+  </view>
+</view>
+<view class='condition'>酒币使用明细为近三个月的使用情况</view> 
+<scroll-view class='coinDetail' scroll-y bindscrolltolower="lower" lower-threshold="4" style='height:{{windowHeight-272-82}}rpx'>
+  <view class='coinList' wx:for="{{CoinArr}}" wx:for-item>
+    <view class='coinState'>
+      <view class='num'>{{item.desc}}</view>
+      <view class='money' style='color:{{item.amount>0?"#E53935":"#666"}}'>{{item.amount}}</view>
+    </view>
+    <view class='coinTime'>{{item.createTime}}</view>
+  </view>
+</scroll-view>

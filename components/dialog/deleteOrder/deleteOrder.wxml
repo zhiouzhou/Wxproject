@@ -1,0 +1,10 @@
+<template name='deleteOrder'>
+  <view class='delete-order-wrap'>
+    <text class='ft-28 color-333' style='margin:16rpx 24rpx;'>删除提示</text>
+    <text class='ft-24 color-666' style='margin:16rpx 24rpx;'>您确认删除该订单吗？</text>
+    <view class='delete-order-button-wrap'>
+      <view class='delete-order-cancel-button' catchtap='onCancelDeleteOrder'>取消</view>
+      <view class='delete-order-confirm-button' catchtap='onConfirmDeleteOrder' data-order-n-o='{{orderNO}}'>确定</view>
+    </view>
+  </view>
+</template>

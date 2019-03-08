@@ -1,0 +1,109 @@
+.ft-12 {
+  font-size: 12rpx;
+}
+
+.ft-14 {
+  font-size: 14rpx;
+}
+
+.ft-16 {
+  font-size: 16rpx;
+}
+
+.ft-18 {
+  font-size: 18rpx;
+}
+
+.ft-20 {
+  font-size: 20rpx;
+}
+
+.ft-22 {
+  font-size: 22rpx;
+}
+
+.ft-24 {
+  font-size: 24rpx;
+}
+
+.ft-26 {
+  font-size: 26rpx;
+}
+
+.ft-28 {
+  font-size: 28rpx;
+}
+
+.ft-30 {
+  font-size: 30rpx;
+}
+
+.ft-32 {
+  font-size: 32rpx;
+}
+
+.ft-34 {
+  font-size: 34rpx;
+}
+
+.ft-36 {
+  font-size: 36rpx;
+}
+
+.ft-38 {
+  font-size: 38rpx;
+}
+
+.ft-40 {
+  font-size: 40rpx;
+}
+
+.ft-48 {
+  font-size: 48rpx;
+}
+
+.ft-64 {
+  font-size: 64rpx;
+}
+
+.ft-68 {
+  font-size: 68rpx;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.lighter {
+  font-weight: lighter;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.one-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.two-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-bottom-align {
+  vertical-align: text-bottom;
+}

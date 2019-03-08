@@ -1,0 +1,92 @@
+<import src="../../../components/toast/toast.wxml" />
+<import src="../../../components/dialog/staticDialog/staticDialog.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<view class='state'>
+  <view class='state-row {{underwriteStyle==0?"state-row-active":""}}' catchtap='switchColumn' data-type='0'>
+    <text>全部</text>
+  </view>
+  <view class='state-row {{underwriteStyle==1?"state-row-active":""}}' catchtap='switchColumn' data-type='1'>
+    <text>合约中</text>
+  </view>
+  <view class='state-row {{underwriteStyle==2?"state-row-active":""}}' catchtap='switchColumn' data-type='2'>
+    <text>申请中</text>
+  </view> 
+</view>
+
+<!--全部包销合约列表-->
+<scroll-view class='underwrite-box' scroll-y bindscrolltolower='lower' lower-threshold='4' wx:if="{{underwriteStyle==0&&!isEmpty}}" style='height:{{windowHeight}}px;'>
+  <view class='underwrite-list' wx:for="{{allUnderwriteList}}" wx:for-item="item">
+    <view class="underwrite-list-state-column" wx:if="{{item.contractState == 0 || item.contractState == 1 || item.contractState == 2 || item.contractState == 5}}">
+      <text>申请时间：{{item.createTime}}</text>
+      <text class="color-red">{{item.contractStateText}}</text>
+    </view>
+    <view class="underwrite-list-state-column" wx:if="{{item.contractState == 3 || item.contractState == 4}}">
+      <text>合同时间：{{item.effectiveTime}}至{{item.expiryTime}}</text>
+      <text class="color-red">{{item.contractStateText}}</text>
+    </view>				
+    <view class="underwrite-list-goods-column">
+      <view class="underwrite-list-goods-name">
+        <text>{{item.productName}}</text>
+        <view class="color-red">¥<text>{{item.price}}</text><text wx:if="{{item.contractState != 3 && item.contractState != 4}}">~{{item.maxPrice}}</text>{{item.priceUnit}}           </view>
+      </view>
+      <view class="underwrite-list-goods-guige">规格 {{item.productSpecName}}</view>
+      <view>{{item.content}}</view>
+    </view>
+    <view class="underwrite-list-btn clearfix">
+      <text catchtap='goToProductDetail' data-item='{{item}}'>商品详情</text>
+      <text wx:if="{{item.contractState == 3}}" catchtap='showContractImg' data-urls='{{item.contractImgUrl}}'>查看协议</text>
+    </view>
+  </view>
+</scroll-view>
+
+<!--合约中的合约列表-->
+<scroll-view class='underwrite-box' scroll-y bindscrolltolower='lower' lower-threshold='4' wx:if="{{underwriteStyle==1&&!isEmpty}}" style='height:{{windowHeight}}px;'>
+  <view class='underwrite-list' wx:for="{{contractUnderwriteList}}" wx:for-item="item">
+    <view class="underwrite-list-state-column">
+      <text>合同时间：{{item.effectiveTime}}至{{item.expiryTime}}</text>
+      <text class="color-red">{{item.contractStateText}}</text>
+    </view>				
+    <view class="underwrite-list-goods-column">
+      <view class="underwrite-list-goods-name">
+        <text>{{item.productName}}</text>
+        <view class="color-red">¥<text>{{item.price}}</text><text wx:if="{{item.contractState != 3 && item.contractState != 4}}">~{{item.maxPrice}}</text>{{item.priceUnit}}           </view>
+      </view>
+      <view class="underwrite-list-goods-guige">规格 {{item.productSpecName}}</view>
+      <view>{{item.content}}</view>
+    </view>
+    <view class="underwrite-list-btn clearfix">
+      <text catchtap='goToProductDetail' data-item='{{item}}'>商品详情</text>
+      <text wx:if="{{item.contractState == 3}}" catchtap='showContractImg' data-urls='{{item.contractImgUrl}}'>查看协议</text>
+    </view>
+  </view>
+</scroll-view>
+
+<!--申请中的合约列表-->
+<scroll-view class='underwrite-box' scroll-y bindscrolltolower='lower' lower-threshold='4' wx:if="{{underwriteStyle==2&&!isEmpty}}" style='height:{{windowHeight}}px;'>
+  <view class='underwrite-list' wx:for="{{applyUnderwriteList}}" wx:for-item="item">
+    <view class="underwrite-list-state-column">
+      <text>申请时间：{{item.createTime}}</text>
+      <text class="color-red">{{item.contractStateText}}</text>
+    </view>				
+    <view class="underwrite-list-goods-column">
+      <view class="underwrite-list-goods-name">
+        <text>{{item.productName}}</text>
+        <view class="color-red">¥<text>{{item.price}}</text><text wx:if="{{item.contractState != 3 && item.contractState != 4}}">~{{item.maxPrice}}</text>{{item.priceUnit}}           </view>
+      </view>
+      <view class="underwrite-list-goods-guige">规格 {{item.productSpecName}}</view>
+      <view>{{item.content}}</view>
+    </view>
+    <view class="underwrite-list-btn clearfix">
+      <text catchtap='goToProductDetail' data-item='{{item}}'>商品详情</text>
+    </view>
+  </view>
+</scroll-view>
+
+<!--暂无数据-->
+<view class="no-data-tipbar" wx:if="{{isEmpty}}">
+  <image class='tipbar-pic' src='/assets/images/pro_emptylist_icon.png' mode='aspectFit' />
+  <view class='tipbar-text'><image class='icon' src='/assets/images/tips-light@2x.png' mode='aspectFit' />{{emptycontent}}</view>
+  <view class="underwrite-list-tip-btn" catchtap='underwriteDialog'>了解独家包销</view>				
+</view>
+
+<template is="underwrite-explain" wx:if="{{isEmpty&&dialogExplain}}" />

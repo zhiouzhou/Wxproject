@@ -1,0 +1,979 @@
+<wxs src="../../utils/WxsUtil.wxs" module="WxsUtil" />
+<!-- 活动详情的产品项 -->
+<template name="normal-product">
+  <view class='activity-product-wrap'>
+    <view class='normal-product-wrap' catchtap='goToProductDetail' data-product-sku-id='{{productSkuId}}' data-source-id='{{sourceId}}'>
+      <!-- 左侧图片，生产日期 -->
+      <view class='product-left-side'>
+        <view class='product-img-area'>
+          <image class='product-img' src='{{imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+          <image class='product-promotion-img' src='{{enjoyPromotions[0].promotionWatermark}}' wx:if="{{enjoyPromotions.length}}" />
+          <view class='product-reduce' wx:if="{{productPrice.reducePrice}}">
+            <text class='ft-16 color-FFF'>立减</text>
+            <text class='ft-24 color-FFF'>{{productPrice.reducePrice}}</text>
+          </view>
+          <view class='product-stock' wx:if="{{stockText}}">{{stockText}}</view>
+        </view>
+        <view class='product-production-date one-line' wx:if="{{productionDate}}">生产日期{{productionDate}}</view>
+      </view>
+      <!-- 右侧流式布局 -->
+      <view class='product-right-side'>
+        <!-- 商品信息 -->
+        <view class='product-main-info'>
+          <text class='ft-30 color-333 two-line'>{{productName}}</text>
+          <!-- 商品价格 -->
+          <view class='product-price-area' wx:if="{{mainPrice}}">
+            <text class='ft-24 color-666' style='margin-right:16rpx;margin-top:2rpx;' wx:if="{{productPrice.priceDisplayType==2}}">凑单价 </text>
+            <text class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{mainPrice}}</text> {{priceunit}}</text>
+            <!-- 非凑单 -->
+            <text class='ft-24 color-666 line-through' style='margin-left:24rpx;margin-top:6rpx;' wx:if="{{!productPrice.gatherOrderPrice>0 && productPrice.sellPrice>productPrice.price}}">¥{{productPrice.sellPrice}}</text>
+            <!-- 凑单 -->
+            <text class='ft-24 color-666 line-through' style='margin-left:24rpx;margin-top:6rpx;' wx:if="{{productPrice.gatherOrderPrice>0 && productPrice.price >productPrice.gatherOrderPrice}}">¥{{productPrice.price}}</text>
+          </view>
+          <view class='product-price-area' wx:else>
+            <text class='ft-26 color-E53935'>{{hiddenPriceText}}</text>
+          </view>
+          <view class='product-spec-wrap'>
+            <text class='ft-24 color-666' style='align-self:flex-end;flex:1;'>规格 {{specName}}</text>
+            <view wx:if="{{bottomBarState}}" class='flex-display'>
+              <!-- 产品加减框 -->
+              <view class='product-number-frame' catchtap='keepArea' wx:if="{{stockState!=3&&!isVisitor&&mainPrice&&bottomBarState==5}}">
+                <view class='product-number-button' catchtap='onSubProductBuyNum' data-product-sku-id='{{productSkuId}}' data-source-id='{{sourceId}}'>
+                  <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+                </view>
+
+                <input class='product-number' catchtap='doNothing' bindblur='onInputProductBuyNum' value='{{productSkuId==productSaleSpecId?buyNum:buyNum*saleSpecQuantity}}' maxlength='5' data-product-sku-id='{{productSkuId}}' data-source-id='{{sourceId}}' />
+                <view class='product-number-button' catchtap='onAddProductBuyNum' data-product-sku-id='{{productSkuId}}' data-source-id='{{sourceId}}'>
+                  <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+                </view>
+              </view>
+              <text class='ft-24 color-666' wx:if="{{stockState!=3&&!isVisitor&&mainPrice&&bottomBarState==5}}">{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+            </view>
+            <view class='flex-display' wx:else>
+              <!-- 产品加减框 -->
+              <view class='product-number-frame' catchtap='keepArea' wx:if="{{stockState!=3&&!isVisitor&&mainPrice}}">
+                <view class='product-number-button' catchtap='onSubProductBuyNum' data-product-sku-id='{{productSkuId}}' data-source-id='{{sourceId}}'>
+                  <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+                </view>
+
+                <input class='product-number' catchtap='doNothing' bindblur='onInputProductBuyNum' value='{{productSkuId==productSaleSpecId?buyNum:buyNum*saleSpecQuantity}}' maxlength='5' data-product-sku-id='{{productSkuId}}' data-source-id='{{sourceId}}' />
+                <view class='product-number-button' catchtap='onAddProductBuyNum' data-product-sku-id='{{productSkuId}}' data-source-id='{{sourceId}}'>
+                  <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+                </view>
+              </view>
+              <text class='ft-24 color-666' wx:if="{{stockState!=3&&!isVisitor&&mainPrice}}">{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+            </view>
+          </view>
+        </view>
+        <!-- 配送方式,满减标签 -->
+        <view class='product-info-tag' hidden='{{hiddenInfoTag==true}}'>
+
+          <view class='product-global-reduce-tag' style='margin-left: 24rpx;' wx:if="{{globalReduceTag}}">{{globalReduceTag.tagDetail}}</view>
+        </view>
+        <!-- 产品促销提示标签 -->
+        <view wx:if="{{enjoyPromotions[0].promotionType!=4}}">
+           <template is="product-coupon-bonus-tags" data="{{accumulationText,unAccumulationText,bonusText,unBonusText,couponText,unCouponText}}" />
+        </view>
+        <!-- 产品标签 --> 
+        <view class='product-tags product-tag-column' hidden='{{hiddenTag==true||!showTags.length}}'>
+          <view class='product-tag-wrap' wx:for="{{showTags}}" wx:key="{{item.tagType}}" wx:for-index="idx" wx:if="{{item.tagType!=99}}">
+            <block wx:if="{{idx<2}}">
+              <image class='product-tag-img' src='/assets/images/ic_xiangou@2x.png' wx:if="{{item.tagType==1}}" />
+              <image class='product-tag-img' src='/assets/images/bigoqian_hongbao@2x.png' wx:if="{{item.tagType==2}}" />
+              <image class='product-tag-img' src='/assets/images/biaoqian_quan@2x.png' wx:if="{{item.tagType==3}}" />
+              <image class='product-tag-img' src='/assets/images/biaoqian_bi@2x.png' wx:if="{{item.tagType==4}}" />
+              <image class='product-tag-img' src='/assets/images/biaoqian_zeng@2x.png' wx:if="{{item.tagType==7}}" />
+              <image class='product-tag-img' src='/assets/images/icon_huiyuanbaioshi@2x.png' wx:if="{{item.tagType==97}}" />
+              <image class='product-tag-img' src='/assets/images/biaoqian_ziti-@2x.png' wx:if="{{item.tagType==99}}" />
+              <text class='ft-24 color-666 one-line' wx:if="{{item.tagType!=97}}">{{item.tagDetail}}</text>
+              <text class='ft-24 color-666 one-line' wx:if="{{item.tagType==97}}">{{item.memberInfo}} </text>
+              <!-- <image class='product-tag-detail-img' src='/assets/images/proinfo_ic_more@2x.png' wx:if="{{item.tagType==7||item.tagType==97}}" mode='aspectFit' /> -->
+            </block>
+          </view>
+          <image class='product-tag-detail-img' src='/assets/images/proinfo_ic_more@2x.png' mode='aspectFit' wx:if="{{showTags.length>=2&&showTags.tagType==99}}" catchtap="goPromotions" data-tag='{{showTags}}' />
+        </view>
+      </view>
+    </view>
+    <!-- 优惠特价中的凑单活动不显示下面的提示，这里加categoryType!=4  -->
+    <view class='normal-product-gather-wrap' wx:if="{{orderAmount&&categoryType!=4}}">
+      <view class='gather-tag'>凑单</view>
+      <text class='ft-24 color-666'>每{{saleUnit}}另购{{orderAmount}}元商品，可享受凑单价¥{{productPrice.gatherOrderPrice}}{{priceunit}}，指定商品除外</text>
+      <image src='/assets/images/proinfo_ic_more@2x.png' mode='aspectFit' style='height:38rpx;width:38rpx;padding-right:14rpx;' catchtap='popUp'></image>
+    </view>
+  </view>
+</template>
+
+<!-- 首页活动上下平铺产品 -->
+<template name="home-page-promotion-product">
+  <view class='normal-product-wrap'>
+    <!-- 左侧图片，生产日期 -->
+    <view class='product-left-side'>
+      <view class='product-img-area'>
+        <image class='product-img' src='{{imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <image class='product-promotion-img' src='{{enjoyPromotions[0].promotionWatermark}}' wx:if="{{enjoyPromotions.length}}" />
+        <view class='product-reduce' wx:if="{{reducePrice}}">
+          <text class='ft-16 color-FFF'>立减</text>
+          <text class='ft-24 color-FFF'>{{reducePrice}}</text>
+        </view>
+        <view class='product-stock' wx:if="{{stockText}}">{{stockText}}</view>
+      </view>
+      <view class='product-production-date one-line' wx:if="{{productionDate}}">生产日期{{productionDate}}</view>
+    </view>
+    <!-- 右侧流式布局 -->
+    <view class='product-right-side'>
+      <!-- 商品信息 -->
+      <view class='product-main-info'>
+        <text class='ft-30 color-333 two-line'>{{productName}}</text>
+        <!-- 商品价格 -->
+        <view class='product-price-area'>
+          <text class='ft-24 color-666' style='margin-right:16rpx;margin-top:2rpx;' wx:if="{{promotionType==6&&promotionPrice}}">凑单价 </text>
+          <text class='product-price ft-24 color-E53935' wx:if="{{promotionPrice}}">¥<text class='ft-36 color-E53935' >{{promotionPrice}}</text> {{priceUnit}}</text>
+          <text class='product-price ft-24 color-E53935' wx:if="{{!promotionPrice}}">{{hiddenPriceText}}</text>
+
+
+          <text class='ft-24 color-666 line-through' style='margin-left:24rpx;margin-top:6rpx;' wx:if="{{originalPrice>0&&originalPrice>promotionPrice}}">¥{{originalPrice}}</text>
+        </view>
+        <view class='product-spec-wrap'>
+          <text class='ft-24 color-666' style='align-self:flex-end;flex:1;'>规格 {{productSpecName}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!-- 组合商品列表产品项 -->
+<template name="composite-list-product">
+  <view class='normal-product-wrap' catchtap='goToProductDetail' data-activity-id='{{activityId}}'>
+    <!-- 左侧图片，生产日期 -->
+    <view class='product-left-side'>
+      <view class='product-img-area'>
+        <image class='product-img' src='{{imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <image class='product-promotion-img' src='{{enjoyPromotions[0].promotionWatermark}}' wx:if="{{enjoyPromotions.length}}" />
+        <view class='product-reduce' wx:if="{{reducePrice}}">
+          <text class='ft-16 color-FFF'>立减</text>
+          <text class='ft-24 color-FFF'>{{reducePrice}}</text>
+        </view>
+        <view class='product-stock' wx:if="{{stockText}}">{{stockText}}</view>
+      </view>
+      <view class='product-production-date one-line' wx:if="{{productionDate}}">生产日期{{productionDate}}</view>
+    </view>
+    <!-- 右侧流式布局 -->
+    <view class='product-right-side'>
+      <!-- 商品信息 -->
+      <view class='product-main-info'>
+        <text class='ft-30 color-333 two-line'>{{name}}</text>
+        <text class='ft-26 color-E53935' style='margin:16rpx 0;' wx:if="{{timeNotice}}">{{timeNotice}}</text>
+        <!-- 商品价格 -->
+        <view class='product-price-area'>
+          <text class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{packagePrice}}</text> {{priceUnit}}</text>
+
+
+          <text class='ft-24 color-666 line-through' style='margin-left:24rpx;margin-top:10rpx;' wx:if="{{packagePrice<regularPrice}}">¥{{regularPrice}}</text>
+        </view>
+        <view class='product-spec-wrap product-wrap-column'>
+          <text class='ft-24 color-666 product-wrap-column-spec'></text>
+          <!-- 产品加减框 -->
+          <view class='product-number-frame' catchtap='keepArea' wx:if="{{stockState!=3&&!isVisitor}}">
+            <view class='product-number-button' catchtap='onSubProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+              <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+            </view>
+
+
+            <input class='product-number' catchtap='doNothing' bindblur='onInputProductBuyNum' value='{{productSkuId==productSaleSpecId?buyNum:buyNum*saleSpecQuantity}}' maxlength='5' data-product-sku-id='{{productSkuId}}' />
+            <view class='product-number-button' catchtap='onAddProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+              <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+            </view>
+          </view>
+          <text class='ft-24 color-666' wx:if="{{stockState!=3&&!isVisitor}}">{{priceUnit}}</text>
+        </view>
+      </view>
+      <!-- 产品促销提示标签 -->
+     <template is="product-coupon-bonus-tags" data="{{accumulationText,unAccumulationText,bonusText,unBonusText,couponText,unCouponText}}" />
+      <!-- 产品标签 -->
+      <view class='product-tags  product-tag-column' hidden='{{hiddenTag==true||!showTags.length}}'>
+        <view class='product-tag-wrap' wx:for="{{showTags}}" wx:key="{{item.tagType}}" wx:for-index="idx" wx:if="{{item.tagType!=99}}">
+          <block wx:if="{{idx<2}}">
+            <image class='product-tag-img' src='/assets/images/ic_xiangou@2x.png' wx:if="{{item.tagType==1}}" />
+            <image class='product-tag-img' src='/assets/images/bigoqian_hongbao@2x.png' wx:if="{{item.tagType==2}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_quan@2x.png' wx:if="{{item.tagType==3}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_bi@2x.png' wx:if="{{item.tagType==4}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_zeng@2x.png' wx:if="{{item.tagType==7}}" />
+            <image class='product-tag-img' src='/assets/images/icon_huiyuanbaioshi@2x.png' wx:if="{{item.tagType==97}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_ziti-@2x.png' wx:if="{{item.tagType==99}}" />
+            <text class='ft-24 color-666 one-line' style='flex:1;'>{{item.tagDetail}}</text>
+            <!-- <image class='product-tag-detail-img' src='/assets/images/proinfo_ic_more@2x.png' wx:if="{{item.tagType==7||item.tagType==97}}" mode='aspectFit' /> -->
+          </block>
+        </view>
+        <image class='product-tag-detail-img' src='/assets/images/proinfo_ic_more@2x.png' mode='aspectFit' wx:if="{{showTags.tagType!=99}}" catchtap="goPromotions" data-tag='{{showTags}}' />
+      </view>
+    </view>
+  </view>
+</template>
+
+<!-- 组合商品详情产品项 -->
+<template name="composite-product-detail">
+  <view class='normal-product-wrap' catchtap='goToProductDetail' data-product-sku-id='{{productSkuId}}' data-hide-product='{{hideProduct}}'>
+    <!-- 左侧图片，生产日期 -->
+    <view class='product-left-side'>
+      <view class='product-img-area' style='width:144rpx;height:144rpx;'>
+        <image class='product-img' src='{{imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <image class='product-promotion-img' src='{{enjoyPromotions[0].promotionWatermark}}' wx:if="{{enjoyPromotions.length}}" />
+        <view class='product-reduce' wx:if="{{productPrice.reducePrice}}">
+          <text class='ft-16 color-FFF'>立减</text>
+          <text class='ft-24 color-FFF'>{{productPrice.reducePrice}}</text>
+        </view>
+      </view>
+    </view>
+    <!-- 右侧流式布局 -->
+    <view class='product-right-side'>
+      <!-- 商品信息 -->
+      <view class='product-main-info' style='height:144rpx;justify-content: space-between;'>
+        <text class='ft-30 color-333 two-line'>{{productName}}</text>
+        <view class='product-spec-wrap'>
+          <text class='product-price ft-24 color-E53935' wx:if="{{productPrice.price}}">¥<text class='ft-36 color-E53935'>{{productPrice.price}}</text> {{priceunit}}</text>
+          <text class='product-price ft-24 color-E53935' wx:else>{{hiddenPriceText}}</text>
+          <text class='ft-24 color-666' style='align-self:flex-end;' wx:if="{{productUnitParams!=minUnit}}">数量:{{productCount}}*{{specName}}</text>
+          <text class='ft-24 color-666' style='align-self:flex-end;' wx:else>数量:{{productCount}} {{minUnit}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!-- 商品列表的产品项 -->
+<template name="product-list-product">
+  <view class='normal-product-wrap' catchtap='goToProductDetail' data-product-sku-id='{{productSkuId}}'>
+    <!-- 左侧图片，生产日期 -->
+    <view class='product-left-side'>
+      <view class='product-img-area'>
+        <image class='product-img' src='{{imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <image class='product-promotion-img' src='{{globalReduceWatermark}}' wx:if="{{globalReduceWatermark}}" />
+        <image class='product-promotion-img-small' src='{{productUnderwritingWatermark}}' mode='aspectFit' wx:if="{{!globalReduceWatermark&&productUnderwritingWatermark&&saleMode==8}}" />
+        <image class='product-promotion-img' src='{{!globalReduceWatermark&&saleMode!=8&&enjoyPromotions[0].promotionWatermark}}' wx:if="{{enjoyPromotions.length}}" />
+        <view class='product-reduce' wx:if="{{productPrice.reducePrice}}">
+          <text class='ft-16 color-FFF'>立减</text>
+          <text class='ft-24 color-FFF'>{{productPrice.reducePrice}}</text>
+        </view>
+        <view class='product-stock' wx:if="{{stockText}}">{{stockText}}</view>
+      </view>
+      <view class='product-production-date one-line' wx:if="{{productionDate}}">生产日期{{productionDate}}</view>
+    </view>
+    <!-- 右侧流式布局 -->
+    <view class='product-right-side'>
+      <!-- 商品信息 -->
+      <view class='product-main-info'>
+        <text class='ft-30 color-333 two-line'>{{productName}}</text>
+        <!-- 商品价格 -->
+        <view class='product-price-area' style='flex:initial;' wx:if="{{mainPrice&&saleMode!=8}}">
+          <view class='product-promotion-tag' style='margin-right:16rpx;margin-top:2rpx;' wx:if="{{enjoyPromotions.length && enjoyPromotions[0].promotionType != 0}}">{{enjoyPromotions[0].promotionType==3?"促":enjoyPromotions[0].promotionType==4?"秒":enjoyPromotions[0].promotionType==6?"凑":enjoyPromotions[0].promotionType==8?"精":""}}</view>
+          <text class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{mainPrice}}</text> {{priceunit}}</text>
+          <text class='ft-24 color-666 line-through' style='margin-left:24rpx;margin-top:6rpx;' wx:if="{{enjoyPromotions.length&&productPrice.sellPrice}}">¥{{productPrice.sellPrice}}</text>
+          <view class='ft-24 member-price' wx:if="{{userLevelPrices &&userLevelPrices.length}}">
+            <text>{{'￥' + userLevelPrices[userLevelPrices.length -1].userLevelPrice + userLevelPrices[userLevelPrices.length -1].priceUnit}}</text>
+            <text class='member-tag'>{{WxsUtil.substr(userLevelPrices[userLevelPrices.length -1].userLevelName)}}</text>
+          </view>
+        </view>
+        <!-- 包销产品价格显示 -->
+        <view class='product-price-area' wx:if='{{saleMode == 8}}'>
+          <text wx:if='{{underwritingInfo.underwritingState == 2}}' class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{productPrice.minPrice}}~{{productPrice.maxPrice}}</text>
+          <text>{{priceunit}}</text></text>
+          <text wx:else class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{productPrice.price}}</text>
+          <text>{{priceunit}}</text></text>
+        </view>
+        <text class='ft-24 color-E53935' wx:if="{{!mainPrice}}">{{hiddenPriceText}}</text>
+        <!-- 产品标签 -->
+        <view class='product-gift-tag-wrap' style='flex:1;'>
+          <view class='product-global-reduce-tag' style='margin-right:12rpx;' wx:if="{{globalReduceTag}}">{{globalReduceTag.tagDetail}}</view>
+          <view class='product-gift-present-tag' style='margin-right:12rpx;' wx:if="{{giftPresent}}">赠</view>
+          <image class='product-gift-bonus-img' wx:if="{{giftBonus}}" src='/assets/images/ic_liebiao_hongbao@2x.png' />
+        </view>
+
+        <!-- 产品规格 -->
+        <view class='product-spec-wrap product-wrap-column'>
+          <text class='ft-24 color-666 product-wrap-column-spec'>规格 {{specName}}</text>
+          <!-- 产品加减框 没库存，游客，隐藏价格不展示 -->
+          <view class='product-number-frame' catchtap='keepArea' wx:if="{{stockState!=3&&!isVisitor&&mainPrice&&saleMode!=8}}">
+            <view class='product-number-button' catchtap='onSubProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+              <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+            </view>
+            <input class='product-number' catchtap='doNothing' bindblur='onInputProductBuyNum' value='{{productSkuId==productSaleSpecId?buyNum:buyNum*saleSpecQuantity}}' maxlength='5' data-product-sku-id='{{productSkuId}}' />
+            <view class='product-number-button' catchtap='onAddProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+              <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+            </view>
+          </view>
+          <text class='ft-24 color-666' wx:if="{{stockState!=3&&!isVisitor&&mainPrice&&saleMode!=8}}">{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+          <!--独家包销产品-->
+          <view wx:if='{{saleMode==8&&underwritingInfo.underwritingState == 1}}'>
+            <!--独家包销产品通过storeCount判断库存-->
+            <view class='product-number-frame' catchtap='keepArea' wx:if="{{saleMode==8&&storeCount>0}}">
+              <view class='product-number-button' catchtap='onSubProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+                <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+              </view>
+              <input class='product-number' catchtap='doNothing' bindblur='onInputProductBuyNum' value='{{productSkuId==productSaleSpecId?buyNum:buyNum*saleSpecQuantity}}' maxlength='5' data-product-sku-id='{{productSkuId}}' />
+              <view class='product-number-button' catchtap='onAddProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+                <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+              </view>
+            </view>
+            <text class='ft-24 color-666' wx:if="{{saleMode==8&&storeCount>0}}">{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+
+            <view class='product-arrival-notice color-999 ft-26' catchtap='alreadyNotice' wx:if="{{(stockState==3||(saleMode==8&&storeCount==0))&&alreadyArrivalNotice}}">已订阅</view>
+            <view class='product-arrival-notice color-999 ft-26' catchtap='onArrivalNotice' data-product-sku-id='{{productSkuId}}' wx:if="{{(stockState==3||(saleMode==8&&storeCount==0))&&!alreadyArrivalNotice&&!isVisitor}}">到货通知</view>
+          </view>
+          <view wx:if='{{saleMode==8&&underwritingInfo.underwritingState == 2}}'>
+            <view class="underwrite-state-box-btn">包销中</view>
+          </view>
+        </view>
+      </view>
+      <!-- 产品促销提示标签 -->
+       <template is="product-coupon-bonus-tags" data="{{accumulationText,unAccumulationText,bonusText,unBonusText,couponText,unCouponText}}" />
+      <!-- 产品配送方式标签 -->
+      <view class='product-delivery-tag' style='align-self:flex-start;margin-top:16rpx;' wx:if="{{!isFromGather&&!isFromFullReduce&&!isFromCollect}}">{{deliveryMode==0?'易久批配送':deliveryMode==1?'经销商配送':''}}</view>
+      <!-- 标签 -->
+      <view class='product-tags product-tag-column' hidden='{{hiddenTag==true||!showTags.length}}'>
+        <view class='product-tag-wrap' wx:for="{{showTags}}" wx:key="{{item.tagType}}" wx:if="{{item.tagType!=99}}">
+          <block>
+            <image class='product-tag-img' src='/assets/images/ic_xiangou@2x.png' wx:if="{{item.tagType==1}}" />
+            <image class='product-tag-img' src='/assets/images/bigoqian_hongbao@2x.png' wx:if="{{item.tagType==2}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_quan@2x.png' wx:if="{{item.tagType==3}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_bi@2x.png' wx:if="{{item.tagType==4}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_zeng@2x.png' wx:if="{{item.tagType==7}}" />
+            <image class='product-tag-img' src='/assets/images/icon_huiyuanbaioshi@2x.png' wx:if="{{item.tagType==97}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_ziti-@2x.png' wx:if="{{item.tagType==99}}" />
+            <text class='ft-24 color-666 one-line' style='flex:1;'>{{item.tagDetail}}</text>
+          </block>
+        </view>
+        <image class='product-tag-detail-img' src='/assets/images/proinfo_ic_more@2x.png' mode='aspectFit' wx:if="{{showTags.length>=2&&showTags.tagType!=99}}" catchtap="goPromotions" data-tag='{{showTags}}' />
+      </view>
+    </view>
+  </view>
+</template>
+
+<!--商品列表 独家包销产品项-->
+<template name="product-list-underwrite-product">
+  <view class='underwrite-product-box'>
+    <view class='underwrite-product-wrap' catchtap='goToUnderWriteProductDetail' data-product-sku-id='{{productSkuId}}'>
+      <!-- 左侧图片 -->
+      <view class='product-left-side'>
+        <view class='product-img-area'>
+          <image class='product-img' src='{{underwritingInfo.productImgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+          <image class='product-promotion-img-small' src='{{productUnderwritingWatermark}}' mode='aspectFit' wx:if="{{productUnderwritingWatermark}}" />
+        </view>
+      </view>
+      <!-- 右侧流式布局 -->
+      <view class='product-right-side'>
+        <!-- 商品信息 -->
+        <view class='product-main-info' style='height:auto;min-height:192rpx;'>
+          <text class='ft-30 color-333 two-line'>{{underwritingInfo.productName}}</text>
+          <!-- 商品价格 -->
+          <view class='product-price-area'>
+            <text wx:if='{{!underwritingInfo.alreadyUnderwriting&&underwritingInfo.underwritingState == 2}}' class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{productPrice.minPrice}}~{{productPrice.maxPrice}}</text>
+            <text>{{priceunit}}</text></text>
+            <text wx:else class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{productPrice.price}}</text>
+            <text>{{priceunit}}</text></text>
+          </view>
+          <!-- 包销描述 -->
+          <text>{{priceUnit}}</text>
+          <view class='underwrite-product-del ft-24 color-666'>{{underwritingInfo.underwritingDesc}}</view>
+          <!-- 产品规格 -->
+          <view class='product-spec-wrap product-wrap-column'>
+            <text class='ft-24 color-666 product-wrap-column-spec'>规格 {{specName}}</text>
+            <!-- 产品加减框 -->
+            <view class='product-number-frame' catchtap='keepArea' wx:if="{{stockState!=3&&!isVisitor&&underwritingInfo.underwriteCanBuy}}">
+              <view class='product-number-button' catchtap='onSubProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+                <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+              </view>
+              <input class='product-number' catchtap='doNothing' bindblur='onInputProductBuyNum' value='{{productSkuId==productSaleSpecId?buyNum:buyNum*saleSpecQuantity}}' maxlength='5' data-product-sku-id='{{productSkuId}}' />
+              <view class='product-number-button' catchtap='onAddProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+                <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+              </view>
+            </view>
+            <text class='ft-24 color-666' wx:if="{{stockState!=3&&!isVisitor&&underwritingInfo.underwriteCanBuy}}">{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+            <view class="underwrite-state-box-btn" wx:if='{{underwritingInfo.underwritingState == 2 && !underwritingInfo.alreadyUnderwriting}}'>包销中</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- <view class="underwrite-apply-num" wx:if='{{underwritingInfo.applyCount > 0 && underwritingInfo.underwritingState == 1}}'>
+      <text>{{underwritingInfo.applyCount}}人申请中</text>
+    </view> -->
+  </view>
+</template>
+
+<!-- 订单产品预览-多产品  
+****退货单不一样 总金额也不同***
+退货单 types==1-->
+<template name="order-multi-product">
+  <view class='order-multi-product-wrap'>
+    <view class='order-multi-product-scroll'>
+      <view class='order-multi-product-item-wrap' wx:for="{{items}}" wx:key="{{item.product.productSaleSpecId}}">
+        <image class='order-multi-product-item-img' src='{{item.product.imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <view class='ft-26 color-666' wx:if="{{!item.giftProduct}}">
+          <text wx:if="{{item.product.productSkuId == item.product.productSaleSpecId}}">X{{types==1 ? item.returnCount : item.count}}{{item.product.saleUnit}}</text>
+          <text wx:if="{{item.product.productSkuId != item.product.productSaleSpecId}}">X{{types==1 ? item.returnCount*(item.product.saleSpecQuantity || 1) : item.count*(item.product.saleSpecQuantity || 1)}}{{item.product.minUnit}}</text>
+        </view>
+        <text class='ft-26 color-E53935' wx:else>赠品X{{types==1 ? item.returnCount : item.count}}</text>
+      </view>
+    </view>
+    <view class='order-multi-product-num'>共{{totalCount}}
+      <text class='color-999'>></text>
+    </view>
+  </view>
+</template>
+
+<!-- 订单产品预览-单产品
+****退货单不一样 总金额也不同***
+退货单 types==1 -->
+<template name="order-single-product">
+  <view class='order-single-product-wrap'>
+    <image class='order-single-product-img' src='{{items[0].product.imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+    <view class='order-single-product-info'>
+      <text class='ft-30 color-333 two-line'>{{items[0].product.productName}}</text>
+      <view>
+        <block wx:if="{{!items[0].hiddenProduct}}">
+          <text class='ft-24 color-666' style='margin-top:16rpx;' wx:if="{{groupBuyState==1}}">拼购价</text>
+          <text class='ft-24 color-666' style='margin-top:16rpx;'>¥{{items[0].product.price}}{{items[0].product.priceunit}}</text>
+          <text class='ft-24 color-666' style='padding-left:24rpx;text-decoration:line-through;' wx:if="{{items[0].sourceType==5&&item[0].product.sellPrice>item[0].product.price}}">¥{{items[0].product.sellPrice}}{{items[0].product.priceunit}}</text>
+          <text class='reducePrice' wx:if="{{items[0].product.reducePrice}}">立减{{items[0].product.reducePrice}}元</text>
+        </block>
+        <block wx:else>
+          <text class='ft-24 color-666'>¥****{{items[0].product.priceunit}}</text>
+        </block>
+      </view>
+      <text class='ft-24 color-666' style='margin-top:16rpx;' wx:if="{{items[0].product.selfPickUpPrice}}">自提价：¥{{items[0].product.selfPickUpPrice}}{{items[0].product.priceunit}}</text>
+      <view class='order-single-product-spec' style='margin-top:16rpx;'>
+        <text class='ft-24 color-666'>规格 {{items[0].product.specName}}</text>
+        <text class='ft-24 color-666' wx:if="{{items[0].product.productSkuId ==items[0].product.productSaleSpecId}}">X{{types==1 ? items[0].returnCount : items[0].count}}{{items[0].product.saleUnit}}</text>
+        <text class='ft-24 color-666' wx:if="{{items[0].product.productSkuId !=items[0].product.productSaleSpecId}}">X{{types==1 ? items[0].returnCount * (items[0].product.saleSpecQuantity || 1) : items[0].count*(items[0].product.saleSpecQuantity || 1)}}{{items[0].product.minUnit}}</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+<!-- 换货单 -多产品-->
+<template name="swapOrder-multi-product">
+  <view class='order-multi-product-wrap'>
+    <view class='order-multi-product-scroll'>
+      <view class='order-multi-product-item-wrap' wx:for="{{items}}" wx:key="{{item.sourceId}}">
+        <image class='order-multi-product-item-img' src='{{item.productImgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <text class='ft-24 color-666'>X{{item.productSaleSpecQuantity==item.productSpecQuantity?item.count:item.count*item.productSaleSpecQuantity}}{{item.productSellingUnit}}</text>
+      </view>
+    </view>
+    <view class='order-multi-product-num'>共{{totalCount}}
+      <text class='color-999'>></text>
+    </view>
+  </view>
+</template>
+<!-- 换货单 -单产品 -->
+<template name="swapOrder-single-product">
+  <view class='order-single-product-wrap'>
+    <image class='order-single-product-img' src='{{items[0].productImgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+    <view class='order-single-product-info'>
+      <text class='ft-30 color-333 two-line'>{{items[0].productName}}</text>
+      <view class='order-single-product-spec' style='margin-top:16rpx;'>
+        <text class='ft-24 color-666'>规格 {{items[0].productSaleSpecQuantity==items[0].productSpecQuantity?items[0].productSpecName:items[0].productSaleSpecQuantity+items[0].productSellingUnit}}</text>
+      </view>
+      <view class='ft-24 color-666' style='margin:47rpx 0 0 326rpx'>{{swapType==0?"退货商品数量":"换货商品数量"}}：{{items[0].productSaleSpecQuantity==items[0].productSpecQuantity?items[0].count:items[0].count*items[0].productSaleSpecQuantity}}{{items[0].productSellingUnit}}</view>
+    </view>
+  </view>
+</template>
+<!-- 订单产品预览-清单列表- 入口订单提交 -->
+<template name="order-list-product">
+  <view class='order-single-product-wrap order-list-product-wrap'>
+    <image class='order-single-product-img' src='{{imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+    <view class='order-single-product-info'>
+      <text class='ft-30 color-333 two-line'><text class="zengpin-tag" wx:if="{{productPrice.price<=0}}">赠品</text>{{productName}}</text>
+      <!-- 限时惠产品显示参与的活动名称 -->
+      <text wx:if="{{productType == 4}}" class="timelimit-active-title">该产品正在参与「{{sourceDesc}}」活动</text>
+      <view wx:if="{{(!productPrice.gatherOrderPrice || productPrice.gatherOrderPrice==0)&&productPrice.price>0}}">
+        <view class='ft-24 color-666' style='margin-top:16rpx;'>
+          <!-- 限时惠活动商品 价格提示文字为活动价 -->
+          <text wx:if="{{priceDisplayType!=1 && productPrice.price>0}}">{{productType == 4 ? '活动价：' : ''}}￥</text>
+          <text wx:if="{{priceDisplayType==1}}">会员价：￥</text>
+          <text wx:if="{{!hideProduct}}">{{productPrice.price}}</text>
+          <text wx:if="{{hideProduct}}">****</text>
+          <text>元/{{gatherActUnit||priceunit||priceUnit}}</text>
+          <!-- 限时惠产品显示划掉的原价 ，活动价和原价相等时，不需要显示划掉的原价-->
+          <text class='ft-24 color-666' style='padding-left:24rpx;text-decoration:line-through;' wx:if="{{productType == 4 && productPrice.price != productPrice.originalPrice}}">￥{{productPrice.sellPrice}}</text>
+        </view>
+      </view>
+      <view wx:if="{{productPrice.gatherOrderPrice>0&&productPrice.price>0}}">
+        <view class='ft-24 color-666' style='margin-top:16rpx;'>
+          凑单价：￥
+          <text wx:if="{{!hideProduct}}">{{productPrice.gatherOrderPrice}}</text>
+          <text wx:if="{{hideProduct}}">****</text>
+          <text>元/{{gatherActUnit||priceunit||priceUnit}}</text>
+        </view>
+      </view>
+      <view wx:if="{{productPrice.selfPickUpPrice>0&&productPrice.price>0}}">
+        <view class='ft-24 color-666' style='margin-top:16rpx;'>自提价：￥
+          <text wx:if="{{!hideProduct}}">{{productPrice.selfPickUpPrice}}</text>
+          <text wx:if="{{hideProduct}}">****</text> 元/{{gatherActUnit||priceunit||priceUnit}}
+        </view>
+      </view>
+      <view class='order-single-product-spec' style='margin-top:16rpx;'>
+        <text class='ft-24 color-666'>规格 {{specName}}</text>
+        <text class='ft-24 color-666' wx:if="{{productPrice.price<=0}}">{{'X'+buyCount}}{{giftUnit}}</text>
+        <text class='ft-24 color-666' wx:if="{{productPrice.price>0&&productSkuId == productSaleSpecId}}">{{'X'+buyCount}}{{saleUnit}}</text>
+        <text class='ft-24 color-666' wx:if="{{productPrice.price>0&&productSkuId != productSaleSpecId}}">{{'X'+buyCount*saleSpecQuantity}}{{minUnit}}							</text>
+      </view>
+      <!-- 产品促销提示标签 -->
+      <view style='margin-top:0;margin-bottom:16rpx;margin-top:10rpx;;'>
+        <template is="product-coupon-bonus-tags" data="{{accumulationText,unAccumulationText,bonusText,unBonusText,couponText,unCouponText}}" />
+      </view>
+    </view>
+  </view>
+</template>
+<!-- 清单列表 -----换货商品清单 -->
+<template name="order-swapList-product">
+  <view class='order-single-product-wrap order-list-product-wrap' catchtap='goToProductDetail' data-product-sku-id='{{productSkuId}}' data-source-type="{{sourceType}}">
+    <image class='order-single-product-img' src='{{productImgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+    <view class='order-single-product-info'>
+      <text class='ft-30 color-333 two-line'>{{productName}}</text>
+      <view>
+        <text class='ft-30 color-E53935' style='padding-right:4rpx;'>{{productSellPrice}}</text>
+        <text class='ft-24 color-E53935'>元/{{productSellingUnit}}</text>
+      </view>
+      <view class='order-single-product-spec' style='margin-top:8rpx;'>
+        <text class='ft-24 color-666'>规格 {{productSaleSpecQuantity==productSpecQuantity?productSpecName:productSaleSpecQuantity+productSellingUnit}}</text>
+        <text class='ft-24 color-666' style='padding-top:16rpx;'>X{{productSaleSpecQuantity==productSpecQuantity?count:count*productSaleSpecQuantity}}{{productSaleSpecQuantity==productSpecQuantity?productSellingUnit:productPriceUnit}}</text>
+      </view>
+
+    </view>
+  </view>
+</template>
+<!-- 订单产品预览-清单列表- 入口 为 订单详情 productPrice -->
+<template name="orderdetail-list-product">
+  <view class='order-single-product-wrap order-list-product-wrap' catchtap='goToProductDetail' data-product-sku-id='{{productSkuId}}' data-source-type="{{sourceType}}" data-near-expire-id="{{sourceId}}">
+    <view class='order-single-product-img' style='position:relative'>
+      <image style='width:100%;height:100%;' src='{{imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+      <view class='product-reduce' wx:if="{{reducePrice}}">
+        <text class='ft-16 color-FFF'>立减</text>
+        <text class='ft-24 color-FFF'>{{reducePrice}}</text>
+      </view>
+    </view>
+
+    <view class='order-single-product-info'>
+      <text class='ft-30 color-333 two-line'>
+           <text class="zengpin-tag" wx:if="{{!price}}">赠品</text>{{productName}}
+      </text>
+      <view wx:if="{{price>0}}">
+        <view class='ft-24 color-E53935' style='margin-top:16rpx;'>
+          <text wx:if="{{priceDisplayType==1}}">会员价：￥</text>
+          <text wx:if="{{!item.hiddenProduct}}">￥<text class='ft-36'>{{price}}</text></text>
+          <text wx:if="{{item.hiddenProduct}}">￥****</text>
+          <text>{{priceunit || priceUnit}}</text>
+        </view>
+      </view>
+      <view wx:if="{{selfPickUpPrice>0}}">
+        <view class='ft-24 color-666' style='margin-top:16rpx;'>自提价：￥
+          <text wx:if="{{!item.hiddenProduct}}">{{selfPickUpPrice}}</text>
+          <text wx:if="{{item.hiddenProduct}}">****</text> {{priceunit || priceUnit}}
+        </view>
+      </view>
+      <view class='{{returnCount?"order-single-product-spec":"orderReturnStyle"}}' style='margin-top:16rpx;'>
+        <text class='ft-24 color-666' style='{{returnCount?"padding-bottom:16rpx":""}}'>规格 {{specName}}</text>
+        <text class='ft-24 color-666' wx:if="{{!price}}">{{returnCount?"退货数量：":"X"}}{{count || returnCount}}</text>
+        <text class='ft-24 color-666' wx:if="{{price && productSkuId === productSaleSpecId}}"> {{returnCount?"退货数量：":"X"}}{{count || returnCount}}{{saleUnit}}</text>
+        <text class='ft-24 color-666' wx:if="{{price && productSkuId != productSaleSpecId}}">{{returnCount?"退货数量：":"X"}}{{(count || returnCount)}}{{minUnit}}</text>
+      </view>
+      <view class='order-single-product-spec ft-24 color-666' style='margin-top:16rpx;' wx:if="{{giftSourceDesc}}">{{giftSourceDesc}} </view>
+      <view style='margin-top:0;margin-bottom:16rpx;margin-top:10rpx;' wx:if="{{sourceType!=10 && sourceType!=14}}">
+         <template is="product-coupon-bonus-tags" data="{{accumulationText,unAccumulationText,bonusText,unBonusText,couponText,unCouponText}}" />
+      </view>
+    </view>
+  </view>
+</template>
+
+<!-- 购物车产品 -->
+<template name="shop-cart-product">
+  <view class='shop-cart-product-wrap' catchtap='goToProductDetail' data-shop-cart-id='{{shopCartId}}' style='{{gatherCount?"":"border-bottom:2rpx solid rgba(0,0,0,0.1);"}}' id='product-{{shopCartId}}'>
+    <view class='shop-cart-product-main'>
+      <!-- 选择按钮 -->
+      <view class='shop-cart-product-select-img-area' catchtap='onTap' data-tag='productSelect' data-shop-cart-id='{{shopCartId}}'>
+        <image class='shop-cart-product-select-img' src='{{select?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' mode='aspectFit' />
+      </view>
+      <!-- 产品图片 -->
+      <view class='shop-cart-product-img-date'>
+        <view class='shop-cart-product-img-area' style='{{canSelect?"":"opacity:0.4;"}}'>
+          <image class='shop-cart-product-img' src='{{imgUrl||"/assets/images/defaul_product.png"}}' />
+          <text class='shop-cart-product-stock-text ft-20 color-FFF' wx:if="{{stockText}}">{{stockText}}</text>
+          <image class='{{saleMode==8?"shop-cart-product-corner-img-small":""}} shop-cart-product-corner-img' src='{{cornerImgUrl}}' wx:if="{{showCornerImg}}" />
+        </view>
+        <view class='product-production-date one-line' wx:if="{{productionDate}}">{{productionDate}}</view>
+      </view>
+      <!-- 产品右侧流式布局 -->
+      <view class='shop-cart-product-detail'>
+        <!-- 产品名称 -->
+        <text class='ft-30 color-333 two-line' style='margin-bottom:16rpx;'>{{productName}}</text>
+        <!-- 产品参与的活动 -->
+        <text class='ft-24 color-E53935' wx:if="{{sourceDesc}}" style='margin-bottom:16rpx;'>该产品正在参与「{{sourceDesc}}」活动</text>
+        <!-- 产品价格 -->
+        <!-- 经销商商品 -->
+        <block wx:if="{{saleMode==6}}">
+          <view class='shop-cart-product-price' style='margin-bottom:16rpx;'>
+            <text class='ft-24 color-E53935'>¥</text>
+            <block wx:if="{{productPrice.price}}">
+              <text class='ft-36 color-E53935' style='line-height:36rpx;'>{{WxsUtil.toFixed(productPrice.price,2)}}</text>
+              <text class='ft-24 color-E53935'>{{priceunit}}</text>
+            </block>
+            <block wx:if="{{!productPrice.price&&productPrice.intervalPrice}}">
+              <text class='ft-36 color-E53935' style='line-height:36rpx;'>{{productPrice.intervalPrice}}</text>
+            </block>
+            <text class='ft-24 color-666' style='margin-left:16rpx;' wx:if="{{productPrice.lastBuyPrice&&!productPrice.price}}">上次进货价 ¥{{productPrice.lastBuyPrice}}{{priceunit}}</text>
+          </view>
+        </block>
+        <!-- 普通商品 -->
+        <block wx:else>
+          <view class='shop-cart-product-price' style='margin-bottom:16rpx;' wx:if="{{productPrice.price}}">
+            <text class='ft-24 color-666' wx:if="{{productPrice.priceDisplayType==2}}">凑单价</text>
+            <text class='ft-24 color-E53935'>¥</text>
+            <text class='ft-36 color-E53935' style='line-height:36rpx;'>{{WxsUtil.toFixed(productPrice.priceDisplayType==2?productPrice.gatherOrderPrice:productPrice.price,2)}}</text>
+            <text class='ft-24 color-E53935'>{{priceunit}}</text>
+            <!--组合商品划掉原价， 限时惠产品显示划掉的原价 ，活动价和原价相等时，不需要显示划掉的原价-->
+            <text class='ft-24 color-666 line-through' style='margin-left:48rpx;' wx:if="{{productPrice.priceDisplayType!=2&&(productType==2 || productType==4 )&& productPrice.price != productPrice.sellPrice}}">¥{{productPrice.sellPrice}}</text>
+            <!-- 凑单价划掉原价 -->
+            <text class='ft-24 color-666 line-through' style='margin-left:48rpx;' wx:if="{{productPrice.priceDisplayType==2}}">¥{{productPrice.price}}</text> </view>
+          <view class='shop-cart-product-price ft-24 color-E53935' style='margin-bottom:16rpx;' wx:else>{{hiddenPriceText}}</view>
+        </block>
+        <!-- 产品优惠标签 -->
+        <view class='shop-cart-product-reduce-tags' style='margin-bottom:16rpx;' wx:if="{{productPrice.joinAfterReduceAmount||productPrice.reducePrice||productPrice.selfPickUpReduceAmount}}">
+          <view class='shop-cart-product-reduce-tag' wx:if="{{productPrice.joinAfterReduceAmount}}">比加入时降{{productPrice.joinAfterReduceAmount}}元</view>
+          <view class='shop-cart-product-reduce-tag' wx:if="{{productPrice.reducePrice}}">立减{{productPrice.reducePrice}}元</view>
+          <view class='shop-cart-product-reduce-tag' wx:if="{{productPrice.selfPickUpReduceAmount&&canSelfPickUp}}">自提省{{productPrice.selfPickUpReduceAmount}}元</view>
+        </view>
+        <!-- 产品规格，加减框 -->
+        <view class='shop-cart-product-edit-column' style='margin-bottom:16rpx;'>
+          <text class='ft-24 color-666 shop-cart-product-edit-column-spec'>规格 {{specName}}</text>
+          <!-- 产品加减框 -->
+          <view class='product-number-frame' catchtap='keepArea' wx:if="{{productPrice.price}}">
+            <view class='product-number-button' catchtap='onSubShopCartBuyNum' data-shop-cart-id='{{shopCartId}}'>
+              <image class='product-number-img' style='{{buyCount<=minBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+            </view>
+            <input class='product-number' catchtap='doNothing' bindblur='onInputShopCartBuyNum' value='{{productSkuId==productSaleSpecId?buyCount:buyCount*saleSpecQuantity}}' maxlength='5' data-shop-cart-id='{{shopCartId}}' disabled='{{!canSelect}}' />
+            <view class='product-number-button' catchtap='onAddShopCartBuyNum' data-shop-cart-id='{{shopCartId}}'>
+              <image class='product-number-img' style='{{buyCount>=maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+            </view>
+          </view>
+          <text class='ft-24 color-666' wx:if="{{productPrice.price}}">{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+        </view>
+        <!-- 产品购买限制 -->
+        <text class='ft-20 color-E53935' style='text-align:right;margin-bottom:16rpx;margin-right:24rpx;' wx:if="{{cantSelectReason}}">{{cantSelectReason}}</text>
+        <!-- 起购限购 -->
+        <view class='shop-cart-product-limit' style='margin-bottom:16rpx;' wx:if="{{hasMinBuy||limitBuyTag||spendWineScore}}">
+          <text class='ft-24 color-999' style='margin-right:8rpx;' wx:if="{{hasMinBuy}}">起购{{productSkuId==productSaleSpecId?minBuyNum:minBuyNum*saleSpecQuantity}}{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+          <text class='ft-24 color-999' style='margin-right:8rpx;' wx:if="{{limitBuyTag}}">限购{{productSkuId==productSaleSpecId?maxBuyNum:maxBuyNum*saleSpecQuantity}}{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+          <text class='ft-24 color-999' style='margin-right:8rpx;' wx:if="{{spendWineScore}}">消耗酒币{{spendWineScore*buyCount}}个</text>
+        </view>
+        <!-- 产品促销提示标签 -->
+        <view style='margin-top:0;margin-bottom:16rpx;'>
+           <template is="product-coupon-bonus-tags" data="{{accumulationText,unAccumulationText,bonusText,unBonusText,couponText,unCouponText}}" />
+        </view>
+      </view>
+    </view>
+    <!-- 产品凑单信息 -->
+    <view class='shop-cart-product-gather-info' wx:if="{{gatherCount}}">
+      <view class='gather-tag'>凑单</view>
+      <text class='ft-24 color-666'>{{gatherCount}}{{saleUnit}}已享受凑单价<text class='ft-24 color-666' wx:if="{{buyCount>storeCount?storeCount:buyCount-gatherCount>0}}">，另外{{buyCount>storeCount?storeCount:buyCount-gatherCount}}{{saleUnit}}继续去凑单或者按原价购买。</text></text>
+    </view>
+  </view>
+</template>
+
+
+<!-- 独家包销商品列表的产品项 -->
+<template name="underwrite-list-product">
+  <view class='underwrite-product-box'>
+    <view class='underwrite-product-wrap' catchtap='goToUnderWriteProductDetail' data-product-sku-id='{{productSkuId}}' data-product-contractState='{{contractState}}' data-product='{{product}}'>
+      <!-- 左侧图片 -->
+      <view class='product-left-side'>
+        <view class='product-img-area'>
+          <image class='product-img' src='{{productImgUrl}}' mode='aspectFit' />
+          <image class='product-promotion-img-small' src='{{productUnderwritingWatermark}}' mode='aspectFit' />
+        </view>
+      </view>
+      <!-- 右侧流式布局 -->
+      <view class='product-right-side'>
+        <!-- 商品信息 -->
+        <view class='product-main-info' style='height:auto;min-height:192rpx;'>
+          <text class='ft-28 color-333 two-line'>{{productName}}</text>
+          <!-- 批价 -->
+          <view wx:if='{{contractState == undefined &&!callSource && (underwritingState==1)}}' class='product-price ft-24 product-price-pj'>
+            批价
+            <text class='ft-36 color-E53935'>{{sellingPrice}}</text>
+            <text class='color-E53935'> {{priceUnit}}</text>
+          </view>
+          <!-- 包销价格 -->
+          <view class='product-price-area'>
+            <text wx:if='{{contractState == undefined}}' class='product-price ft-24'>包销价<text class='ft-36 color-E53935'>{{minPrice}}~{{maxPrice}}</text>
+            <text class='color-E53935'>{{priceUnit}}</text></text>
+            <text wx:if='{{contractState != undefined}}' class='product-price ft-24 color-E53935'><text class='ft-36 color-E53935'>{{price}}</text>
+            <text class='color-E53935'>{{priceUnit}}</text></text>
+          </view>
+          <!-- 包销描述 -->
+          <view class='underwrite-product-del ft-24 color-666'>{{underwritingDesc}}</view>
+          <!-- 产品规格 -->
+          <view class='product-spec-wrap product-wrap-column'>
+            <text class='ft-24 color-666 product-wrap-column-spec'>规格 {{productSpecName}}</text>
+            <!--包销产品列表-->
+            <view wx:if='{{contractState == undefined&&!callSource}}'>
+              <!-- 产品加减框 -->
+              <view class='product-number-frame' catchtap='keepArea' wx:if='{{underwritingState==1}}'>
+                <view class='product-number-button' catchtap='reduceNum' data-item='{{product}}' data-idx='{{idx}}' data-list-name='{{listName}}'>
+                  <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+                </view>
+                <input class='product-number' catchtap='doNothing' bindblur='inputNum' value='{{buyNum}}' maxlength='5' data-item='{{product}}' data-idx='{{idx}}' data-list-name='{{listName}}' />
+                <view class='product-number-button' catchtap='addNum' data-item='{{product}}' data-idx='{{idx}}' data-list-name='{{listName}}'>
+                  <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+                </view>
+              </view>
+              <text class='ft-26 color-666' wx:if='{{underwritingState==1}}'>{{product.saleUnit}}</text>
+            </view>
+            <!--我的包销列表-->
+            <!-- 产品加减框 -->
+            <view class='product-number-frame' catchtap='keepArea' wx:if='{{contractState != undefined}}'>
+              <view class='product-number-button' catchtap='onSubUnderwriteBuyNum' data-product='{{product}}' data-idx='{{idx}}' data-list='{{list}}'>
+                <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+              </view>
+              <input class='product-number' catchtap='doNothing' bindblur='onInputUnderwriteBuyNum' value='{{buyNum}}' maxlength='5' data-product='{{product}}' data-idx='{{idx}}' data-list='{{list}}' />
+              <view class='product-number-button' catchtap='onAddUnderwriteBuyNum' data-product='{{product}}' data-idx='{{idx}}' data-list='{{list}}'>
+                <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+              </view>
+            </view>
+            <text class='ft-24 color-666' wx:if='{{contractState != undefined}}'>{{saleUnit}}</text>
+            <view class='product-arrival-notice color-999 ft-26' catchtap='alreadyNotice' wx:if="{{stockState==3&&alreadyArrivalNotice}}">包销申请</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="underwrite-apply-num" wx:if='{{applyCount > 0 && underwritingState == 1}}'>
+      <text>{{applyCount}}人申请中</text>
+    </view>
+    <!--预售购买，申请包销按钮-->
+    <view class='underwrite-column-btn' wx:if='{{contractState == undefined&&!callSource}}'>
+      <!-- 预售购买 -->
+      <view wx:if='{{underwritingState==1}}'>
+        <view class="underwrite-buy-box-btn" catchtap='goToUnderwriteOrderSubmit' data-item='{{product}}'>普通购买</view>
+      </view>
+      <!-- 被包销 -->
+      <view wx:if='{{alreadyUnderwriting}}'>
+        <view class='underwrite-state-box-btn {{canApply?"uwsbb-active":""}}' catchtap='applyUnderwrite' data-product='{{product}}' wx:if='{{underwritingState == 1}}'>{{canApply ? '包销申请' : '申请中'}}</view>
+        <view class="underwrite-state-box-btn" wx:if='{{underwritingState == 2}}'>包销中</view>
+      </view>
+      <!-- 还没有被包销 -->
+      <view wx:if='{{!alreadyUnderwriting}}'>
+        <view wx:if='{{underwritingState == 2}}' class="underwrite-state-box-btn">
+          包销中
+        </view>
+        <view wx:if='{{underwritingState == 1}}' catchtap='applyUnderwrite' data-product='{{product}}' class='underwrite-state-box-btn {{canApply?"uwsbb-active":""}}'>
+          {{canApply ? '包销申请' : '申请中'}}
+        </view>
+      </view>
+    </view>
+
+  </view>
+</template>
+
+<!-- 经销商店铺产品 -->
+<template name="dealer-shop-product">
+  <view class='normal-product-wrap' catchtap='goToProductDetail' data-product-sku-id='{{productSkuId}}'>
+    <!-- 左侧图片，生产日期 -->
+    <view class='product-left-side'>
+      <view class='product-img-area'>
+        <image class='product-img' src='{{imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <image class='product-promotion-img' src='{{globalReduceWatermark}}' wx:if="{{globalReduceWatermark}}" />
+        <image class='product-promotion-img' src='{{!globalReduceWatermark&&enjoyPromotions[0].promotionWatermark}}' wx:if="{{enjoyPromotions.length}}" />
+        <view class='product-reduce' wx:if="{{productPrice.reducePrice}}">
+          <text class='ft-16 color-FFF'>立减</text>
+          <text class='ft-24 color-FFF'>{{productPrice.reducePrice}}</text>
+        </view>
+        <view class='product-stock' wx:if="{{stockText}}">{{stockText}}</view>
+      </view>
+      <view class='product-production-date one-line' wx:if="{{productionDate}}">生产日期{{productionDate}}</view>
+    </view>
+    <!-- 右侧流式布局 -->
+    <view class='product-right-side'>
+      <!-- 商品信息 -->
+      <view class='product-main-info'>
+        <text class='ft-30 color-333 two-line'>{{productName}}</text>
+        <!-- 商品价格 -->
+        <view class='product-price-area' style='flex:initial;'>
+          <view class='product-promotion-tag' style='margin-right:16rpx;margin-top:2rpx;' wx:if="{{enjoyPromotions.length}}">{{enjoyPromotions[0].promotionType==3?"促":enjoyPromotions[0].promotionType==4?"秒":enjoyPromotions[0].promotionType==6?"凑":enjoyPromotions[0].promotionType==8?"精":""}}</view>
+          <text class='product-price ft-24 color-E53935'>¥ <text class='ft-36 color-E53935'>{{productPrice.price||productPrice.intervalPrice}}</text>
+          <text wx:if="{{productPrice.price}}"> / {{priceunit}}</text>
+          </text>
+          <text class='ft-24 color-666 line-through' style='margin-left:24rpx;margin-top:6rpx;' wx:if="{{enjoyPromotions.length&&productPrice.sellPrice}}">¥{{productPrice.sellPrice}}</text>
+          <view class='ft-24 member-price' wx:if="{{userLevelPrices &&userLevelPrices.length}}">
+            <text>{{'￥' + userLevelPrices[userLevelPrices.length -1].userLevelPrice + userLevelPrices[userLevelPrices.length -1].priceUnit}}</text>
+            <text class='member-tag'>{{WxsUtil.substr(userLevelPrices[userLevelPrices.length -1].userLevelName)}}</text>
+          </view>
+        </view>
+        <text class='ft-24 color-E53935' wx:if="{{!mainPrice}}">{{hiddenPriceText}}</text>
+        <!-- 产品标签 -->
+        <view class='product-gift-tag-wrap' style='flex:1;'>
+          <view class='product-global-reduce-tag' style='margin-right:12rpx;' wx:if="{{globalReduceTag}}">{{globalReduceTag.tagDetail}}</view>
+          <view class='product-gift-present-tag' style='margin-right:12rpx;' wx:if="{{giftPresent}}">赠</view>
+          <image class='product-gift-bonus-img' wx:if="{{giftBonus}}" src='/assets/images/ic_liebiao_hongbao@2x.png' />
+        </view>
+        <!-- 经销商店铺优惠券 -->
+        <view class='product-gift-tag-wrap' style='flex:1;'>
+          <view class='product-global-reduce-tag' style='margin-right:12rpx;' wx:if="{{shopCouponTag}}">{{shopCouponTag.tagItemDetails[0].tagDesc}}</view>
+        </view>
+        <!-- 产品规格 -->
+        <view class='product-spec-wrap product-wrap-column'>
+          <text class='ft-24 color-666 product-wrap-column-spec'>规格 {{specName}}</text>
+          <!-- 产品加减框 没库存，游客，申请进货不展示-->
+          <view class='product-number-frame' catchtap='keepArea' wx:if="{{stockState!=3&&!isVisitor&&productPrice.price}}">
+            <view class='product-number-button' catchtap='onSubProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+              <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+            </view>
+            <input class='product-number' catchtap='doNothing' bindblur='onInputProductBuyNum' value='{{productSkuId==productSaleSpecId?buyNum:buyNum*saleSpecQuantity}}' maxlength='5' data-product-sku-id='{{productSkuId}}' />
+            <view class='product-number-button' catchtap='onAddProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+              <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+            </view>
+          </view>
+          <text class='ft-24 color-666' wx:if="{{stockState!=3&&!isVisitor&&productPrice.price}}">{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+          <view class='product-apply-buy-notice color-FFF ft-28' catchtap='onApplyBuy' data-product-sku-id='{{productSkuId}}' data-shop-id='{{shopId}}' wx:if="{{!isVisitor&&!productPrice.price&&stockState!=3}}">申请进货</view>
+        </view>
+      </view>
+      <!-- 配送方式,满减标签 -->
+      <view class='product-info-tag' hidden='{{isFromCollect}}'>
+        <view class='product-delivery-tag'>{{deliveryMode==0?'易久批配送':deliveryMode==1?'经销商配送':''}}</view>
+      </view>
+      <!-- 标签 -->
+      <view class='product-tags product-tag-column' hidden='{{hiddenTag==true||!showTags.length}}'>
+        <view class='product-tag-wrap' wx:for="{{showTags}}" wx:key="{{item.tagType}}" wx:if="{{item.tagType!=99}}">
+          <block>
+            <image class='product-tag-img' src='/assets/images/ic_xiangou@2x.png' wx:if="{{item.tagType==1}}" />
+            <image class='product-tag-img' src='/assets/images/bigoqian_hongbao@2x.png' wx:if="{{item.tagType==2}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_quan@2x.png' wx:if="{{item.tagType==3}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_bi@2x.png' wx:if="{{item.tagType==4}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_zeng@2x.png' wx:if="{{item.tagType==7}}" />
+            <image class='product-tag-img' src='/assets/images/icon_huiyuanbaioshi@2x.png' wx:if="{{item.tagType==97}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_ziti-@2x.png' wx:if="{{item.tagType==99}}" />
+            <text class='ft-24 color-666 one-line' style='flex:1;'>{{item.tagDetail}}</text>
+          </block>
+        </view>
+        <image class='product-tag-detail-img' src='/assets/images/proinfo_ic_more@2x.png' mode='aspectFit' wx:if="{{showTags.length>=2&&showTags.tagType!=99}}" catchtap="goPromotions" data-tag='{{showTags}}' />
+      </view>
+    </view>
+  </view>
+</template>
+
+
+<!-- 产品促销标签部分（优惠券，红包，累计） -->
+<template name="product-coupon-bonus-tags">
+  <view class='product-display-tags' wx:if="{{accumulationText||unAccumulationText||bonusText||unBonusText||couponText||unCouponText}}">
+    <image class='product-display-tag-img' src='{{accumulationText?"/assets/images/icon_gou@2x.png":"/assets/images/ic2_tip_left_icon.png"}}' mode='aspectFit' wx:if="{{accumulationText||unAccumulationText}}" />
+    <text class='ft-22 color-999' style='margin-right:24rpx;margin-left:8rpx;' wx:if="{{accumulationText||unAccumulationText}}">{{accumulationText?accumulationText:unAccumulationText}}</text>
+    <image class='product-display-tag-img' src='{{bonusText?"/assets/images/icon_gou@2x.png":"/assets/images/ic2_tip_left_icon.png"}}' mode='aspectFit' wx:if="{{bonusText||unBonusText}}" />
+    <text class='ft-22 color-999' style='margin-right:24rpx;margin-left:8rpx;' wx:if="{{bonusText||unBonusText}}">{{bonusText?bonusText:unBonusText}}</text>
+    <image class='product-display-tag-img' src='{{couponText?"/assets/images/icon_gou@2x.png":"/assets/images/ic2_tip_left_icon.png"}}' mode='aspectFit' wx:if="{{couponText||unCouponText}}" />
+    <text class='ft-22 color-999' style='margin-right:24rpx;margin-left:8rpx;' wx:if="{{couponText||unCouponText}}">{{couponText?couponText:unCouponText}}</text>
+  </view>
+</template>
+
+
+<!-- 二级主页列表的产品项 -->
+<template name="second-home-page-product-list-product">
+  <view class='normal-product-wrap' catchtap='goToProductDetail' data-product-sku-id='{{productSkuId}}'>
+    <!-- 左侧图片，生产日期 -->
+    <view class='product-left-side'>
+      <view class='product-img-area'>
+        <image class='product-img' src='{{imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <image class='product-promotion-img' src='{{globalReduceWatermark}}' wx:if="{{globalReduceWatermark}}" />
+        <image class='product-promotion-img-small' src='{{productUnderwritingWatermark}}' mode='aspectFit' wx:if="{{!globalReduceWatermark&&productUnderwritingWatermark&&saleMode==8}}" />
+        <image class='product-promotion-img' src='{{!globalReduceWatermark&&saleMode!=8&&enjoyPromotions[0].promotionWatermark}}' wx:if="{{enjoyPromotions.length}}" />
+        <view class='product-reduce' wx:if="{{productPrice.reducePrice}}">
+          <text class='ft-16 color-FFF'>立减</text>
+          <text class='ft-24 color-FFF'>{{productPrice.reducePrice}}</text>
+        </view>
+        <view class='product-stock' wx:if="{{stockText}}">{{stockText}}</view>
+      </view>
+      <view class='product-production-date one-line' wx:if="{{productionDate}}">生产日期{{productionDate}}</view>
+    </view>
+    <!-- 右侧流式布局 -->
+    <view class='product-right-side'>
+      <!-- 商品信息 -->
+      <view class='product-main-info'>
+        <text class='ft-30 color-333 two-line'>{{productName}}</text>
+        <!-- 商品价格 -->
+        <view class='product-price-area' style='flex:initial;' wx:if="{{mainPrice&&saleMode!=8}}">
+          <view class='product-promotion-tag' style='margin-right:16rpx;margin-top:2rpx;' wx:if="{{enjoyPromotions.length}}">{{enjoyPromotions[0].promotionType==3?"促":enjoyPromotions[0].promotionType==4?"秒":enjoyPromotions[0].promotionType==6?"凑":enjoyPromotions[0].promotionType==8?"精":""}}</view>
+          <text class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{mainPrice}}</text> {{priceunit}}</text>
+          <text class='ft-24 color-666 line-through' style='margin-left:24rpx;margin-top:6rpx;' wx:if="{{enjoyPromotions.length&&productPrice.sellPrice}}">¥{{productPrice.sellPrice}}</text>
+          <view class='ft-24 member-price' wx:if="{{userLevelPrices &&userLevelPrices.length}}">
+            <text>{{'￥' + userLevelPrices[userLevelPrices.length -1].userLevelPrice + userLevelPrices[userLevelPrices.length -1].priceUnit}}</text>
+            <text class='member-tag'>{{WxsUtil.substr(userLevelPrices[userLevelPrices.length -1].userLevelName)}}</text>
+          </view>
+        </view>
+        <!-- 包销产品价格显示 -->
+        <view class='product-price-area' wx:if='{{saleMode == 8}}'>
+          <text wx:if='{{underwritingInfo.underwritingState == 2}}' class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{productPrice.minPrice}}~{{productPrice.maxPrice}}</text>
+          <text>{{priceunit}}</text></text>
+          <text wx:else class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{productPrice.price}}</text>
+          <text>{{priceunit}}</text></text>
+        </view>
+        <text class='ft-24 color-E53935' wx:if="{{!mainPrice}}">{{hiddenPriceText}}</text>
+        <!-- 产品标签 -->
+        <view class='product-gift-tag-wrap' style='flex:1;'>
+          <view class='product-global-reduce-tag' style='margin-right:12rpx;' wx:if="{{globalReduceTag}}">{{globalReduceTag.tagDetail}}</view>
+          <view class='product-gift-present-tag' style='margin-right:12rpx;' wx:if="{{giftPresent}}">赠</view>
+          <image class='product-gift-bonus-img' wx:if="{{giftBonus}}" src='/assets/images/ic_liebiao_hongbao@2x.png' />
+        </view>
+
+        <!-- 产品规格 -->
+        <view class='product-spec-wrap product-wrap-column'>
+          <text class='ft-24 color-666 product-wrap-column-spec'>规格 {{specName}}</text>
+          <!-- 产品加减框 没库存，游客，隐藏价格不展示 -->
+          <view class='product-number-frame' catchtap='keepArea' wx:if="{{stockState!=3&&!isVisitor&&mainPrice&&saleMode!=8}}">
+            <view class='product-number-button' catchtap='onSubProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+              <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+            </view>
+            <input class='product-number' catchtap='doNothing' bindblur='onInputProductBuyNum' value='{{productSkuId==productSaleSpecId?buyNum:buyNum*saleSpecQuantity}}' maxlength='5' data-product-sku-id='{{productSkuId}}' />
+            <view class='product-number-button' catchtap='onAddProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+              <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+            </view>
+          </view>
+          <text class='ft-24 color-666' wx:if="{{stockState!=3&&!isVisitor&&mainPrice&&saleMode!=8}}">{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+          <!--独家包销产品-->
+          <view wx:if='{{saleMode==8&&underwritingInfo.underwritingState == 1}}'>
+            <!--独家包销产品通过storeCount判断库存-->
+            <view class='product-number-frame' catchtap='keepArea' wx:if="{{saleMode==8&&storeCount>0}}">
+              <view class='product-number-button' catchtap='onSubProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+                <image class='product-number-img' style='{{buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+              </view>
+              <input class='product-number' catchtap='doNothing' bindblur='onInputProductBuyNum' value='{{productSkuId==productSaleSpecId?buyNum:buyNum*saleSpecQuantity}}' maxlength='5' data-product-sku-id='{{productSkuId}}' />
+              <view class='product-number-button' catchtap='onAddProductBuyNum' data-product-sku-id='{{productSkuId}}'>
+                <image class='product-number-img' style='{{buyNum==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+              </view>
+            </view>
+            <text class='ft-24 color-666' wx:if="{{saleMode==8&&storeCount>0}}">{{productSkuId==productSaleSpecId?saleUnit:minUnit}}</text>
+
+            <view class='product-arrival-notice color-999 ft-26' catchtap='alreadyNotice' wx:if="{{(stockState==3||(saleMode==8&&storeCount==0))&&alreadyArrivalNotice}}">已订阅</view>
+            <view class='product-arrival-notice color-999 ft-26' catchtap='onArrivalNotice' data-product-sku-id='{{productSkuId}}' wx:if="{{(stockState==3||(saleMode==8&&storeCount==0))&&!alreadyArrivalNotice&&!isVisitor}}">到货通知</view>
+          </view>
+          <view wx:if='{{saleMode==8&&underwritingInfo.underwritingState == 2}}'>
+            <view class="underwrite-state-box-btn">包销中</view>
+          </view>
+        </view>
+      </view>
+      <!-- 产品促销提示标签 -->
+      <template is="product-coupon-bonus-tags" data="{{accumulationText,unAccumulationText,bonusText,unBonusText,couponText,unCouponText}}" />
+      <!-- 标签 -->
+      <view class='product-tags product-tag-column' hidden='{{hiddenTag==true||!showTags.length}}'>
+        <view class='product-tag-wrap' wx:for="{{showTags}}" wx:key="{{item.tagType}}" wx:if="{{item.tagType!=99}}">
+          <block>
+            <image class='product-tag-img' src='/assets/images/ic_xiangou@2x.png' wx:if="{{item.tagType==1}}" />
+            <image class='product-tag-img' src='/assets/images/bigoqian_hongbao@2x.png' wx:if="{{item.tagType==2}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_quan@2x.png' wx:if="{{item.tagType==3}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_bi@2x.png' wx:if="{{item.tagType==4}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_zeng@2x.png' wx:if="{{item.tagType==7}}" />
+            <image class='product-tag-img' src='/assets/images/icon_huiyuanbaioshi@2x.png' wx:if="{{item.tagType==97}}" />
+            <image class='product-tag-img' src='/assets/images/biaoqian_ziti-@2x.png' wx:if="{{item.tagType==99}}" />
+            <text class='ft-24 color-666 one-line' style='flex:1;'>{{item.tagDetail}}</text>
+          </block>
+        </view>
+        <image class='product-tag-detail-img' src='/assets/images/proinfo_ic_more@2x.png' mode='aspectFit' wx:if="{{showTags.length>=2&&showTags.tagType!=99}}" catchtap="goPromotions" data-tag='{{showTags}}' />
+      </view>
+    </view>
+  </view>
+</template>

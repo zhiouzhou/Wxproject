@@ -1,0 +1,15 @@
+<template name='cancelOrder'>
+  <view class='cancel-order-wrap'>
+    <text class='ft-28 color-333' style='margin:16rpx 24rpx;'>请选择取消订单原因</text>
+    <view class='cancel-order-resons-wrap'>
+      <view class='cancel-order-reson' wx:for="{{cancelReasons}}" wx:key="{{item.key}}" catchtap='onSelectCancelReason' data-key='{{item.key}}'>
+        <image class='cancel-order-reson-img' src='{{item.select?"/assets/images/zhifufangshi_xuanze_icon@2x.png":"/assets/images/icon_weixuan@2x.png"}}' />
+        <text class='ft-24 color-666'>{{item.reason}}</text>
+      </view>
+    </view>
+    <view class='cancel-order-button-wrap'>
+      <view class='cancel-order-cancel-button' catchtap='onCancelCancelOrder'>取消</view>
+      <view class='cancel-order-confirm-button' catchtap='onConfirmCancelOrder' data-order-n-o='{{orderNO}}'>确定</view>
+    </view>
+  </view>
+</template>

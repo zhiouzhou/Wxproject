@@ -1,0 +1,35 @@
+/* pages/user/myOddBalance/oddBalanceDetail.wxss */
+
+page {
+  background: #f2f2f2;
+  position: relative;
+}
+
+.balanceList {
+  background-color: #fff;
+  padding: 32rpx 24rpx;
+  border-bottom: 1rpx solid #e2e2e2;
+}
+
+.state {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.time {
+  color: #999;
+  font-size: 24rpx;
+  padding-top: 16rpx;
+}
+
+.noContent {
+  margin-top: 336rpx;
+  text-align: center;
+}
+
+.gantan {
+  width: 152rpx;
+  height: 152rpx;
+  margin-bottom:48rpx;
+}

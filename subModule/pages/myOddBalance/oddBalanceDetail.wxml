@@ -1,0 +1,16 @@
+<!--pages/user/myOddBalance/oddBalanceDetail.wxml-->
+<import src="/components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<view class='noContent' wx:if="{{balanceDetailArr.length==0&&!initing}}">
+  <image src='/assets/images/gantan_icon@2x.png' class='gantan'></image>
+  <view style='color:#666;font-size:32rpx;'>暂无零头结余明细</view>
+</view>
+<scroll-view scroll-y bindscrolltolower='lower' style='height:{{windowHeight}}rpx;' lower-threshold="4" wx:else>
+  <view class='balanceList' wx:for="{{balanceDetailArr}}" wx:for-item="item" catchtap='skip' data-order-n-o='{{item.orderNo}}'>
+    <view class='state'>
+      <text style="color:#333;font-size:28rpx;">{{item.eventType==0?"下单":item.eventType==1?"订单取消":item.eventType==2?"订单审核失败":item.eventType==3?"订单配送失败":item.eventType==4?"订单部分配送自动计算":item.eventType==5?"订单部分配送手动调整":""}}<text wx:if="{{item.orderNo}}">(订单号：{{item.orderNo}})</text></text>
+      <view style="color:#E53935;font-size:32rpx;">{{item.modifyAmount}}</view>
+    </view>
+    <view class='time'>{{item.createTime}}</view>
+  </view>
+</scroll-view>

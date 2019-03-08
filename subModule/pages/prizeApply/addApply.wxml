@@ -1,0 +1,50 @@
+<!--pages/user/prizeApply/addApply.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+<view class='applyMessage'>
+  <view class='user-message'>
+    <view style='display:flex;align-items:center;'>
+      <image src='/assets/images/ic-shouhuo@2x.png' mode='aspectFit' class='address-icon'></image>
+      <view>
+        <view class='ft-30 color-333' style='padding-bottom:16rpx;'>
+          <text style='padding-right:34rpx;'>{{address.contact}}</text>
+          <text>{{address.mobileNo}}</text>
+        </view>
+        <view class='ft-26 color-666'>取券地址：{{address.province}}{{address.city}}{{address.county}}{{address.street}}{{address.detailAddress}}</view>
+      </view>
+    </view>
+    <image src='/assets/images/ic_arrow_m@2x.png' mode='aspectFit' class='address-select' catchtap='selectAddress'></image>
+  </view>
+  <view class='applyRemark'>
+    <view class='remark-icon'>
+      <image src='/assets/images/ic_daipingjia@2x.png' mode='aspectFit' class='remark-icon-img'></image>
+      <text class='ft-30 color-666'>备注</text>
+    </view>
+    <textarea value="{{remarkValue}}" placeholder='请填写备注信息(限40字以内)' placeholder-class='ft-26 color-999' class='remark-message' bindinput='remarkValue' data-remark="{{awardList}}"></textarea>
+  </view>
+</view>
+<view class='prizeMessage' wx:for="{{awardList}}" wx:for-item="item" wx:for-index='index' wx:key="">
+  <image src='/subModule/images/ic-shanchu@2x.png' mode='aspectFit' class='removeList' wx:if="{{awardList.length>1}}" catchtap="removeList" data-index="{{index}}"></image>
+  <view class='prize-name'>
+    <view class='name-number ft-24 '>{{index+1}}</view>
+    <text class='ft-30 color-333'>兑奖券名称</text>
+  </view>
+  <textarea value='{{item.awardName}}' placeholder='例如：茶π柚子绿茶300ml瓶盖' placeholder-class='ft-26 color-999' class='remark-message' style='margin:24rpx; color:{{textColor==true?"#333":"transparent"}}' bindinput='awardName' data-index="{{index}}" bindblur='blurName' disabled='{{disabled==true?true:false}}'></textarea>
+  <view class='prizeNumber'>
+    <text class='ft-30 color-333' style=''>兑奖券数量</text>
+    <view class="number">
+      <view class='change-num-icon' catchtap='reduceNum' data-index="{{index}}">
+        <image src='{{disable?"/subModule/images/nengdian2x.png":"/subModule/images/bunengdianchu@2x.png"}}' mode='aspectFit' class='change-img'></image>
+      </view>
+      <input value='{{item.awardNum}}' class='num-input ft-30 color-333' type='text' bindinput='awardNum'  data-index="{{index}}"   bindblur="changeNum"></input>
+      <view class='change-num-icon' catchtap='addNum' data-index="{{index}}">
+        <image src='/subModule/images/jiahao.png' class='change-img-add'></image>
+      </view>
+    </view>
+  </view>
+</view>
+<view class='addPrize' catchtap='addNewPrize'>添加新兑奖券</view>
+<view style='height:96rpx;'></view>
+<view class='{{buttonCanTap?"submitApply-red":"submitApply"}}' catchtap='submitApply'>提交申请</view>

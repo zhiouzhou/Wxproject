@@ -1,0 +1,54 @@
+<!--pages/user/applyReturnOrder/applyReturnOrder.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="./applyReturnOrderCommon.wxml" />
+
+<view style='width:100%;height:{{windowHeight}}rpx;background-color:#F2F2F2;padding-top:{{showTip ? 120 : 0}}rpx;'>
+  <!-- <view class='delivery-mode' style='background-color:#fff;border-bottom: 2rpx solid #F2F2F2;border-top: 12rpx solid #F2F2F2;'>
+    <text class='ft-30 color-333'>订单信息</text>
+  </view>
+  <view style='background-color:#fff;padding-bottom:24rpx'>
+    <view class='order-orderNO'>
+      <text class='ft-26 color-666'>订单编号：</text>
+      <text class='ft-26 color-666'>{{item.orderNO}}</text>
+    </view>
+    <view class='apply-time'>
+      <text class='ft-26 color-666'>下单时间：</text>
+      <text class='ft-26 color-666'>{{item.serviceTime}}</text>
+    </view>
+  </view> -->
+   <view class="bulk-tip" wx:if="{{showTip}}">
+          <view class='bulk-tip-left'>提示</view>
+          <text class='bulk-tip-text'> 申请退货时，可能会影响赠品，若选择不退赠品，则赠品将计入退货金额</text>
+          <image class='bulk-tip-del' catchtap='hideTip' src='{{"/assets/images/ic_bank_list_dialog_closer.png"}}'></image>
+   </view>
+
+  <view class='delivery-mode' style='background:#fff;border-bottom: 2rpx solid #F2F2F2;'>
+    <text class='ft-28 color-333'>退货商品</text>
+    <text class='addEdit ft-26 color-666' wx:if="{{fromList}}" catchtap='addEdit'>添加和编辑</text>
+  </view>
+  <view class='product-list-wrap'>
+    <block wx:for="{{productList}}" wx:key="{{index}}">
+      <template is="apply-return-product-list" data="{{item,index}}" />
+    </block>
+  </view>
+
+  <view class='return-reason'>
+    <text class='ft-30 color-333' ><text class='color-E53935'>* </text>退货原因</text>
+    <text class='ft-30 {{returnReason=="请选择退货原因"?"color-BDBDBD":"color-333"}}' style='margin-left:24rpx;flex:1' data-return-reason='{{returnReason}}' bindtap='chooseReturnReason'>{{returnReason}}</text>
+    <image class='order-track-arrow-img' src='/assets/images/ic_arrow@2x.png' data-return-reason='{{returnReason}}' bindtap='chooseReturnReason' mode='aspectFit'/>
+  </view>
+
+  <view class='remark-view'>
+    <text class='ft-30 color-333' style='height:30rpx;margin-top:26rpx'>备注信息</text>
+    <textarea class='ft-30 color-333' style='margin-top:28rpx;margin-left:24rpx;flex:1;height:144rpx;'  
+    placeholder='{{placeholder}}' placeholder-style="font-size:30rpx;color:#BDBDBD" hidden='{{$yjp.dialog.visible ? true : false}}'
+    bindinput="editRemarkText"></textarea>
+  </view>
+  <!-- hidden='{{hideTextarea}}' -->
+</view>
+<view class='ft-34 color-FFF apply-button' bindtap='submit'>提交<text hidden="{{selectedCount>0 ? false : true}}">({{selectedCount}})</text></view> 

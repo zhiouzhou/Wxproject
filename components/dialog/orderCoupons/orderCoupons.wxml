@@ -1,0 +1,130 @@
+<template name='orderCoupons-dialog'>
+  <view class="yjp-backdrop" />
+  <view>
+    <view class='order-coupon-dialog'>
+      <view class='dialog-bg'>
+        <image src='/assets/images/youhuiquan_toubu@2x.png' mode='widthFix' />
+      </view>
+      <view class='order-coupon-dialog-content'>
+        <view class='order-coupon-list' wx:for="{{orderCouponsArr}}">
+          <view class='coupon-side-left'>
+            <image src='/assets/images/youhuiquanzuo_hongse2@2x.png' mode='widthFix' />
+            <view class='coupon-side-left-box'>
+              <view wx:if="{{item.couponType == 0}}" class='coupon-side-left-classify'>
+                <text class='ft-30'>¥</text>
+                <text class='ft-64'>{{item.amount}}</text>
+              </view>
+              <view wx:if="{{item.couponType == 1}}" class='coupon-side-left-classify'>
+                <text class='ft-64'>{{item.percent*10}}</text>
+                <text class='ft-30'>折</text>
+              </view>
+              <view wx:if="{{item.couponType == 2}}" class='coupon-side-left-classify'>
+                <text class='ft-36'>赠品券</text>
+              </view>
+              <view class='coupon-side-left-condition'>{{item.couponUseDesc}}</view>
+            </view>
+          </view>
+          <view class='coupon-side-right'>
+            <image src='/assets/images/youhuiquanyou_hui@2x.png' mode='widthFix' />
+            <view class='coupon-side-right-box'>
+              <view class='coupon-side-right-name'>
+                {{item.couponName}}
+                <view wx:if="{{item.couponType == 2}}"><text class='coupon-side-right-gift'>{{item.couponDesc}}</text></view>
+              </view>
+              <view style='flex:1;'></view>
+              <view class='coupon-side-right-bottom'>
+                <view class='coupon-side-right-time'>有效期至:{{item.expireDate}}</view>
+                <view wx:if="{{!item.receiveCoupon}}" class='coupon-side-right-btn' catchtap='receiveOrderCoupon' data-promotion-id="{{item.promotionId}}" data-idx="{{index}}">立即领取</view>
+                <view wx:else class='coupon-side-right-use' catchtap='useOrderCoupon' data-couponid="{{item.couponTemplateId}}">立即使用</view>
+              </view>
+            </view>
+            <view wx:if="{{item.receiveCoupon}}" class='coupon-side-right-receive'>
+              <image src='/assets/images/yilingqu_ic@2x.png' mode='widthFix' />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class='coupon-close-icon' catchtap='closeOrderCouponDialog'>
+        <image src='/assets/images/guanbi_ic@2x.png' />
+      </view>
+    </view>
+  </view>
+</template>
+
+<!--空购物车领劵  -->
+<template name="empty-cart-coupon">
+  <view class="cart-coupon-tip">
+      <text class="cart-coupon-tip-span cart-coupon-tip-span1"></text>
+      <text class="cart-coupon-tip-span"></text>
+      <text style='margin:0 14rpx;'>您有一张优惠券未使用</text>
+      <text class="cart-coupon-tip-span"></text>
+       <text class="cart-coupon-tip-span cart-coupon-tip-span2"></text>
+  </view>
+  <view class='order-coupon-list'style="padding:0 10%;background:#fff;margin-bottom:0;">
+    <view class='coupon-side-left'>
+      <image src='/assets/images/youhuiquanzuo_hongse2@2x.png' mode='widthFix' />
+      <view class='coupon-side-left-box'>
+        <view class='coupon-side-left-classify'>
+          <text class='ft-30'>¥</text>
+          <text class='ft-64'>{{item.amount}}</text>
+        </view>
+        <view class='coupon-side-left-condition'>满{{item.useOrderAmountFrom}}元可用</view>
+      </view>
+    </view>
+    <view class='coupon-side-right'>
+      <image src='/assets/images/youhuiquanyou_hui@2x.png' mode='widthFix' />
+      <view class='coupon-side-right-box'>
+        <view class='coupon-side-right-name'>{{item.couponDesc}}</view>
+        <view style='flex:1;'></view>
+        <view class='coupon-side-right-bottom'>
+          <view class='coupon-side-right-time'>有效期至:{{item.timeExpired}}</view>
+          <view class='coupon-side-right-use' style="text-align:center;background:#E53935;color:#fff;" catchtap='useOnlyEmptyCoupon'>立即使用</view>
+        </view>
+      </view>  
+    </view>
+  </view>
+</template>
+
+<!-- 首页弹窗优惠券 -->
+<template name='homeCoupons-dialog'>
+  <view class="yjp-backdrop" />
+  <view>
+    <view class='order-coupon-dialog home-coupon-dialog'>
+      <view class='dialog-bg'>
+        <image src='/assets/images/youhuiquan_biaoti@2x.png' mode='widthFix' />
+      </view>
+      <view class='order-coupon-dialog-content'>
+        <view class='order-coupon-list' wx:for="{{activityDialogData.couponRules}}">
+          <view class='coupon-side-left'>
+            <image src='/assets/images/youhuiquan_bg_zuo@2x.png' mode='widthFix' />
+            <view class='coupon-side-left-box'>
+              <view class='coupon-side-left-classify color-red'>
+                <text class='ft-40'>¥</text>
+                <text class='ft-72'>{{item.couponAmount}}</text>
+              </view>
+            </view>
+          </view>
+          <view class='coupon-side-right'>
+            <image src='/assets/images/youhuiquan_bg_you@2x.png' mode='widthFix' />
+            <view class='coupon-side-right-box home-coupon-side-right-box'>
+              <view class='coupon-side-right-name'>
+                {{item.templateName}}
+                <view><text class='coupon-side-right-gift'>满{{item.useConditionAmount}}元可用</text></view>
+              </view>
+              <view style='flex:1;'></view>
+              <view class='coupon-side-right-bottom'>
+                <view class='coupon-side-right-time'>有效期至:{{item.expiredTime}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class='order-coupon-dialog-bottom'>
+        <view class='order-coupon-dialog-btn' catchtap='goCategory'>领取进货</view>
+      </view>
+      <view class='home-coupon-close-icon' catchtap='closeActivityDialog'>
+        <image src='/assets/images/guanbibutton@2x.png' />
+      </view>
+    </view>
+  </view>
+</template>

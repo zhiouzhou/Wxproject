@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "购物车",
+  "usingComponents": {
+    "product-recommend": "../../myComponents/productRecommendDirective/productRecommend",
+    "empty-page": "../../myComponents/emptyDirective/emptyDirective"
+  }
+}

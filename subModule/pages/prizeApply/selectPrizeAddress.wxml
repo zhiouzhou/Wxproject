@@ -1,0 +1,15 @@
+<!--pages/user/prizeApply/selectPrizeAddress.wxml-->
+<!-- <text>pages/user/prizeApply/selectPrizeAddress.wxml</text> -->
+<view class='addressMessage' wx:for="{{addressArr}}" wx:for-item="item">
+  <view class='address-user'>
+    <view class='{{item.select?"ft-30 color-E53935":"user"}}'>
+      <text style='padding-right:52rpx;'>{{item.contact}}</text>
+      <text>{{item.mobileNo}}</text>
+    </view>
+    <view class='address'>
+      <view class='{{item.defaultAddress==true?"defaultAddress":"isDefaultAddress"}}'>{{item.defaultAddress==true?"默认地址":"地址："}}</view>
+      <view>{{item.province}}{{item.city}}{{item.county}}{{item.street}}{{item.detailAddress}}</view>
+    </view>
+  </view>
+  <image src='{{item.select?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' class='default' catchtap='selectAddress' data-address="{{item}}"></image>
+</view>

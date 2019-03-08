@@ -1,0 +1,7 @@
+<template name="serviceTel">
+  <view class='serviceTel-wrap'>
+    <text class='ft-28 color-666'>客服电话</text>
+    <text class='ft-28 color-333' style='margin-left:24rpx;flex:1;'>{{serviceTel}}</text>
+    <text class='ft-28 color-477AAC' catchtap='makePhoneCall' data-num='{{serviceTel}}'>点击拨号</text>
+  </view>
+</template>

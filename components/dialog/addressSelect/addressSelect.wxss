@@ -1,0 +1,27 @@
+.address-wrapper {
+  line-height:52rpx;
+  position:absolute;
+  top:74rpx;
+  left:24rpx;
+  background:#fff;
+  z-index:1;
+  padding-top:20rpx;
+
+}
+.address-wrapper .address-select {
+  display: inline-block;
+  margin-right: 48rpx;
+}
+.address-scroll-wrapper {
+  margin-top: 52rpx;
+  overflow-y: scroll
+}
+.address-scroll-wrapper-item {
+  line-height: 64rpx;
+}
+.active-address {
+  border-bottom:2rpx solid #d91f2f;
+}
+.active-address-item {
+  color: #d91f2f;
+}

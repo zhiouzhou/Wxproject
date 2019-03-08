@@ -1,0 +1,10 @@
+<!--pages/shopCart/selectUserAddress.wxml-->
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+
+<view class='address-wrap' wx:for="{{userAddress}}" wx:key="{{item.addressId}}" catchtap='onSelectAddress' data-address='{{item}}'>
+  <view class='address-title'>
+    <text class='ft-32 {{item.addressId==selectAddress.addressId?"color-E53935":"color-333"}}'>{{item.contact}}-{{item.mobileNo}}</text>
+    <image class='address-img' src='/assets/images/ic_gou@2x.png' mode='aspectFit' wx:if="{{item.addressId==selectAddress.addressId}}" />
+  </view>
+  <text class='ft-28 color-666'><text class='address-tag ft-22 color-E53935' wx:if="{{item.defaultAddress}}">默认地址</text>{{WxsUtil.getAddressDetail(item)}}</text>
+</view>

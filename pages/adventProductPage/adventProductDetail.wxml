@@ -1,0 +1,172 @@
+<!--pages/product/productDetail.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<scroll-view class='scroll-page-wrap' style='height:{{windowHeight}}px;' scroll-y scroll-with-animation scroll-into-view='{{scrollPosition}}' wx:if="{{exist}}">
+  <view id='top' />
+  <!-- 顶部图片区域 -->
+  <view class='product-detail-img-area'>
+    <swiper class='product-detail-imgs' indicator-dots="{{productDetail.imgsUrl.length>1}}" autoplay circular indicator-color="rgba(0,0,0,0.4)" indicator-active-color="#fff">
+      <swiper-item wx:for="{{productDetail.imgsUrl}}" wx:key='{{item}}'>
+        <image src="{{item}}" class="product-detail-img" mode='aspectFit' />
+      </swiper-item>
+    </swiper>
+    <view class='product-spec'>{{productDetail.specName}}</view>
+  </view>
+   <!-- 产品价格部分-->
+  <block>
+    <template is="normal-product-price-detail" data="{{...productDetail,bulk,LargeCargoProductDesc,sVisitor}}" />
+  </block>
+  <!-- 产品售价，规格，库存等 -->
+  <view class='product-detail-display'>
+    <view class='product-detail-display-item w50p'>
+      <text class='ft-26 color-999'>建议零售价：  </text>
+      <text class='ft-26 color-333'>{{productDetail.productPrice.originalPrice?"¥":""}}{{productDetail.productPrice.originalPrice?productDetail.productPrice.originalPrice:" - "}}{{productDetail.productPrice.originalPrice?productDetail.priceunit:""}}</text>
+    </view>
+    <view class='product-detail-display-item w50p'>
+      <text class='ft-26 color-999'>规格：  </text>
+      <text class='ft-26 color-333'>{{productDetail.specName}}</text>
+    </view>
+    <view class='product-detail-display-item w50p'>
+      <text class='ft-26 color-999'>生产日期：  </text>
+      <text class='ft-26 color-333'>{{productDetail.productionDate?productDetail.productionDate:" - "}}</text>
+    </view>
+    <view class='product-detail-display-item w50p'>
+      <text class='ft-26 color-999'>保质期：  </text>
+      <text class='ft-26 color-333'>{{productDetail.shelfLife?productDetail.shelfLife:" - "}}</text>
+    </view>
+    <view class='product-detail-display-item w50p'>
+      <text class='ft-26 color-999'>起购：  </text>
+      <text class='ft-26 color-333'>{{productDetail.minBuyNum>1?productDetail.minBuyNum+productDetail.saleUnit:" - "}}</text>
+    </view>
+    <view class='product-detail-display-item'>
+      <text class='ft-26 color-999'>库存：  </text>
+      <text class='ft-26 color-333'>{{productDetail.stockText||'充足'}}</text>
+    </view>
+    <view class='product-detail-display-item w100p' style='min-width:100%;'>
+      <text class='ft-26 color-999'>限购：  </text>
+      <text class='ft-26 color-333'>{{productDetail.limitBuyTag ? productDetail.limitBuyTag.tagDetail : " - "}}</text>
+    </view>
+    <view class='product-detail-display-item w100p'>
+       <text class='ft-26 color-999'>条形码：  </text>
+       <text class='ft-26 color-333'>{{productDetail.barCode?productDetail.barCode:" - "}}</text>
+    </view>    
+  </view>
+  <!-- 特别提示，优惠通知 -->
+   <view class='product-detail-special-notice' wx:if="{{productDetail.specialNoticeTag}}">
+    <view class='product-detail-red-tag' style='min-width:100rpx;margin-top:4rpx;'>{{productDetail.specialNoticeTag.tagName}}</view>
+    <text class='ft-26 color-333'>{{productDetail.specialNoticeTag.tagDetail}}</text>
+  </view> 
+  <!-- 促销活动 -->
+  <!-- 切换地址 -->
+  <view class='product-detail-address-switch' wx:if="{{!isVisitor}}">
+    <text class='ft-28 color-999' style='min-width:60rpx;margin-right:16rpx;line-height:28rpx;'>送货</text>
+    <image class='product-detail-address-marker-img' src='/assets/images/ic-dingwei-xianhgqing@2x.png' />
+    <text class='ft-26 color-333 two-line' style='flex:1;line-height:26rpx;'>{{detailAddressText}}</text>
+    <image class='product-detail-address-switch-img' src='/assets/images/proinfo_ic_more@2x.png' mode='aspectFit' catchtap='onSwitchAddress' />
+  </view>
+  <!-- 服务 -->
+  <view class='product-detail-service-wrap' wx:if="{{productDetail.serverDesc || (productDetail.citySelfPickUp&&productDetail.selfPickUpReduce)}}">
+    <view class='product-detail-service-tag-wrap' wx:if="{{productDetail.serverDesc&&productDetail.deliveryMode!=2}}">
+      <image class='product-detail-service-tag-img' src='/assets/images/icon_gou@2x.png' />
+      <text class='ft-24 color-666'>{{productDetail.serverDesc}}</text>
+    </view>
+    <view class='product-detail-service-tag-wrap' wx:if="{{productDetail.citySelfPickUp&&productDetail.deliveryMode!=1&&productDetail.saleMode != 2&&productDetail.saleMode != 6}}">
+      <image class='product-detail-service-tag-img' src='/assets/images/icon_gou@2x.png' />
+      <text class='ft-24 color-666' wx:if="{{!productDetail.selfPickUpReduceTag}}">支持自提</text>
+      <text class='ft-24 color-666' wx:if="{{productDetail.selfPickUpReduceTag}}">{{productDetail.selfPickUpReduceTag.tagDetail}}</text>
+    </view>
+  </view>
+  <!-- 商品信息 -->
+  <view class='product-detail-infos-wrap'>
+    <view class='product-detail-info-title ft-28 color-333'>商品信息</view>
+    <view class='product-detail-info-wrap'>
+      <view class='product-detail-info' wx:for="{{productDetail.productInfoArray}}" wx:key="{{item.key}}">
+        <text class='ft-26 color-666' style='min-width:140rpx;text-align:right;'>{{item.key}}</text>
+        <text class='ft-26 color-666'>{{item.value}}</text>
+      </view>
+    </view>
+  </view>
+  <view style='height:200rpx;'></view>
+  <!-- 查看同类目同品牌 -->
+  <view class="product-detail-see-similar-wrap">
+    <view class='product-detail-see-similar-button ft-30 color-666' catchtap='goToProductList' data-product='{{productDetail}}' data-tag='brand'>查看同品牌商品</view>
+    <view class='product-detail-see-similar-button ft-30 color-666' catchtap='goToProductList' data-product='{{productDetail}}' data-tag='category'>查看同类目商品</view>
+  </view>
+
+  <!-- 底部通栏 -->
+ <block wx:if="{{isVisitor}}">
+    <view class='cant-buy-bottom-bar-red' catchtap='goToLogin'>登录后可{{productDetail.productPrice.price ? '购买' : '查看价格'}}，立即登录</view>
+  </block>
+
+  <!--  待审核,审核拒绝 -->
+  <!-- <block wx:elif="{{userState!=1&&!productDetail.productPrice.price}}">
+    <view class='cant-buy-bottom-bar'>{{hiddenBuyText}}</view>
+  </block> -->
+
+  <block wx:else="{{isVisitor}}">
+       <view class='cant-buy-bottom-bar' wx:if="{{!productDetail.productState}}">该商品已下架</view>
+      <view class='cant-buy-bottom-bar' wx:if="{{productDetail.productState!=0 && !productDetail.canSellStoreCount}}">该商品已抢光</view>
+    <view class='detail-add-to-shopcart-bottom-bar' wx:if="{{productDetail.productState!=0 && productDetail.canSellStoreCount>0}}">
+        <view class='add-to-shopcart-frame-wrap'>
+          <view class='add-to-shopcart-frame-touch-area' data-product="{{productDetail}}" catchtap='decrease'>
+            <image class='add-to-shopcart-frame-img' style='{{productDetail.buyNum==productDetail.minBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+          </view>
+
+          <input class='add-to-shopcart-frame-input' data-product="{{productDetail}}"  value='{{productDetail.buyNum}}' maxlength='5' bindblur='editNumber' />
+
+          <view class='add-to-shopcart-frame-touch-area' data-product="{{productDetail}}" catchtap='increase'>
+            <image class='add-to-shopcart-frame-img' style='{{productDetail.buyNum==productDetail.maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+          </view>
+        </view>
+        <!-- <text class='ft-28 color-666' style='margin-right:10rpx'>{{productDetail.priceUnit}}</text> -->
+        <view class='add-to-shopcart-column'>
+          <view class='add-to-shopcart-orange-button' catchtap='addToCart'>加入购物车</view>
+          <view class='add-to-shopcart-red-button' catchtap='goOrderSubmit'>马上进货</view>  
+        </view>
+      </view>
+      
+  </block>
+</scroll-view>
+
+<view class='empty-product' wx:if="{{!exist}}">
+  <image class='empty-product-img' src='/assets/images/ic_fuchuanggouwuche@2x.png' mode='aspectFit' />
+  <text class='ft-30 color-666'>抱歉没有找到相关产品</text>
+</view>
+
+<!-- 返回顶部按钮 -->
+<image class='back-to-top-float-button' src='/assets/images/ic_zhiding@2x.png' catchtap='backToTop' />
+<!-- 悬浮购物车按钮 -->
+<image class='go-to-shop-cart-float-button' src='/assets/images/ic_fuchuanggouwuche@2x.png' catchtap='goToShopCart' wx:if="{{!isVisitor}}" />
+
+<!-- 去登陆按钮 -->
+<image class='go-to-login-float-button' src='/assets/images/clicklogin@2x.png' catchtap='goToLogin' wx:if="{{isVisitor}}" />
+
+
+<!-- 其他产品详情 -->
+<template name="normal-product-price-detail">
+  <view class='product-price-detail-wrap'>
+
+    <view class='product-name-wrap ft-30 color-333' style='justify-content: start;'>
+      <text class='ft-30 color-333 two-line'>{{productName}}</text>
+    </view>
+
+    <view class='product-price-wrap' style='margin-top:30rpx;'>
+
+      <text class='ft-26 color-666' style='line-height:26rpx;'>特价</text>
+
+      <text class='ft-26 color-E53935' style='margin-left:12rpx;line-height:26rpx;'>¥<text class='ft-36 color-E53935' style='line-height:36rpx;'>{{productPrice.price}}</text> {{priceunit}}</text>
+     
+      <text class='ft-26 color-666' wx:if="{{citySelfPickUp && productPrice.selfPickUpPrice}}" style='margin-left:24rpx;line-height:24rpx;'>自提价 ¥{{productPrice.selfPickUpPrice}}{{priceunit}}</text>
+
+      <text class='product-detail-red-tag' wx:if="{{productPrice.reducePrice}}" style='margin-left:24rpx;'>立减 {{productPrice.reducePrice}}元</text>
+    </view>
+		<!--delPrice-->
+    <text class='ft-24 color-666 line-through' wx:if="{{productPrice.price<productPrice.sellPrice}}" style='padding-left:64rpx;margin-top:16rpx;'>¥{{productPrice.sellPrice}}</text> 
+    <view class='ft-24 color-333' wx:if="{{bulk==1 && LargeCargoProductDesc}}" style='margin-top:24rpx'>{{LargeCargoProductDesc}}</view>
+    <view class='ft-24 color-333' wx:if="{{bulk==2}}" style='margin-top:48rpx'>临期产品，必须线上支付，不可用红包和优惠券，且不可退货</view>
+  </view>
+</template>

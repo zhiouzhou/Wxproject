@@ -1,0 +1,54 @@
+<!--申请退货带勾选列表  -->
+<template name="apply-return-product-list">
+  <view class='shop-cart-product-wrap' style='border-bottom:2rpx solid #F2F2F2'>
+    <view class='shop-cart-product-main'>
+      <!--勾选框 -->
+        <view class='shop-cart-product-select-img-area' catchtap='selectTap' data-index="{{index}}">
+        <image class='shop-cart-product-select-img' src='{{item.selected?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' mode='aspectFit' />
+      </view>
+      <!-- 产品图片 -->
+      <view class='shop-cart-product-img-area'>
+        <image class='shop-cart-product-img' src='{{item.product.imgUrl||"/assets/images/defaul_product.png"}}' />
+      </view>
+      <!-- 产品右侧流式布局 -->
+      <view class='shop-cart-product-detail'>
+        <!-- 产品名称 -->
+        <text class='ft-30 color-333 two-line' style='margin-bottom:16rpx;'>
+              <text class="zengpin-tag" wx:if="{{item.giftProduct}}">赠品</text>{{item.product.productName}}
+        </text>
+        <!-- 产品价格 -->
+        <view class='shop-cart-product-price' style='margin-bottom:16rpx;padding-right:24rpx'>
+          <view>
+            <text class='ft-24 color-666' style='flex:1;'>规格 {{item.product.specName}}</text>
+          </view>
+
+          <view>
+            <text class='ft-24 color-666'>购买数量：</text>
+             <text class='ft-24 color-666' style='line-height:24rpx;' 
+             wx:if="{{item.product.productSkuId === item.product.productSaleSpecId}}">{{item.count}}{{item.product.saleUnit}}</text>
+             <text class='ft-24 color-666' style='line-height:24rpx;' wx:else>{{item.count*(item.product.saleSpecQuantity || 1)}}{{item.product.minUnit}}</text>
+          </view>
+        </view>
+        <!-- 产品规格，加减框 -->
+        <view class='shop-cart-product-spec-and-num' wx:if="{{item.canReturnNum>0}}" style='margin-bottom:16rpx;'>
+             <text class='ft-24 color-666'>退货数量：</text>
+            <view >
+              <!-- 产品加减框 -->
+              <view class='product-number-frame'>
+                <view class='product-number-button' catchtap='onSubShopCartBuyNum' data-index="{{index}}">
+                  <image class='product-number-img' style='{{item.returnCount<=0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+                </view>
+                <input class='product-number' catchtap='doNothing' bindblur='onInputShopCartBuyNum' value='{{item.showCount}}' maxlength='5' type='number' data-index="{{index}}"/>
+                <view class='product-number-button' catchtap='onAddShopCartBuyNum' data-index="{{index}}">
+                  <image class='product-number-img' style='{{item.returnCount>=item.canReturnNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+                </view>
+              </view>
+                <text class='ft-24 c-6' wx:if="{{item.product.productSkuId === item.product.productSaleSpecId}}">{{item.product.saleUnit}} </text>
+                <text class='ft-24 c-6' wx:if="{{item.product.productSkuId != item.product.productSaleSpecId}}">{{item.product.minUnit}} </text>
+            </view>
+        </view>
+        <view class='color-E53935 ft-26' wx:else>该商品不支持退货</view>
+      </view>
+    </view>
+  </view>
+</template>

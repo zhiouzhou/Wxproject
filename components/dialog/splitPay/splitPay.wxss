@@ -1,0 +1,30 @@
+.split-pay-content-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: 24rpx;
+  overflow-y: scroll;
+}
+
+.split-pay-list-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-bottom: 32rpx;
+}
+
+.split-pay-list-img {
+  height: 48rpx;
+  width: 48rpx;
+  margin: 0 12rpx;
+}
+
+.split-pay-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}

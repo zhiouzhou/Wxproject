@@ -1,0 +1,83 @@
+/* pages/login/guide.wxss */
+
+page {
+  border-top: 0rpx solid transparent;
+}
+
+.title-text {
+  width: 100%;
+  text-align: center;
+  margin-top: 48rpx;
+  margin-bottom: 32rpx;
+  font-size: 40rpx;
+  color: #333;
+}
+
+.subtitle-text {
+  width: 100%;
+  text-align: center;
+  margin-top: -12rpx;
+  margin-bottom: 32rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.tags-wrap {
+  margin-left: 48rpx;
+  margin-right: 48rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 16rpx;
+}
+
+.tags-wrap-two {
+  margin-left: 48rpx;
+  margin-right: 48rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 16rpx;
+}
+
+.tag-select {
+  height: 60rpx;
+  width: 160rpx;
+  background: rgba(242, 82, 75, 1);
+  border-radius: 30px;
+  text-align: center;
+  line-height: 60rpx;
+  color: #fff;
+  font-size: 26rpx;
+  align-content: space-between;
+  margin: 0 32rpx 32rpx 32rpx;
+}
+
+.tag-unselect {
+  height: 60rpx;
+  width: 160rpx;
+  background: #fff;
+  border-radius: 30px;
+  text-align: center;
+  line-height: 60rpx;
+  color: #333;
+  font-size: 26rpx;
+  border: 2rpx solid #e6e8ec;
+  box-sizing: border-box;
+  align-content: space-between;
+  margin: 0 32rpx 32rpx 32rpx;
+}
+
+.confirm-button {
+  height: 88rpx;
+  margin: 48rpx 114rpx;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 34rpx;
+  text-align: center;
+  line-height: 88rpx;
+  border-radius: 44px;
+  background-color: #e53935;
+}

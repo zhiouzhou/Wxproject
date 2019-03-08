@@ -1,0 +1,42 @@
+
+.empty-page-wrap{
+  padding: 64rpx 0;
+  width: 100%;
+  background: #fff;
+}
+.empty-page{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.empty-img{
+  width: 88rpx;
+  height:88rpx;
+  margin-right: 24rpx;
+}
+.empty-text{
+  font-size:28rpx;
+  color: #666;
+}
+.empty-btns-area{
+  margin-top:32rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.empty-btn{
+  width:200rpx;
+  height:64rpx;
+  line-height:64rpx;
+  border-radius:4rpx;
+  border:1px solid rgba(189,189,189,1);
+  text-align: center;
+  font-size:28rpx;
+  color: #333;
+}
+.empty-btn-red{
+  color: #E53935;
+  border-color: #E53935;
+  margin-left: 44rpx;
+}

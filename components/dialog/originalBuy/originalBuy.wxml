@@ -1,0 +1,15 @@
+<template name="originalBuy">
+  <view class='original-buy-wrap'>
+    <text class='ft-30 color-333'>您选择的凑单商品，未满足凑单金额条件{{halfGatherNoticeData.extraBuyTotalNeedAmount}}元，其中：</text>
+    <scroll-view class='original-buy-scroll' scroll-y>
+      <view class='original-buy-item' wx:for="{{halfGatherNoticeData.gatherList}}" wx:key="{{item.shopCartId}}" wx:for-item='product'>
+        <image class='original-buy-img' src='/assets/images/ic_youxuanzhong@2x.png' mode="aspectFit" />
+        <view class='original-buy-item-content'>
+          <text class='ft-30 color-333 two-line'>{{product.productName}}</text>
+          <text class='ft-26 color-999 two-line'>{{product.originalBuyGatherInfoStr}}</text>
+        </view>
+      </view>
+    </scroll-view>
+    <text class='ft-30 color-333' style='margin-top:8rpx;'>您可以选择去凑单或者按原价购买</text>
+  </view>
+</template>

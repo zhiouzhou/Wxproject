@@ -1,0 +1,35 @@
+<!-- <template name="addressSelect">
+  <view class='address-wrapper ft-28'>
+    <text class='address-select' wx:if="{{addressInfo.province}}">{{addressInfo.province}}</text>
+    <text class='address-select' wx:if="{{addressInfo.city}}">{{addressInfo.city}}</text>
+    <text class='address-select' wx:if="{{addressInfo.county}}">{{addressInfo.county}}</text>
+    <text class='address-select' wx:if="{{finish}}">请选择{{changeProvince}}</text>
+  </view>
+  <scroll-view class='ft-28 address-scroll-wrapper'>
+    <view class='address-scroll-wrapper-item' catchtap='changeProvince' data-tag='{{item}}' wx:for="{{provinceList}}">{{item}}</view>
+  </scroll-view>
+</template> -->
+  <view class="yjp-backdrop {{ animateCss }}" bindtap='proxyFun' data-tag="onDismiss" />
+  <view class='half-window-dialog-wrap  {{ animateCss }}'>
+    <view class='half-window-dialog-hd'>
+      <view class='half-window-dialog-title'>所在地区</view>
+      <image class='half-window-dialog-quit' src='/assets/images/tanchuang_guanbi_ic@2x.png' bindtap='proxyFun' data-tag="onDismiss" />
+    </view>
+    <view class="yjp-dialog__content">
+        <view class='address-wrapper ft-28'>
+          <text class="address-select {{activeName=='province'?'active-address':''}}" catchtap='proxyFun' data-tag="beginProvince" wx:if="{{addressInfo.province}}">{{addressInfo.province}}</text>
+          <text class="address-select {{activeName=='city'?'active-address':''}}"  catchtap='proxyFun' data-tag="beginCity" wx:if="{{addressInfo.city}}">{{addressInfo.city}}</text>
+          <text class="address-select {{activeName=='county'?'active-address':''}}" wx:if="{{addressInfo.county}}">{{addressInfo.county}}</text>
+          <text class="address-select active-address {{activeName=='county'?'active-address':''}}" wx:if="{{finish}}">请选择{{changeProvince}}</text>
+        </view>
+        <scroll-view class='ft-28 address-scroll-wrapper' wx:if="{{activeName=='province'}}">
+          <view class="address-scroll-wrapper-item {{addressInfo.province==item?'active-address-item':''}}" catchtap='proxyFun' data-tag="changeProvince" data-data='{{item}}' wx:for="{{provinceList}}">{{item}}                </view>
+        </scroll-view>
+        <scroll-view class='ft-28 address-scroll-wrapper' wx:if="{{activeName=='city'}}">
+          <view class="address-scroll-wrapper-item {{addressInfo.city==item?'active-address-item':''}}" catchtap='proxyFun' data-tag="changeCity" data-data='{{item}}'  wx:for="{{cityList}}">{{item}}</view>
+        </scroll-view>
+        <scroll-view class='ft-28 address-scroll-wrapper' wx:if="{{activeName=='county'}}">
+          <view class="address-scroll-wrapper-item {{addressInfo.county==item?'active-address-item':''}}" catchtap='proxyFun' data-tag="changeCounty" data-data='{{item}}'  wx:for="{{countyList}}">{{item}}</view>
+        </scroll-view>
+    </view>
+  </view>

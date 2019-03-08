@@ -1,0 +1,58 @@
+<template name="shopsProducts">
+  <view class='shops-product-wrap'>
+    <view class='shops-product-hd' style='border:0'>
+      <text class='ft-28 color-333'>经销商推荐</text>
+      <text class='ft-24 color-999' catchtap='goToDealerList' data-shop-id='{{shops[0].shopId}}'>查看更多 ></text>
+    </view>
+    <view class='shops-products-wrap'>
+      <view class='promotionList-twoside-item-wrap' wx:for="{{shopsProducts}}" wx:key="{{item.productSkuId}}" catchtap='goToProductDetail' data-product-sku-id='{{item.productSkuId}}'>
+        <view class='relative-wrap' style='width:240rpx;height:240rpx;'>
+          <view class='promotionList-twoside-img-area'>
+            <image class='promotionList-twoside-img' src='{{item.imgUrl}}' mode='aspectFit ' />
+            <view class='promotionList-twoside-stock-text' wx:if="{{item.stockText}}">{{item.stockText}}</view>
+            <view class='promotionList-twoside-reduce-text' wx:if="{{item.productPrice.reducePrice}}">
+              <text class='ft-16 color-FFF'>立减</text>
+              <text class='ft-24 color-FFF'>{{item.productPrice.reducePrice}}</text>
+            </view>
+          </view>
+        </view>
+        <text class='ft-30 color-333 two-line'>【经销商】{{item.productName}}</text>
+        <text class='ft-24 color-666'>规格：{{item.specName}}</text>
+        <view class='promotionList-twoside-price'>
+          <text class='ft-24 color-E53935' style='line-height:24rpx;' wx:if="{{item.productPrice.price}}">¥<text class='ft-36 color-E53935 ' style='line-height:36rpx;'>{{item.productPrice.price}}</text>{{item.priceunit}}</text>
+          <text class='ft-24 color-E53935 ' wx:else>{{hiddenPriceText}}</text>
+        </view>
+        <!-- -->
+      </view>
+    </view>
+    <!-- <view class='shops-product-list-wrap'>
+      <swiper class='shops-product-swiper' bindchange='onShopsProductChange' current='{{shopsProductsIndex}}'>
+        <swiper-item wx:for="{{shopsProducts}}" wx:key='{{item.productSkuId}}' catchtap="goToProductDetail" data-product-sku-id="{{item.productSkuId}}">
+          <view class='shops-product-list-item'>
+            <image class='shops-product-img' src='{{item.imgUrl}}' />
+            <view class='shops-product-right'>
+              <view class='shops-product-info-wrap'>
+                <view class='ft-30 color-333 two-line' style='line-height:34rpx;'>【经销商】{{item.productName}}</view>
+                <text class='ft-24 color-E53935 shops-product-price' wx:if="{{item.productPrice.price}}">¥ <text class='ft-36 color-E53935'>{{item.productPrice.price}}</text> {{item.priceunit}}</text>
+                                <text class='ft-24 color-E53935 shops-product-price' wx:else>¥ <text class='ft-36 color-E53935'>{{item.productPrice.intervalPrice}}</text></text>
+                                                <view class='shops-product-spec-wrap'>
+                                                                  <text class='ft-26 color-666'>规格：{{item.specName}}</text>
+                                                                                    <view class='shops-product-button ft-28 color-FFF' wx:if="{{!item.productPrice.pric.price}}">¥ <text class='ft-36 color-E53935'>{{item.productPrice.price}}</text> {{item.priceunit}}</text>
+                <text class='ft-24 color-E53935 shops-product-price' wx:else>¥ <text class='ft-36 color-E53935'>{{item.productPrice.intervalPrice}}</text></text>
+                <view class='shops-product-spec-wrap'>
+                  <text class='ft-26 color-666'>规格：{{item.specName}}</text>
+                  <view class='shops-product-button ft-28 color-FFF' wx:if="{{!item.productPrice.price}}" catchtap="goToDealerShop" data-shop-id="{{item.companyId}}">申请进货</view>
+                </view>
+              </view>
+              <view class='shops-product-info-tag-wrap'>
+                <view class='shops-product-delivery-mode-tag'>{{item.deliveryMode==0?"易久批配送":"经销商直配"}}</view>
+              </view>
+            </view>
+          </view>
+        </swiper-item>
+      </swiper>
+      <image class='shops-product-button-left' src='/assets/images/youjiantou@2x.png' wx:if="{{shopsProductsIndex!=0}}" catchtap='onShopsProductSwitch' data-direction='pre' />
+      <image class='shops-product-button-right' src='/assets/images/youjiantou@2x.png' wx:if="{{shopsProductsIndex!=shopsProducts.length-1}}" catchtap='onShopsProductSwitch' data-direction='next' />
+    </view> -->
+  </view>
+</template>

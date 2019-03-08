@@ -1,0 +1,249 @@
+.activity-dialog {
+  position:fixed;
+  z-index:999;
+  width:576rpx;
+  max-width:600rpx;
+  max-height:750rpx;
+  top:50%;
+  left:50%;
+  -webkit-transform:translate(-50%, -50%);
+  transform:translate(-50%, -50%);
+  background-color:#fff;
+  text-align:center;
+  border-radius:26rpx;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.dialog-bg-act{
+  width: 100%;
+}
+.dialog-bg-act image{
+  display: block;
+  width: 576rpx;
+  height: 288rpx;
+  max-width: 100%;
+  min-width:100%;
+  min-height:100%;
+  max-height: 288rpx;
+}
+.dialog-content{
+  width: 576rpx;
+  min-height: 300rpx;
+}
+.dialog-content-title{
+  text-align: center;
+  margin: 32rpx 0;
+  font-size: 34rpx;
+  color: #333;
+}
+.dialog-content-info{
+  font-size: 26rpx;
+  color: #666;
+  margin: 0 40rpx;
+  text-align: left;
+  line-height: 36rpx;
+  max-height: 200rpx;
+  overflow-y: scroll;
+}
+.dialog-content-btn{
+  width:400rpx;
+  height:72rpx;
+  line-height: 72rpx;
+  background:rgba(229,57,53,1);
+  border-radius:36rpx;
+  font-size: 34rpx;
+  color: #fff;
+  margin: 60rpx 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.close-icon{
+    width: 48rpx;
+    height: 48rpx;
+    background-color: transparent;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 24rpx;
+    right: 24rpx;
+    color: #fff;
+    font-size: 30px;
+    border-radius: 50%;
+    padding: 2px;
+}
+.close-icon image{
+    width: 48rpx;
+    height: 48rpx;
+}
+
+
+.dialog-login-bonus {
+    z-index: 999;
+    width: 560rpx;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    border-radius: 16rpx;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+.dialog-coupon-ct {
+    border-radius: 16rpx 16rpx 0 0;
+    background: -webkit-linear-gradient(to bottom, #ff5a3b 40%, #ff375d 100%);
+    background: -o-linear-gradient(to bottom, #ff5a3b 40%, #ff375d 100%);
+    background: -ms-linear-gradient(to bottom, #ff5a3b 40%, #ff375d 100%);
+    background: linear-gradient(to bottom, #ff5a3b 40%, #ff375d 100%);
+}
+.dialog-coupon-ct .title {
+    font-size: 30rpx;
+    text-align: center;
+    color: #fff;
+    padding-top: 40rpx;
+}
+.dialog-coupon-ct-bg{
+  width: 560rpx;
+  height: 382rpx;
+}
+.dialog-bonus-editTxt, .dialog-coupon-editTxt {
+    width: 70%;
+    font-size: 24rpx;
+    margin: 0 auto;
+    text-align: center;
+    overflow: auto;
+    max-height: 68rpx;
+    padding: 12rpx 0;
+}
+.dialog-coupon-ct-close {
+    width: 40rpx;
+    height: 40rpx;
+    position: absolute;
+    top: 40rpx;
+    right: 30rpx;
+    border-radius: 50%;
+}
+.dialog-coupon-ct-close image{
+    width: 40rpx;
+    height: 40rpx;
+}
+.dialog-coupon-division image{
+    width: 560rpx;
+    height: 52rpx;
+}
+.dialog-coupon-anniu {
+    background-color: #ff375d;
+    margin-top: -14rpx;
+    padding: 20rpx 0 44rpx 0;
+}
+
+.dialog-coupon-anniu .dialog-coupon-anniu-confrim {
+    display: block;
+    width: 70%;
+    height: 72rpx;
+    line-height: 72rpx;
+    background-color: #ffffff;
+    color: #d91f2f;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 72rpx;
+    font-size: 32rpx;
+}
+
+.dialog-login-bonus {
+    z-index: 999;
+    width: 560rpx;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    border-radius: 16rpx;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+.dialog-bonus {
+    background-color: #fff;
+    border-radius: 16rpx;
+    position: relative;
+}
+
+.dialog-bonus-txt {
+    color: #666666;
+    padding-bottom: 36rpx;
+}
+
+.dialog-bonus-txt image {
+    border-radius: 16rpx;
+    width: 560rpx;
+}
+.dialog-bonus-know {
+    display: block;
+    width: 84%;
+    height: 72rpx;
+    line-height: 72rpx;
+    margin: 0 auto;
+    text-align: center;
+    color: #ffffff;
+    font-size: 28rpx;
+    background-color: #eb3b45;
+    border-radius: 72rpx;
+}
+
+.dialog-activity-ct {
+    padding-bottom: 48rpx;
+    background-color: #fff;
+    border-radius: 16rpx;
+}
+
+.dialog-coupon-ct .title {
+    font-size: 30rpx;
+    text-align: center;
+    color: #fff;
+    padding-top: 40rpx;
+}
+.dialog-activity-ct image {
+    border-radius: 16rpx 16rpx 0 0;
+    width: 560rpx;
+    transform: translate(-50%);
+    position: relative;
+    left: 50%;
+    top: 50%;
+    max-height: 300rpx;
+}
+.dialog-activity-title {
+    font-size: 34rpx;
+    color: #333333;
+    text-align: center;
+    margin: 32rpx 0 24rpx 0;
+}
+
+.dialog-activity-editTxt {
+    width: 84%;
+    margin: 0 auto;
+    text-align: left;
+    color: #666;
+    height: auto;
+    overflow-y: scroll;
+    max-height: 152rpx;
+    font-size: 24rpx;
+}
+.dialog-activity-btn {
+    display: block;
+    width: 70%;
+    height: 72rpx;
+    line-height: 72rpx;
+    margin: 0 auto;
+    background-color: #E53935;
+    color: #fff;
+    text-align: center;
+    border-radius: 72rpx;
+    margin-top: 32rpx;
+    font-size: 34rpx;
+}
+.clear-dialog-icon{
+  width: 40rpx !important;
+  height: 40rpx !important;
+  top: 0 !important;
+}

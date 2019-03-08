@@ -1,0 +1,65 @@
+/* pages/activity/activityDetail.wxss */
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.activity-title {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32rpx 24rpx;
+  box-sizing: border-box;
+}
+
+.title-line-1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.title-tag {
+  width: 28rpx;
+  height: 28rpx;
+  background-color: #e53935;
+  color: #fff;
+  font-size: 20rpx;
+  line-height: 28rpx;
+  text-align: center;
+  border-radius: 4rpx;
+  margin-right: 12rpx;
+}
+
+.title-line-2 {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24rpx;
+}
+
+.activity-sub-title {
+  padding: 24rpx;
+  box-sizing: border-box;
+  background-color: #fafafb;
+  border-top: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.product-list-wrap {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin-top: 12rpx;
+}
+
+.product-list-hd {
+  padding: 24rpx;
+}

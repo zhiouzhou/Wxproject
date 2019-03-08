@@ -1,0 +1,16 @@
+<template name="chooseReturnReason">
+  <view class='address-list-wrap'>
+    <view class='address-item' style='width:100%' wx:for="{{reasonList}}" wx:key="{{item}}" catchtap='onSelectReason' data-reason='{{item}}'>
+      <view style='display:flex;flex-direction:row;justify-content:space-between;align-items:center'>
+        <text class='ft-28 {{selectReturnReason==item?"color-E53935":"color-333"}}'> 
+          <view class='select-tri-icon'> </view>
+        {{item}}</text>
+        <image class='original-buy-img' src="{{selectReturnReason==item ? '/assets/images/icon_xuanzegou@2x.png' : ''}}" mode="aspectFit" />
+      </view>
+      <view style='border-bottom: 2rpx solid #E53935;margin-top:8rpx;' wx:if="{{selectReturnReason==item}}" />
+
+    </view>
+    <textarea class='ta-class' placeholder-class='ft-30 color-999' wx:if="{{selectReturnReason=='其他'}}" placeholder='必填，请输入其他原因' bindblur='onOtherReasonConfirm'  value='{{otherReason}}'/>
+     <view class='select-tri-confirm-button ft-36 color-FFF' catchtap='{{onDismiss}}'>完成</view> 
+  </view>
+</template>

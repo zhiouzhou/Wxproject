@@ -1,0 +1,246 @@
+<!--pages/user/orders/orderDetail.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../../components/product/product.wxml" />
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<include src="../../../components/dialog/buyAgain/buyAgain.wxml" wx:if="{{sectionBuy}}" />
+<!-- 订单号 -->
+<view wx:if="{{!vm.error}}">
+  <view class='order-detail-order-no'>
+    <text class='ft-30 color-666'>订单号：{{orderDetail.orderNO}}</text>
+    <text class='ft-24 color-E53935}'>{{orderDetail.state==1?'待发货':orderDetail.state==2?'已发货':orderDetail.state==3?'已完成':orderDetail.state==4?'审核拒绝':orderDetail.state==5?'已取消':orderDetail.state==6?'已删除':orderDetail.state==7?'配送失败':orderDetail.state==8?'待支付':orderDetail.state==9?'待评价':''}}</text>
+  </view>
+  <!-- 订单追踪 -->
+  <view class='order-track' wx:if="{{traceItem}}" catchtap='goToOrderTrack' data-order-n-o='{{orderDetail.orderNO}}'>
+    <image class='order-track-car-img' src='/assets/images/ic-che@2x.png' mode='aspectFit' />
+    <text class='ft-26 color-666 one-line' style='flex:1;'>{{traceItem.orderDescription}}</text>
+    <image class='order-track-arrow-img' src='/assets/images/ic_arrow@2x.png' mode='aspectFit' />
+  </view>
+  <!-- 拼团详情 -->
+  <view class='group-buy-detail' wx:if="{{orderDetail.groupPurchase}}">
+    <view class='group-buy-desc' catchtap='goToGroupBuyDetail' data-group-purchase-id='{{orderDetail.groupPurchase.groupPurchaseId}}'>
+      <text class='ft-30 color-333' wx:if="{{orderDetail.groupPurchase.groupPurchaseState==0}}">【拼团中】还差<text class='ft-30 color-E53935'>{{orderDetail.groupPurchase.minParticipantCount-orderDetail.groupPurchase.participationCount}}人</text>拼团成功</text>
+      <text class='ft-30 color-333' wx:elif="{{orderDetail.groupPurchase.groupPurchaseState==1}}">【拼成】拼团成功我们即将发货</text>
+      <text class='ft-30 color-333' wx:elif="{{orderDetail.groupPurchase.groupPurchaseState==2}}">【未拼成】款项将原路退还</text>
+      <image src='/assets/images/ic_arrow@2x.png' class='group-arrow' />
+    </view>
+    <view class='group-buy-count-down' wx:if="{{orderDetail.groupPurchase.groupPurchaseState==0&&countDownArr.length}}">
+      <text class='ft-28 color-666'>剩余时间</text>
+      <text class='count-down-time'>{{countDownArr[0]}}</text>
+      <text class='ft-20 color-333'>天</text>
+      <text class='count-down-time'>{{countDownArr[1]}}</text>
+      <text class='ft-26 color-666'>:</text>
+      <text class='count-down-time'>{{countDownArr[2]}}</text>
+      <text class='ft-26 color-666'>:</text>
+      <text class='count-down-time'>{{countDownArr[3]}}</text>
+    </view>
+    <view class='group-buy-img'>
+      <view class='colonel-image-wrap' wx:for="{{loopTimesArr}}" wx:if="{{index<orderDetail.groupPurchase.minParticipantCount}}">
+        <image src='/assets/images/tuanzhang_touxiang_ic@2x.png' class='colonel-image' wx:if="{{index==0}}" />
+        <view class='share-img-area' wx:elif="{{orderDetail.groupPurchase.groupPurchaseState!=1&&(index==loopTimesArr.length-1)}}">
+          <image src='/assets/images/kongbai_touxing_ic@2x.png' class='share-img-area-image' />
+          <button class='share-img-button' open-type='{{orderDetail.groupPurchase.groupPurchaseState==0?"share":""}}'></button>
+        </view>
+        <image src='/assets/images/pingtuanxiangqing_touxiang_ic@2x.png' class='colonel-image' wx:else />
+      </view>
+    </view>
+    <button class='group-buy-share-button' wx:if="{{orderDetail.groupPurchase.groupPurchaseState==0}}" open-type='share' catchtap='doNothing'>邀请好友参团</button>
+  </view>
+  <!-- 收货地址 -->
+  <view class='order-address'>
+    <image class='order-track-mark-img' src='/assets/images/ic-shouhuo@2x.png' mode='aspectFit' />
+    <view class='address-wrap'>
+      <view>
+        <text class='ft-30 color-333'>收货人：{{address.contact}}</text>
+        <text class='ft-30 color-333' style='margin-left:40rpx;'>{{address.mobileNo}}</text>
+      </view>
+      <text class='ft-26 color-666 two_line' style='margin-top:12rpx;'>收货地址：{{addressStr}}</text>
+    </view>
+
+  </view>
+  <!-- 分割线 -->
+  <view class='line'>
+    <image class='address-bottom-img' src='/assets/images/letter.png' />
+  </view>
+  <!-- 商品 -->
+  <view class='delivery'>
+    <view class='delivery-mode' style='padding:0 24rpx;'>
+      <text class='ft-30 color-333' catchtap='goToDealerShop' data-shop-id='{{orderDetail.companyId}}' data-order-type='{{orderDetail.orderType}}'>{{orderDetail.companyName}} <text wx:if="{{orderDetail.orderType==2}}"> ></text></text>
+      <text class='ft-24 color-666'></text>
+    </view>
+    <view style='border-bottom: 2rpx solid rgba(0, 0, 0, 0.1)'></view>
+    <view>
+      <view class='delivery-mode' style='padding:0 24rpx;'>
+        <text class='ft-28 color-333'>商品</text>
+        <text class='ft-24 color-666'>{{orderDetail.serviceDesc}}</text>
+      </view>
+      <!-- 订单产品预览 -->
+      <view>
+        <!-- class='product-preview'  -->
+        <block wx:if="{{vm.isSingleOrder}}">
+          <view wx:for="{{vm.itemList}}" wx:key="{{item.sourceId}}">
+            <template is="orderdetail-list-product" data="{{...item.product,sourceType:item.sourceType,sourceId:item.sourceId,item}}" />
+          </view>
+        </block>
+        <block wx:else>
+          <view catchtap='goToOrderGoodsList' data-tag="product">
+            <template is="order-multi-product" data="{{items:item.itemList,totalCount:productCount}}" />
+          </view>
+        </block>
+      </view>
+    </view>
+
+  </view>
+  <!-- 配送 -->
+  <view class='delivery' style='padding: 0 24rpx;'>
+    <view class='delivery-mode' wx:if="{{item.deliveryModeValue!=1}}">
+      <text class='ft-28 color-333'>配送方式</text>
+      <text class='ft-28 color-666'>{{item.deliveryModeValue==0?'久批配送':item.deliveryModeValue==1?'合作商配送':item.deliveryModeValue==2?'配送商配送':item.deliveryModeValue==3?'第三方配送':item.deliveryModeValue==4?'仓库自提':'总部'}}</text>
+    </view>
+    <!-- 自提地址 -->
+    <view class='self-pick' wx:if="{{item.deliveryModeValue==4}}">
+      <image class='self-pick-img' style="margin-left:10rpx;margin-right:10rpx;" src='/assets/images/ic-shouhuo@2x.png' mode='aspectFit' />
+      <text class='ft-26 color-666 two-line' style='flex:1;'>自提地点：{{item.selfPickUpWarehouse.province}}{{item.selfPickUpWarehouse.city}}{{item.selfPickUpWarehouse.detailAddress}}{{item.selfPickUpWarehouse.warehouseName}}</text>
+    </view>
+    <!-- 自提时间 -->
+    <view class='self-pick' wx:if="{{item.deliveryModeValue==4}}">
+      <image class='self-pick-img' style='width:60rpx;height:60rpx;' src='/assets/images/ic-zitishijian@2x.png' mode='aspectFit' />
+      <text class='ft-26 color-666 two-line' style='flex:1;'>自提时间：{{item.selfPickUpTimeDesc}}</text>
+    </view>
+    <view class='delivery-mode' style=' border-top: 2rpx solid rgba(0, 0, 0, 0.1);'>
+      <text class='ft-28 color-333'>支付方式</text>
+      <view class='pay-type-wrap'>
+        <text class='ft-28 color-666'>{{orderDetail.payType==0&&orderDetail.deliveryModeValue==4?'现款现结':orderDetail.payType==0?'货到付款':orderDetail.payType==1?'微信支付':orderDetail.payType==2?'支付宝支付':orderDetail.payType==3?'银联支付':orderDetail.payType==5?'连连支付':orderDetail.payType==6?'易酒贷':orderDetail.payType==10?'已在线支付':orderDetail.payType==11?'线下转账':orderDetail.payType==12?'经销商收款':orderDetail.payType==13?'余额支付':''}}</text>
+
+        <text class='ft-28 color-477AAC underline' style='margin-left:36rpx;' catchtap='changePayType' data-tag='{{item}}' wx:if="{{item.payType==1&&item.state==8&&!isLargeCargo&&!isNearExpire&!isdjbx&&!isGroupBuy}}">转{{item.deliveryModeValue==4?'现款现结':'货到付款'}}</text>
+      </view>
+    </view>
+    <!--卖家留言  -->
+    <view class='buyer-message' style='border-top: 2rpx solid rgba(0, 0, 0, 0.1);' wx:if="{{item.remark}}">
+      <text class='ft-28 color-333' style='width:120rpx;margin-top:24rpx'>卖家留言</text>
+      <text class='ft-28 color-666' style='width:540rpx;margin-top:24rpx;text-align:right;'>{{item.remark}}</text>
+    </view>
+  </view>
+  <!-- 价格 -->
+  <view class='order-price'>
+    <view class='order-otherPrice'>
+      <text class='ft-28 color-333 price-item'>商品总额</text>
+      <text class='ft-28 color-666 price-value'>￥{{WxsUtil.toFixed(item.orderAmount,2)}} </text>
+    </view>
+    <view class='order-otherPrice' wx:if="{{item.productReduceAmount}}">
+      <text class='ft-28 color-333 price-item'>产品立减</text>
+      <text class='ft-28 color-666 price-value'>-￥{{WxsUtil.toFixed(item.productReduceAmount,2)}} </text>
+    </view>
+    <view class='order-otherPrice' wx:if="{{item.useCouponAmount}}">
+      <text class='ft-28 color-333 price-item'>使用优惠券</text>
+      <text class='ft-28 color-666 price-value'>-￥{{WxsUtil.toFixed(item.useCouponAmount,2)}} </text>
+    </view>
+    <view class='order-otherPrice' wx:if="{{item.useBonusAmount}}">
+      <text class='ft-28 color-333 price-item'>使用红包</text>
+      <text class='ft-28 color-666 price-value'>-￥{{WxsUtil.toFixed(item.useBonusAmount,2)}} </text>
+    </view>
+    <view class='order-otherPrice' wx:if="{{item.useCouponCodeAmount}}">
+      <text class='ft-28 color-333 price-item'>使用优惠码</text>
+      <text class='ft-28 color-666 price-value'>-￥{{WxsUtil.toFixed(item.useCouponCodeAmount,2)}} </text>
+    </view>
+    <view class='order-otherPrice' wx:if="{{item.reduceAmount}}">
+      <text class='ft-28 color-333 price-item'>订单满减</text>
+      <text class='ft-28 color-666 price-value'>-￥{{WxsUtil.toFixed(item.reduceAmount,2)}} </text>
+    </view>
+    <view class='order-otherPrice' wx:if="{{item.selfPickUpReduceAmout}}">
+      <text class='ft-28 color-333 price-item'>自提优惠</text>
+      <text class='ft-28 color-666 price-value'>-￥{{WxsUtil.toFixed(item.selfPickUpReduceAmout,2)}} </text>
+    </view>
+    <view class='order-otherPrice' wx:if="{{item.lastOddBalanceAmount||item.newOddBalanceAmount}}">
+      <text class='ft-28 color-333 price-item'>历次未收</text>
+      <text class='ft-28 color-666 price-value'>￥{{WxsUtil.toFixed(item.lastOddBalanceAmount,2)}} </text>
+    </view>
+    <view class='order-otherPrice' wx:if="{{item.newOddBalanceAmount||item.lastOddBalanceAmount}}">
+      <text class='ft-28 color-333 price-item'>本次零头</text>
+      <text class='ft-28 color-666 price-value'>￥{{WxsUtil.toFixed(item.newOddBalanceAmount,2)}} </text>
+    </view>
+  </view>
+  <view style='border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);'></view>
+  <view class='order-amount'>
+    <view>
+      <text class='ft-28 color-333' wx:if="{{item.discountAmount}}">优惠：<text style='color:#e53935'>￥{{WxsUtil.toFixed(item.discountAmount,2)}}</text></text>
+      <text class='ft-28 color-333' style='margin-left:48rpx;margin-right:24rpx'>实付款：<text style='color:#e53935'>￥{{WxsUtil.toFixed(item.payableAmount,2)}}</text></text>
+    </view>
+    <text class='ft-26 color-666' style='margin-right:24rpx;margin-top:8rpx'>下单时间：{{item.createTime}}</text>
+  </view>
+  <!-- 财富信息 -->
+  <view class='cost-give' wx:if="{{item.costWineScore||item.giveWineScore||item.giveBonusAmount||item.giveBonusAmount}}">
+    <view class='cost-give-icon' wx:if="{{item.costWineScore}}">
+      <view class='ft-22 color-666 cost'> 酒币 </view>
+      <text class='ft-24 color-666' style='margin-left:8rpx'>花酒币{{item.costWineScore}}个</text>
+    </view>
+    <view class='cost-give-icon' wx:if="{{item.giveWineScore}}">
+      <view class='ft-22 color-666 give'> 酒币 </view>
+      <text class='ft-24 color-666' style='margin-left:8rpx'>送酒币{{item.giveWineScore}}个</text>
+    </view>
+    <view class='cost-give-icon' wx:if="{{item.giveBonusAmount}}">
+      <view class='ft-22 color-666 give'> 红包 </view>
+      <text class='ft-24 color-666' style='margin-left:8rpx'>送红包{{WxsUtil.toFixed(item.giveBonusAmount,2)}}</text>
+    </view>
+    <view class='cost-give-icon' wx:if="{{item.giveBonusAmount}}">
+      <view class='ft-22 color-666 give'>优惠券</view>
+      <text class='ft-24 color-666' style='margin-left:8rpx'>送优惠券￥{{WxsUtil.toFixed(item.giveBonusAmount,2)}}</text>
+    </view>
+  </view>
+  <view style='border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);'></view>
+  <!--多功能按钮  -->
+  <view class='multifunction'>
+
+    <view class='more-contain' wx:if="{{BtnObj && BtnObj.length>4}}" bindtap='hideBtnAction'>
+      <view class='more-order-btn-wrap' hidden='{{hideBtn}}'>
+        <view class="more-order-btn-text" wx:for="{{BtnObj2}}" wx:for-item="order" wx:key="{{order.key}}" data-order-obj="{{order}}" bindtap='orderOprate'>{{order.text}}</view>
+      </view>
+      <image class='more-btn-img' src='/assets/images/ic_gengduo@2x.png' mode='aspectFit' />
+      <text class='ft-24 color-666' style='margin-left:16rpx'>更多</text>
+    </view>
+
+    <!-- 在线支付倒计时 -->
+    <view class='online-pay-count-down' wx:if="{{item.state==8&&item.payType==1 && BtnObj && BtnObj.length<4}}">
+      <text class='ft-24 color-666'>付款剩余时间</text>
+      <text class='ft-26 color-666'>{{onlinePayCountDown}}</text>
+    </view>
+
+    <view class='multifunction-btn-contain' wx:if="{{BtnObj.length<=4}}">
+
+      <view class='button-grey' wx:if="{{item.canDeleteOrder}}" data-order-n-o="{{item.orderNO}}" bindtap='deleteOrder'>删除订单</view>
+      <view class='button-grey' wx:if="{{item.alreadyEvaluate}}" data-order-n-o="{{item.orderNO}}" bindtap='goToEvaluate'>评价详情</view>
+      <view class='button-grey' wx:if="{{item.canReturnOrder}}" data-orderDetail='{{item}}' bindtap='applyReturnOrder'>申请退货</view>
+      <view class='button-grey' wx:if="{{item.canSwappable}}" data-orderDetail='{{item}}' bindtap='exchangeOrder'>申请换货</view>
+      <view class='button-grey' wx:if="{{(!item.groupPurchase&&item.canCancelOrder)||(item.groupPurchase&&item.state==8)}}" data-orderDetail='{{item}}' data-order-n-o="{{item.orderNO}}" bindtap='cancelOrder'>取消订单</view>
+      <view class='button-grey' catchtap="evaluateOrder" data-order-n-o='{{item.orderNO}}' wx:if="{{item.canEvaluate}}">{{pjbtnName}}</view>
+      <view class='button-grey' catchtap="complaintOrder" data-order-n-o='{{item.orderNO}}' wx:if="{{item.canComplain}}">订单投诉</view>
+      <view class='button-grey' wx:if="{{item.canBuyAgain}}" bindtap='buyAgain' data-tag='{{item}}'>再次购买</view>
+      <button class='button-grey' style='background-color:#fff;margin-right:0;height:60rpx;line-height:58rpx;' catchtap='doNothing' wx:if="{{item.groupPurchaseState==0}}" open-type='share'>邀请好友</button>
+      <view class='button-grey' catchtap="onlinePay" wx:if="{{item.state==8&&item.payType==1}}" data-order-n-o='{{item.orderNO}}'>去支付</view>
+    </view>
+    <view class='multifunction-btn-contain' wx:if="{{BtnObj && BtnObj.length>4}}">
+      <view class='button-grey' wx:for="{{BtnObj1}}" wx:for-item="order" wx:key="{{order.key}}" data-order-obj="{{order}}" bindtap='orderOprate'>{{order.text}}</view>
+    </view>
+
+  </view>
+</view>
+<view class='abnormal' wx:if="{{vm.error}}">
+  <image src='/assets/images/gantan_icon@2x.png' mode='aspectFit' class='titleImg'></image>
+  <view class='title_one'>抱歉，当前二维码无法正常访问</view>
+  <view class='reason'>
+    <text>可能原因：</text>
+    <view>
+      <view>非本店铺订单</view>
+      <view>非订单二维码</view>
+      <view style='text-align:left;'>系统繁忙</view>
+    </view>
+  </view>
+  <view class='again' catchtap='reScan'>重新扫描</view>
+</view>

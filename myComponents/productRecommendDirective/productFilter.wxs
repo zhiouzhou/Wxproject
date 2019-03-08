@@ -1,0 +1,18 @@
+function getPriceFormat(value) {
+  return parseFloat(isNaN(value) ? 0 : value).toFixed(2);
+}
+function productFormat(name){
+  var a = typeof name === "string" ? name : ''
+  if(a.length>24){
+    return a.substring(0, 24) + '...'
+  }else{
+    return a
+  }
+}
+module.exports={
+  getPriceFormat: getPriceFormat,
+  productFormat: productFormat
+}
+
+
+

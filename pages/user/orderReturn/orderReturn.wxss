@@ -1,0 +1,189 @@
+/* pages/user/orderReturn/orderReturn.wxss */
+
+.chooseType {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 88rpx;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.orderType {
+  flex: 1;
+  text-align: center;
+  line-height: 88rpx;
+  position: relative;
+}
+
+.line {
+  height: 4rpx;
+  width: 188rpx;
+  background-color: #e53935;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+/*顶部title*/
+
+.titleBar {
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16rpx 0;
+  padding-right: 24rpx;
+  height: 60rpx;
+}
+
+/*包裹title*/
+
+.wrapTitles {
+  font-size: 32rpx;
+  color: #333;
+  display: flex;
+  min-width: 158rpx;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: 24rpx;
+}
+
+.selectImg {
+  width: 30rpx;
+  height: 23rpx;
+  margin-right: 4rpx;
+}
+
+/*title文字下面的小红线*/
+
+.redBg {
+  margin-top: 16rpx;
+  width: 72%;
+  height: 4rpx;
+  background-color: #e53935;
+}
+
+.msg {
+  margin-bottom: 20rpx;
+  font-size: 32rpx;
+  color: #333;
+}
+
+.noOrder {
+  height: 1000rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+/*没有订单返回首页的按钮样式*/
+
+.gotoHomePage {
+  padding: 20rpx;
+  width: 240rpx;
+  text-align: center;
+  border: 1px solid #999;
+  border-radius: 8rpx;
+}
+
+.orders-list-wrap {
+  height: 100%;
+  width: 100%;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+.order-wrap {
+  margin-bottom: 12rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  background-color: #fff;
+}
+
+.order-hd {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 24rpx;
+  box-sizing: border-box;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.order-hd-line-1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-amount {
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 24rpx;
+  box-sizing: border-box;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.order-button {
+  height: 88rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 24rpx;
+  box-sizing: border-box;
+}
+
+.button-grey {
+  height: 56rpx;
+  min-width: 144rpx;
+  font-size: 28rpx;
+  color: #666;
+  padding-left: 8rpx;
+  padding-right: 8rpx;
+  margin-left: 32rpx;
+  text-align: center;
+  line-height: 56rpx;
+  border: 2rpx solid #666;
+  border-radius: 6rpx;
+}
+
+.product-preview {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.orderReturn-preview {
+  display: flex;
+  padding: 0 24rpx;
+  padding-top: 24rpx;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apply-img {
+  width: 104rpx;
+  height: 104rpx;
+  position: fixed;
+  bottom: 407rpx;
+  right: 18rpx;
+}

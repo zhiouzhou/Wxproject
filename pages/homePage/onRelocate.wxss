@@ -1,0 +1,88 @@
+/* pages/homePage/onRelocate.wxss */
+
+.currentCity {
+  padding: 0 24rpx;
+  display: flex;
+  justify-content: space-between;
+  height: 78rpx;
+  line-height: 78rpx;
+  /* position: fixed; */
+}
+
+.relocate {
+  display: flex;
+  align-items: center;
+}
+
+.location-img {
+  width: 44rpx;
+  height: 44rpx;
+  padding-right: 8rpx;
+}
+
+.hotCity {
+  display: flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  padding: 16rpx;
+}
+
+.hotCity-img {
+  width: 40rpx;
+  height: 40rpx;
+  padding-right: 4rpx;
+}
+
+.hotCityList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 24rpx 24rpx 0 24rpx;
+}
+
+.hotCityMessage {
+  width: 206rpx;
+  height: 64rpx;
+  text-align: center;
+  line-height: 64rpx;
+  font-size: 28rpx;
+  color: #666;
+  margin: 0 24rpx 24rpx 0;
+  border: 2rpx solid #bdbdbd;
+}
+
+.initials {
+  padding: 16rpx 24rpx;
+  font-size: 28rpx;
+  color: #666;
+  background-color: #f2f2f2;
+}
+/* .cityMessage{
+  padding:0 25rpx;
+} */
+.cityName{
+  padding:24rpx;
+  border-bottom: 2rpx solid rgba(0,0,0,0.1) ;
+  font-size:28rpx;
+  color:#333;
+}
+.letter{
+  position: fixed;
+  right:16rpx;
+  top:288rpx;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99
+}
+.xiaoxingxing{
+  width:24rpx;
+  height:24rpx;
+}
+.letter-ft{
+  width:62rpx;
+  height:29rpx;
+  text-align: center;
+  line-height: 29rpx;
+}

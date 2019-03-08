@@ -1,0 +1,49 @@
+<!--pages/register/registerStepOne.wxml-->
+
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../components/codeInput/codeInput.wxml" />
+<!-- 标题 -->
+<view class='notice' hidden='{{fromQuickRegister}}'>
+  <text class='ft-34 color-333' style='flex:1;'>账号信息</text>
+  <view class='red-block' />
+  <view class='grey-block' />
+</view>
+<view class='info-wrap'>
+  <!-- 手机号 -->
+  <view class='info-item-wrap'>
+    <text class='ft-28 color-333' style='width:140rpx;'>手机号</text>
+    <input class='account-input' value='{{account}}' placeholder='请输入手机号' placeholder-class='ft-28 color-BDBDBD' maxlength='11' type='number' bindinput='onAccountBlur' disabled='{{fromQuickRegister}}' />
+    <text class='ft-28 {{account.length==11?"color-E53935":"color-999"}}' catchtap='checkIsSigned' data-register='true' data-type='vcode' hidden='{{fromQuickRegister}}'>{{c2||"获取验证码"}}</text>
+  </view>
+  <!-- 验证码 -->
+  <view class='vcode-wrap' hidden='{{fromQuickRegister}}'>
+    <template is="code-input" data="{{codeInputHeight:97,codeNumFakeArr,codeValue}}" />
+  </view>
+  <text class='ft-24 color-333 code-text' catchtap='checkIsSigned' data-register='true' data-type='showVoiceCallDialog' hidden='{{fromQuickRegister}}'>收不到验证码，使用<text class='ft-24 color-477AAC'>语音验证码</text></text>
+  <!-- 密码 -->
+  <view class='info-item-wrap' style='{{fromQuickRegister?"":"border-top: 2rpx solid #e5e5e5;"}}'>
+    <text class='ft-28 color-333' style='width:140rpx;'>密码</text>
+    <input class='account-input' value='{{password}}' placeholder='限6-18位' placeholder-class='ft-28 color-BDBDBD' password='true' maxlength='18' bindinput='checkPasswordValid' data-tag='password' />
+  </view>
+  <!-- 确认密码 -->
+  <view class='info-item-wrap' style='border-bottom:0rpx solid #fff;'>
+    <text class='ft-28 color-333' style='width:140rpx;'>确认密码</text>
+    <input class='account-input' value='{{passwordRepeat}}' placeholder='请再次输入密码' placeholder-class='ft-28 color-BDBDBD' maxlength='18' password='true' bindinput='checkPasswordValid' data-tag='passwordRepeat' />
+  </view>
+</view>
+<!-- 用户协议 -->
+<view class='protocol' hidden='{{fromQuickRegister}}'>
+  <image class='protocol-img' src='/assets/images/protocol@2x.png' mode='aspectFit' wx:if="{{protocolSelected}}" catchtap='switchProto' />
+  <view class='protocolUnselected' wx:else catchtap='switchProto' />
+  <text class='ft-24 color-333' style='margin-left:12rpx;'>阅读并同意</text>
+  <text class='ft-24 color-477AAC' catchtap='previewProto'>《易久批用户协议说明》</text>
+</view>
+<!-- 确定按钮 -->
+<view class='confirm-button' style='{{account.length==11&&codeValue.length==6&&password==passwordRepeat&&password.length>5&&password.length<19&&protocolSelected?"":"background-color:#bdbdbd;"}}' hidden="{{fromQuickRegister}}" catchtap='onClickConfirm'>下一步</view>
+<!-- 开放注册确定按钮 -->
+<view class='confirm-button' style='{{account.length==11&&password.length>5&&password.length<19&&password==passwordRepeat?"":"background-color:#bdbdbd;"}}' hidden="{{!fromQuickRegister}}" catchtap='onClickConfirm'>确定</view>

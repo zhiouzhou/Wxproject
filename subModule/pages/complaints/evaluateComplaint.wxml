@@ -1,0 +1,32 @@
+<!--pages/complaints/evaluateComplaint.wxml-->
+<import src="/components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<import src="/components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<view class='evaluate-wrapper'>
+  <view class='evaluate-item'>
+    <view class='item-title'><text class='color-E53935'>*</text>服务评价</view>
+    <view class='pic-wrapper'>
+       <view catchtap='selectEvaluate' wx:for="{{serviceEvaluateArr}}" class='pic-item' data-tag='{{item.id}}'>
+          <image src="{{evaluateInfo.serviceEvaluate==item.id?item.activePic:item.pic}}"></image>
+          <view class="{{evaluateInfo.serviceEvaluate==item.id?'color-E53935':''}}">{{item.text}}</view>
+        </view>
+    </view>
+  </view>
+    <view class="evaluate-item"  wx:if="{{evaluateInfo.serviceEvaluate==2}}">
+    <view class='item-title'><text class='color-E53935'>*</text>不满意原因</view>
+    <view class='reason-wrapper'>
+      <view class="reason-item {{item.selected?'active-reason':''}}" catchtap='selectReason'  wx:for="{{reasons}}" data-tag='{{item.dissatisfactionReason}}'>
+      <image wx:if="{{item.selected}}" src='/assets/images/icon_xuanzegou@2x.png'></image>{{item.dissatisfactionReason}}
+      </view>
+    </view>
+  </view>
+  <view class='evaluate-item'>
+    <view class='item-title'>备注（选填）</view>
+    <textarea maxlength='200' class='text-item' bindinput='inputRemark'></textarea>
+  </view>
+</view>
+<view class='submit-wrapper'>
+  <view class='submit-btn' catchtap='sumitEvaluate'>提交</view>
+</view>

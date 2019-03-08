@@ -1,0 +1,98 @@
+<!--pages/user/receiveAddress/addNewAddress.wxml-->
+
+<!--pages/user/addUserAddress/addUserAddress.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<include src='../../../components/dialog/addressSelect/addressSelect.wxml' wx:if="{{addressSelectShow}}"/>
+<view class='consignee-message'>
+
+  <!-- 收货人 -->
+  <view class='consignee'>
+    <view style='min-width:130rpx'>
+      <text style='color:#D91F2F'>*</text>
+      <text class='consignee-text'>收货人</text>
+    </view>
+    <input placeholder='请输入收货人姓名' class='input-name' style='padding-left:44rpx;' bindinput='userName' value='{{address.contact}}'></input>
+  </view>
+  <view style='height:2rpx;width:702rpx;background-color:rgba(0,0,0,.1);margin-left:24rpx;'></view>
+  <!-- 手机号码 -->
+  <view class='phoneNumber'>
+    <view style='min-width:130rpx'>
+      <text style='color:#D91F2F'>*</text>
+      <text class='phone-text'>手机号</text>
+    </view>
+    <input placeholder='请输入手机号码' class='input-phone' style='padding-left:44rpx;' bindinput='userPhone' value='{{address.mobileNo}}'></input>
+  </view>
+  <view style='height:2rpx;width:702rpx;background-color:rgba(0,0,0,.1);margin-left:24rpx;'></view>
+  <!-- 固定电话 -->
+  <view class='telephone'>
+    <view style='min-width:130rpx'>
+      <text class='phone-text'>固定电话</text>
+    </view>
+    <input placeholder='请输入固定电话' class='input-phone' style='padding-left:44rpx;' bindinput='userTelephone'></input>
+  </view>
+  <view style='height:2rpx;width:702rpx;background-color:rgba(0,0,0,.1);margin-left:24rpx;'></view>
+  <!-- 地址 -->
+  <view class='address' catchtap='choose' wx:if="{{!isManua}}">
+    <view style='min-width:130rpx'>
+      <text style='color:#D91F2F'>*</text>
+      <text class='phone-text'>地址</text>
+    </view>
+     <view class='user-address'>
+      <view class='address-one'>{{address.province}}{{address.city}}{{address.county}}{{address.street}}</view>
+      <view class='address-two'>{{address.detailAddress}}</view>
+    </view> 
+    <image src='/assets/images/ic_arrow_m@2x.png' class='more'></image>
+  </view>
+<!--所在区域  -->
+ <view class='address' catchtap='proxyFun' data-tag="startSelect" wx:if="{{isManua}}">
+    <view style='min-width:130rpx'>
+      <text style='color:#D91F2F'>*</text>
+      <text class='phone-text'>所在区域</text>
+    </view>
+     <view class='user-address'>
+      <view class='address-one'>{{address.province}}{{address.city}}{{address.county}}</view>
+    </view> 
+    <image src='/assets/images/ic_arrow_m@2x.png' class='more'></image>
+  </view>
+  <view wx:if="{{isManua}}" style='height:2rpx;width:702rpx;background-color:rgba(0,0,0,.1);margin-left:24rpx;'></view>
+  <!-- 选择街道  -->
+   <view class='address' catchtap='goSelectStreet'  wx:if="{{isManua}}">
+    <view style='min-width:130rpx'>
+      <text class='phone-text'>乡镇街道</text>
+    </view>
+     <view class='user-address'>
+      <view class='address-one' style='#999;' wx:if="{{!address.street}}">请选择街道/乡镇</view>
+      <view class='address-one ' wx:if="{{address.street}}">{{address.street}}</view>
+    </view> 
+    <image src='/assets/images/ic_arrow_m@2x.png' class='more'></image>
+  </view>
+  <view wx:if="{{isManua}}" style='height:2rpx;width:702rpx;background-color:rgba(0,0,0,.1);margin-left:24rpx;'></view>
+  <!-- 详细地址  -->
+   <view class='address' catchtap='proxyFun' wx:if="{{isManua}}">
+    <view style='min-width:130rpx'>
+     <text style='color:#D91F2F'>*</text>
+      <text class='phone-text'>详细地址</text>
+    </view>
+     <view class='user-address'>
+      <input  placeholder='请输入详细地址' value='{{address.detailAddress}}' bindinput='detailAddress' />
+    </view> 
+  </view>
+  <view wx:if="{{address.fromLocation}}" style='height:2rpx;width:702rpx;background-color:rgba(0,0,0,.1);margin-left:24rpx;'></view>
+  <!--所在区域  -->
+ <view class='address'  data-tag="startSelect" wx:if="{{address.fromLocation}}">
+    <view style='min-width:130rpx'>
+      <text class='phone-text'>门牌号</text>
+    </view>
+    <view class='user-address'>
+          <input placeholder='例：16号楼427室' value='{{address.houseNumber}}' class='input-phone' bindinput='houseNumber'></input>
+    </view> 
+  </view>
+ 
+  <!-- 保存收货地址 -->
+  <view class='{{buttonEnable?"conserve2":"conserve1"}}' catchtap='hold'>保存收货地址</view>
+</view>

@@ -1,0 +1,37 @@
+
+.shop-cart-product-wrap {
+  width: 870rpx;
+  display: flex;
+  background-color: #fff;
+  transition:margin-left 0.2s ease-in-out;
+  padding-top:24rpx;
+  box-sizing:border-box;
+  border-top:2rpx solid #e5e5e5;
+}
+.product-number-frame{
+  overflow: visible;
+}
+.product-number-button {
+  position: relative;
+}
+.crease-mask{
+  position:absolute;
+  top:-15rpx;
+  width:90rpx;
+  height:90rpx;
+  z-index: 10;
+}
+.decrease-mask{
+  right:0;
+}
+.increase-mask{
+  left:0;
+}
+.delete-btn{
+    width: 120rpx;
+    line-height: 220rpx;
+    text-align: center;
+    background:#e64340;
+    font-size: 24rpx;
+    color: #fff;
+}

@@ -1,0 +1,14 @@
+<!--pages/user/receiveAddress/selectStreet.wxml-->
+<view class='search-street-wrapper'>
+  <input bindblur='onInputOver' placeholder="请输入街道的中文名称" auto-focus/>
+  <text>搜索</text>
+</view>
+<view>
+  <view wx:for="{{streetList}}" class='street-item' catchtap='confirmSelect' data-data="{{item}}">
+  {{item}}
+  </view>
+  <view class='street-item' style='tex-align: center' wx:if="{{streetList.length==0||!streetList}}">
+    暂无街道数据
+  </view>
+</view>
+

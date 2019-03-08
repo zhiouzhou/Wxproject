@@ -1,0 +1,95 @@
+/* pages/findGoods/addFindGoods.wxss */
+page {
+  background: #F2F2F2;
+  font-size: 28rpx;
+}
+.cells {
+  background: #ffffff;
+  padding: 0 24rpx;
+}
+.cell {
+  padding: 24rpx 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid rgba(0,0,0,0.1);  
+}
+.cell .cell-hd {
+  min-width: 210rpx;
+}
+.cell .cell-fd {
+  flex: 1
+}
+.cells .cell:last-child{
+  border-bottom: none;
+}
+.mb12 {
+  margin-bottom: 12rpx;
+}
+.upload-wrapper {
+  padding-bottom: 24rpx;
+  font-size: 28rpx;
+}
+.upload-title {
+  padding: 24rpx 0;
+}
+.upload-text {
+  height: 174rpx;
+  
+}
+.upload-footer {
+  padding: 24rpx;
+  border:1rpx solid rgba(0,0,0,0.1);
+}
+.ric-wrapper {
+  display: flex;
+}
+.add-pic {
+  width: 150rpx;
+  height: 150rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 20rpx;
+  color: #999;
+  text-align: center;
+  border: 1rpx dashed #e5e5e5;
+  position: relative;
+}
+.add-pic .clear-btn {
+  display: inline-block;
+  width: 32rpx;
+  height: 32rpx;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%,-50%)
+}
+.add-pic .uploadImg {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+.add-pic image {
+  width: 72rpx;
+  height: 72rpx;
+  display: block;
+  margin: 0 auto 8rpx;
+}
+.submit-btn-wrapper {
+  margin-top: 48rpx;
+  padding: 0 24rpx;
+}
+.submit-btn {
+  background: #bdbdbd;
+  text-align: center;
+  display: block;
+  font-size: 34rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  color: #ffffff;
+  border-radius: 4px;
+}
+.red-btn {
+  background: #e53935
+}

@@ -1,0 +1,37 @@
+<!--pages/user/receiveAddress/receiveAddress.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<template name="receiveAddress">
+  <view class='address-info'>
+    <view class='user-state'>
+      <text class='ft-32 {{item.state==2||item.state==3?"color-BDBDBD":"color-333"}}'>{{item.contact}}-{{item.mobileNo}}</text>
+      <text class='ft-24 color-D91F2F'>{{item.state==0?'':item.state==1?'':item.state==2?'无效':item.state==3?'无效':''}}</text>
+    </view>
+    <text class='ft-28 {{item.state==2||item.state==3?"color-BDBDBD":"color-666"}}' style='margin-top:24rpx'>{{item.province}}{{item.city}}{{item.county}}{{item.street ? item.street : ''}}{{item.detailAddress ? item.detailAddress : ''}}</text>
+  </view>
+  <view class='set-default-buttom'>
+    <view class='each-contain' data-address="{{item}}" bindtap='setDefault'>
+      <image  wx:if="{{item.defaultAddress&&item.state ==1}}" style='width:44rpx;height:44rpx;{{item.returnCount<=0?"opacity:0.4":""}}' src='/assets/images/ic_gouwuchegouxuan@2x.png' mode='aspectFit' />
+      <image  wx:if="{{!item.defaultAddress&&item.state ==1}}" style='width:44rpx;height:44rpx;{{item.returnCount<=0?"opacity:0.4":""}}' src='/assets/images/ic_gouwucheweigouxuan@2x.png' mode='aspectFit' />
+      <text  wx:if="{{item.state ==1}}" class='ft-28 {{item.state==2||item.state==3?"color-BDBDBD":"color-666"}}' style='margin-left:8rpx'>设为默认地址</text>
+    </view>
+    <view class='each-contain' wx:if="{{item.canModify}}">
+      <view class='button-grey' wx:if="{{!item.defaultAddress&&item.canModify}}" data-address="{{item}}" bindtap='edit'>编辑</view>
+      <view class='button-grey' style='border-color: #fff;color:#fff;' wx:else></view>
+      <view class='button-grey' wx:if="{{!item.defaultAddress}}" data-address="{{item}}" bindtap='deleteAddress'>删除</view>
+    </view>
+  </view>
+</template>
+<view style='margin-bottom:88rpx'>
+  <block wx:for="{{addressList}}" wx:key="{{item.addressId}}">
+    <template is="receiveAddress" data="{{item}}" />
+  </block>
+</view>
+<view class='bottom-buttom' bindtap='addNewAddress'>
+  <image wx:if="{{!item.defaultAddress}}" style='width:34rpx;height:34rpx;' src='/assets/images/icon_xinzengdizhi@2x.png' mode='aspectFit' />
+  <text class='ft-34' style='margin-left:16rpx'>新增地址</text>
+</view>

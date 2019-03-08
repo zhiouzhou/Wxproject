@@ -1,0 +1,18 @@
+<import src="../../wxParse/wxParse.wxml"/>
+
+<view class="yjp-backdrop" />
+<view class="dialog-message-box">
+    <view class=" dialog-message-ct">
+        <view class='dialog-message-header'>
+          <image src='/assets/images/memberdialog_bg.png' mode='aspectFit' />
+          <view class="title">易久批通知</view>       
+        </view>
+        <view class='dialog-message-content'>
+          <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
+        </view>
+        <view class="dialog-message-btn" catchtap='closeActivityDialog'>{{dialogData.buttonName}}</view>
+        <view class='dialog-message-close' catchtap='closeActivityDialog'>
+          <image src='/assets/images/dialog_ic_close_red.png' mode='aspectFit' />
+        </view>
+    </view>
+</view>

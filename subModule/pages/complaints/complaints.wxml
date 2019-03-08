@@ -1,0 +1,47 @@
+<!--pages/complaints/complaints.wxml-->
+<view class='empty-wrapper' wx:if="{{isEmpty}}">
+  <image src='/assets/images/order_emptylist_icon.png'></image>
+  <text>暂无投诉建议</text>
+</view>
+<view class='complaint-item' wx:for="{{complaintsList}}" catchtap='goDatail' data-tag='{{item.complaintId}}'>
+  <view class='complaint-header'>
+    <view>
+      <view>
+        <image class='complaint-icon'src="/assets/images/ic_tousu@3x.png"></image><text>{{item.complaintType}}</text>
+      </view>
+      <view class='time'>
+        {{item.complaintTime}}
+      </view>
+    </view>
+    <view class='color-E53935' wx:if="{{item.state==0||item.state==1||item.state ==2}}">
+      待处理
+    </view>
+    <view class='color-E53935' wx:if="{{item.state==4}}">
+      处理中
+    </view>
+    <view class='color-66BB6A' wx:if="{{item.state==3 || item.state==5}}">
+      已处理
+    </view>
+  </view>
+  <view class='complaint-content'>
+    {{item.complaintContent}}
+  </view>
+  <!-- <view class='complaint-footer'>
+    <text>评价</text>
+  </view> -->
+</view>
+<view class="complaint-bottom">
+     <view class='c-b-item'  catchtap='makePhoneCall' data-num='{{cityServiceTelephone}}'>
+        <image src="/assets/images/lianxikefu_ic.png"></image>
+        <text>联系客服</text>
+     </view>
+      <view class='c-b-item' catchtap='addComplaint'>
+        <image src="/assets/images/woyaotousu_ic.png"></image>
+        <text>我要投诉</text>
+     </view>
+      <view class='c-b-item' catchtap='makePhoneCall' data-num='{{saleUserMobileNo}}'>
+        <image src="/assets/images/lianxijingjiren_ic.png"></image>
+        <text>联系经纪人</text>
+     </view>
+</view>
+

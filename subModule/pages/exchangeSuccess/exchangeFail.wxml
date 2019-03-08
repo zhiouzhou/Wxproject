@@ -1,0 +1,17 @@
+<!--pages/exchangeSuccess/exchangeFail.wxml-->
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+<view class='result-state'>
+  <image class='result-img' src='/assets/images/dingdan_shibai@2x.png' mode='aspectFit' />
+  <view class='result-state-text'>
+    <text class='ft-34 color-E53935' style='line-height:34rpx;'>换货申请提交失败</text>
+    <text class='ft-26 color-666' style='line-height:26rpx;'>错误提示：{{result}}</text>
+  </view>
+</view>
+
+<view class='result-detail'>
+  <text class='ft-28 color-666'>支付方式：{{payTypeText}}</text>
+  <text class='ft-28 color-666' style='margin-top:32rpx;'>下单时间：{{placeOrderTime}}</text>
+
+</view>
+<!-- 底部按钮 -->
+<view class='button ft-34 color-FFF' catchtap='goToHomePage'>返回首页</view>

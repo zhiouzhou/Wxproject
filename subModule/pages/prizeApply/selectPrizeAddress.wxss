@@ -1,0 +1,44 @@
+page{
+  background-color: #f2f2f2;
+}
+.addressMessage{
+  background-color:#fff;
+  padding:24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin:16rpx 0;
+}
+.user{
+  font-size:30rpx;
+  color:#333;
+}
+.address{
+  display:flex;
+  flex-direction: row;
+  /* align-items: center; */
+  font-size:26rpx;
+  color:#666;
+  padding-top:24rpx;
+}
+.defaultAddress{
+  height:32rpx;
+  min-width:96rpx;
+  background-color:#e53935;
+  color:#fff;
+  font-size:22rpx;
+  text-align: center;
+  line-height: 32rpx;
+  margin-right:13rpx;
+  border-radius: 4rpx;
+}
+.isDefaultAddress{
+  min-width:96rpx;
+  color:#666;
+  font-size:26rpx;
+}
+.default{
+  width:36rpx;
+  height:36rpx;
+}

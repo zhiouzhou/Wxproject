@@ -1,0 +1,30 @@
+/* pages/user/myCollection/myCollection.wxss */
+.noData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 252rpx;
+}
+
+.noData-image {
+  width: 152rpx;
+  height: 152rpx;
+}
+
+.data-title {
+  font-size: 32rpx;
+  color: #666;
+  padding: 48rpx 0;
+}
+
+.backHome {
+  width: 288rpx;
+  height: 88rpx;
+  border: 2rpx solid #999;
+  border-radius: 6rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: #666;
+  line-height: 88rpx;
+}

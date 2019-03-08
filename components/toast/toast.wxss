@@ -1,0 +1,33 @@
+.yjp-toast {
+  max-width: 80%;
+  position: fixed;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  bottom: 25%;
+  z-index: 99999;
+}
+
+.yjp-toast__bd {
+  display: flex;
+  min-width: 0rpx;
+  min-height: 0rpx;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+  padding: 10rpx;
+  word-wrap: break-word;
+  word-break: break-all;
+  text-align: center;
+}
+
+.yjp-toast__text {
+  color: #fff;
+  font-size: 28rpx;
+}
+.yjp-toast__img{
+  width: 80rpx;
+  height: 80rpx;
+}

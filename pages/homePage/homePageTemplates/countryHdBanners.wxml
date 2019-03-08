@@ -1,0 +1,7 @@
+<template name="countryHdBanners">
+  <swiper class='cty-hd-banners' indicator-dots="{{countryHdBanners.length>1}}" autoplay circular indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#fff">
+    <swiper-item  wx:for="{{countryHdBanners}}" wx:key='{{item.bannerId}}'>
+      <image src="{{item.imgUrl}}" class="cty-hd-banners-img"/>
+    </swiper-item>
+  </swiper>
+</template>

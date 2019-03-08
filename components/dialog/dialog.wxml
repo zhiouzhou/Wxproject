@@ -1,0 +1,65 @@
+<import src="defaultText/defaultText.wxml" />
+<import src="passwordWrong/passwordWrong.wxml" />
+<import src="productTags/productTags.wxml" />
+<import src="categoryMenu/categoryMenu.wxml" />
+<import src="brandMenu/brandMenu.wxml" />
+<import src="sortMenu/sortMenu.wxml" />
+<import src="cancelOrder/cancelOrder.wxml" />
+<import src="deleteOrder/deleteOrder.wxml" />
+<import src="selectAddress/selectAddress.wxml" />
+<import src="splitPay/splitPay.wxml" />
+<import src="originalBuy/originalBuy.wxml" />
+<import src="chooseReturnReason/chooseReturnReason.wxml" />
+<import src="addressSelect/addressSelect.wxml" />
+<import src="checkRuleDetail/checkRuleDetail.wxml" />
+<import src="popUpBlackList/popUpBlackList.wxml" />
+<import src="promotions/promotions.wxml" />
+<import src="applyBuy/applyBuy.wxml" />
+<import src="dealerReceiveCoupons/dealerReceiveCoupons.wxml" />
+<import src="underwriteMenu/underwriteMenu.wxml" />
+<import src="useDealerCoupons/useDealerCoupons.wxml" />
+<import src="returnList/returnList.wxml" />
+
+
+<template name="dialog">
+  <!-- 普通样式的对话框 -->
+  <view class="yjp-backdrop {{ animateCss }}" wx:if="{{ visible&&dialogType }}" catchtap='{{onDismiss}}' />
+  <view class="yjp-dialog {{ animateCss }}" wx:if="{{ visible&&dialogType }}">
+    <view class="yjp-dialog__title" wx:if="{{ title }}">{{ title }}</view>
+    <view class="yjp-dialog__content">
+      <template is='{{dialogType}}' data='{{...dialogData}}' />
+    </view>
+    <view class="yjp-dialog__ft">
+      <view class='yjp-dialog__btn {{cancelType}}' catchtap='{{buttonTapped}}' data-button-type='cancel' hidden="{{hiddenCancel}}">{{cancelText}}</view>
+      <view class='yjp-dialog__btn-divider' />
+      <view class='yjp-dialog__btn {{confirmType}}' catchtap='{{buttonTapped}}' data-button-type='confirm' data-dialog='{{dialogData}}'>{{confirmText}}</view>
+    </view>
+  </view>
+  <!-- 弹半框对话框样式 -->
+  <view class="yjp-backdrop {{ animateCss }}" wx:if="{{ visible&&halfWindowDialogType }}" catchtap='{{onDismiss}}' />
+  <view class='half-window-dialog-wrap  {{ animateCss }}' wx:if="{{ visible&&halfWindowDialogType }}">
+    <view class='half-window-dialog-hd'>
+      <view class='half-window-dialog-title'>{{ title }}</view>
+      <image class='half-window-dialog-quit' src='/assets/images/tanchuang_guanbi_ic@2x.png' catchtap='{{onDismiss}}' />
+    </view>
+    <view class="yjp-dialog__content">
+      <template is='{{halfWindowDialogType}}' data='{{...dialogData,onDismiss}}' />
+    </view>
+    <view class='complete-button' wx:if="{{halfWindowDialogType=='dealerReceiveCoupons'}}" catchtap='{{onDismiss}}'>完成</view>
+  </view>
+  <!-- 弹半框无标题对话框样式(订单删除和取消弹框) -->
+  <view class="yjp-backdrop {{ animateCss }}" wx:if="{{ visible&&halfWindowNoTitleDialogType }}" catchtap='{{onDismiss}}' />
+  <view class='half-window-no-title-dialog-wrap  {{ animateCss }}' wx:if="{{ visible&&halfWindowNoTitleDialogType }}">
+    <template is='{{halfWindowNoTitleDialogType}}' data='{{...dialogData}}' />
+  </view>
+  <!-- 下拉选择框样式 -->
+  <view class="yjp-backdrop {{ animateCss }}" style='top:{{marginTop}}rpx;' wx:if="{{ visible&&pullDownDialogType }}" catchtap='{{onReset}}' />
+  <view class='pull-down-dialog-wrap  {{ animateCss }}' style='top:{{marginTop}}rpx;' wx:if="{{ visible&&pullDownDialogType }}">
+    <template is='{{pullDownDialogType}}' data='{{...dialogData}}' />
+  </view>
+  <!-- 申请进货样式 -->
+  <view class="yjp-backdrop {{ animateCss }}" wx:if="{{ visible&&applyBuyDialogType }}" catchtap='{{onDismiss}}' />
+  <view class='apply-buy-dialog-wrap  {{ animateCss }}' wx:if="{{ visible&&applyBuyDialogType }}">
+    <template is='{{applyBuyDialogType}}' data='{{...dialogData,shopId,onDismiss}}' />
+  </view>
+</template>

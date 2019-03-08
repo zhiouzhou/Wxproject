@@ -1,0 +1,19 @@
+<!--pages/login/guide.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<view class='title-text' style='margin-top:0rpx;'>开店时间</view>
+<view class='tags-wrap'>
+  <view class='{{index==yearsSelectedIndex?"tag-select":"tag-unselect"}}' wx:for="{{openStoreYears}}" wx:key="*this" catchtap='onTagSelect' data-tag='years' data-index='{{index}}'>{{item}}</view>
+</view>
+
+<view class='title-text'>营业时间</view>
+<view class='tags-wrap-two'>
+  <view class='{{index==hoursSelectedIndex?"tag-select":"tag-unselect"}}' wx:for="{{businessHours}}" wx:key="*this" catchtap='onTagSelect' data-tag='hours' data-index='{{index}}'>{{item}}</view>
+</view>
+
+<view class='title-text'>选择您感兴趣的商品标签</view>
+<view class='subtitle-text'>最多选择4个</view>
+<view class='tags-wrap'>
+  <view class='{{item.select?"tag-select":"tag-unselect"}}' wx:for="{{productGuideTags}}" wx:key='{{item.value}}' catchtap='onTagSelect' data-tag='product' data-index='{{index}}' data-str="{{item.value}}">{{item.value}}</view>
+</view>
+<view class='confirm-button' catchtap='startShopping' style='{{yearsSelectedIndex==-1||hoursSelectedIndex==-1||!tagsArr.length?"background-color:#bdbdbd;":""}}'>开启购物旅途</view>

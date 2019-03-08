@@ -1,0 +1,52 @@
+<!--pages/shopCart/selectCoupons.wxml-->
+
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+<view class='coupon-group-wrap' wx:for="{{couponGroups}}" wx:for-item="group" wx:if="{{group.coupons.length}}" wx:key="{{group.groupName}}">
+  <!-- 优惠券分组标题 -->
+  <view class='group-header' catchtap='onSwitchGroup' data-tag='{{group.groupName}}'>
+    <text class='ft-28 color-333'>{{group.groupName}}({{group.coupons.length}})</text>
+    <image class='group-header-img' style='{{group.open?"transform: rotate(180deg);":""}}' src='/assets/images/ic_shangpingliebiao_xiala@2x.png' />
+  </view>
+  <!-- 优惠券列表 -->
+  <view class='coupon-wrap' wx:for="{{group.coupons}}" wx:for-item="coupon" wx:key="{{coupon.couponId}}" wx:if="{{group.open}}" catchtap='onSelectCoupon' data-coupon='{{coupon}}' >
+    <!-- 选择按钮 -->
+    <image class='coupon-select-img' src='{{coupon.select?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' />
+    <!-- 优惠券详细信息 -->
+    <view class='coupon-detail'>
+      <text class='ft-30 color-E53935'>{{coupon.couponTemplate.name}}</text>
+      <text class='ft-24 color-666' style='margin-top:24rpx;'>有效期：{{coupon.timeEffective}}-{{coupon.timeExpired}}</text>
+      <view class='ft-24 color-666 couponMessage' style='margin-top:24rpx;'><text class='bold' style='font-size:8rpx;padding-right:17rpx;'>● </text><text>{{coupon.useDescription}}</text></view>
+    </view>
+    <!-- 抵用券(0)),打折券(1)),赠品券(2)) -->
+    <!-- 优惠券金额 -->
+    <view class='coupon-amount' wx:if="{{coupon.couponTemplate.couponType==0}}">
+      <text class='ft-32 color-E53935' style='line-height:32rpx;'>¥</text>
+      <text class='ft-68 color-E53935' style='line-height:60rpx;'>{{WxsUtil.splitNum(coupon.amount,false).integerNumStr}}</text>
+      <text class='ft-32 color-E53935' style='line-height:32rpx;'>{{WxsUtil.splitNum(coupon.amount,false).decimalNumStr}}</text>
+    </view>
+    <!-- 优惠券折扣 -->
+    <view class='coupon-percent' wx:if="{{coupon.couponTemplate.couponType==1}}">
+      <text class='ft-68 color-E53935' style='line-height:60rpx;'>{{coupon.percent}}</text>
+      <text class='ft-32 color-E53935' style='line-height:32rpx;'>折</text>
+    </view>
+  </view>
+</view>
+<view class='ft-30 color-E53935' style='margin-top:300rpx;width:100%;text-align:center;' wx:if="{{!hasCoupon}}">暂时没有优惠券可选</view>
+<!-- 底部栏 -->
+<view style='height:98rpx;' />
+<view class='bottom-bar'>
+  <view class='select-info'>
+    <text class='ft-24 color-333'>您选择了{{selectCouponList.length}}张优惠券</text>
+    <text class='ft-24 color-333' style='margin-top:8rpx;' wx:if="{{selectCouponList.length&&selectCouponList[0].couponTemplate.couponType!=2&&couponReduceNotice.reduceNum}}">实际抵扣¥{{WxsUtil.toFixed(couponReduceNotice.reduceNum,2)}}{{diff}}</text>
+    <text class='ft-24 color-333' style='margin-top:8rpx;' wx:if="{{selectCouponList.length&&couponReduceNotice.reduceStr}}">{{couponReduceNotice.reduceStr}}</text>
+  </view>
+  <view class='confirm-button ft-30 color-FFF one-line' catchtap='onConfirmSelect'>确认({{selectCouponList.length}})</view>
+</view>

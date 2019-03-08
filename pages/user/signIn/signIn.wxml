@@ -1,0 +1,3 @@
+<!--pages/user/signIn/signIn.wxml-->
+
+<web-view src="{{signInUrl}}"></web-view>

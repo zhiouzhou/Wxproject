@@ -1,0 +1,83 @@
+<!--pages/promoAndDiscount/promoAndDiscount.wxml-->
+
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../components/product/product.wxml" />
+<import src="../../components/addToShopCart/addToShopCart.wxml" />
+<import src="../../components/couponTitle/couponTitle.wxml" />
+
+<template name="activity-header"> 
+  <view class='activity-wrap'>
+    <view class='activity-header'>
+      <text class='ft-30 color-333 activity-header-name'>{{name}}</text>
+      <text class='ft-24 color-999 activity-header-detail' catchtap='goToActivityDetail' data-activity-id='{{activityId}}' data-promotion-type='{{promotionType}}'>查看详情 ></text>
+      <text class='ft-26 color-666 activity-header-time'>{{activityTimeNotice}}<text style='margin-left:24rpx' class='ft-24 color-D91F2F' wx:if="{{showMember}}">{{showMember}}</text></text>
+      
+    </view>
+  </view>
+</template>
+
+<!-- <import src="../../components/productPromotions/productPromotions.wxml" /> -->
+ <!--全场通用 优惠券提示列表提示语-->
+ <view hidden="{{categoryType==5}}">
+     <template is="couponTitle" data="{{productListCouponDesc}}" />
+ </view>
+
+<view class='pad-menu'>
+  <view class='ft-28 {{categoryType==0?"pad-menu-item-select":"pad-menu-item"}}' catchtap='switchMenu' data-tag='0'>赚钱精选</view>
+  <view class='ft-28 {{categoryType==1?"pad-menu-item-select":"pad-menu-item"}}' catchtap='switchMenu' data-tag='1'>清仓特价</view>
+  <view class='ft-28 {{categoryType==2?"pad-menu-item-select":"pad-menu-item"}}' catchtap='switchMenu' data-tag='2'>打折特价</view>
+  <view class='ft-28 {{categoryType==3?"pad-menu-item-select":"pad-menu-item"}}' catchtap='switchMenu' data-tag='3'>组合特价</view>
+  <view class='ft-28 {{categoryType==4?"pad-menu-item-select":"pad-menu-item"}}' catchtap='switchMenu' data-tag='4'>凑单特价</view>
+  <view class='ft-28 {{categoryType==5?"pad-menu-item-select":"pad-menu-item"}}' catchtap='switchMenu' data-tag='5'>限时特价</view>
+</view>
+<!--非赚钱精选，非清仓特价  -->
+<scroll-view class='product-list-wrap' style='height:{{isVisitor?windowHeight+isVisitorHeight:windowHeight}}px;' 
+scroll-y wx:if="{{productList.length&&(categoryType!=0&&categoryType!=1)}}">
+  <block wx:for="{{productList}}" wx:key="{{item.activityId||item.productSkuId}}">
+    <template is="activity-header" data="{{...item,isVisitor}}" wx:if="{{item.isHeader}}" />
+    <template is="composite-list-product" data="{{...item,product:item,isVisitor,hiddenPriceText}}" wx:elif="{{item.activityId}}" />
+    <template is="normal-product" data="{{...item,product:item,isVisitor,hiddenPriceText,categoryType}}" wx:else/>
+  </block>
+</scroll-view>
+<!-- 由于需要下拉刷新，赚钱精选，清仓特价数量可能大于1页 -->
+<scroll-view class='scroll-page-wrap' style='height:{{isVisitor?windowHeight+isVisitorHeight:windowHeight}}px;' scroll-y scroll-with-animation scroll-into-view='{{scrollPosition}}' lower-threshold='4' bindscrolltolower='loadMore' wx:if="{{productList.length&&(categoryType==0||categoryType==1)}}">
+  <view id='top' />
+  <!-- 产品列表 -->
+  <block wx:for="{{productList}}" wx:key="{{item.productSaleSpecId}}">
+    <template is="product-list-product" data="{{...item,product:item,isVisitor,hiddenPriceText}}" />
+  </block>
+</scroll-view>
+
+<scroll-view  style='height:{{isVisitor?windowHeight+isVisitorHeight:windowHeight}}px;' scroll-y scroll-with-animation scroll-into-view='{{scrollPosition}}' lower-threshold='4' bindscrolltolower='loadMoreRecommendList' wx:if="{{isEmpty}}">
+  <!-- 空列表 -->
+  <empty-page></empty-page>
+  <view id='top' />
+  <!--为你推荐产品 -->
+  <block wx:if="{{recommendList.length}}"> 
+    <view class="recommend-list-title" mode='aspectFit'>
+      <image src='/assets/images/tejiacuxiao.png'/>
+    </view>
+    <view wx:for="{{recommendList}}" wx:key="{{item.productSaleSpecId}}" class='product-recommend-wrap'>
+    <product-recommend product = "{{item}}" is-visitor="{{isVisitor}}">  </product-recommend>
+    </view>
+  </block> 
+</scroll-view>
+
+<!-- 空列表 -->
+<!-- <view class='empty-product-list' style='height:{{isVisitor?windowHeight+98:windowHeight}}rpx;' wx:if="{{!initing&&!productList.length&&!requesting}}">
+  <image class='empty-product-list-img' src='/assets/images/ic_fuchuanggouwuche@2x.png' mode='aspectFit' />
+  <text class='ft-30 color-666'>抱歉没有找到相关产品</text>
+</view> -->
+
+<!-- 加入购物车 -->
+<template is="add-to-shopcart-bottom-bar" data="{{addToShopCartNum,addToShopCartPrice,userCouponPrompt}}" wx:if="{{!isVisitor&&categoryType!=5}}" />
+<!-- 限时惠商品不显示优惠券提示，同时又要显示起购，由于用的同一个属性userCouponPrompt，这里特殊处理 -->
+<template is="add-to-shopcart-bottom-bar" data="{{addToShopCartNum,addToShopCartPrice,userSendPrompt}}" wx:if="{{!isVisitor&&categoryType==5}}" />
+
+<!--返回首页  -->
+ <image class='go-to-shop-cart-float-button' src='/assets/images/fanhuishouye@2x.png' catchtap='goToHomePage' wx:if="{{isFromShare}}" /> 

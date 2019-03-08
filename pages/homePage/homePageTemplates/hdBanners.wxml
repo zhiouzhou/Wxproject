@@ -1,0 +1,30 @@
+<template name='hdBanners'>
+  <view class='home-hd-container'>
+    
+    <view class='home-hd-entry'>
+      <view class='hd-scan' catchtap='onScanOrder' wx:if="{{!isVisitor}}">
+        <image class='hd-scan-img' src='/assets/images/ic_saodingdan_copy@2x.png' mode='aspectFit' />
+        <text class='ft-20 color-333'>扫一扫</text>
+      </view>
+      <view class='hd-locate' catchtap='onRelocate' wx:if="{{isVisitor}}" data-city-name="{{cityName}}">
+        <image class='hd-locate-img' src='/assets/images/ic-shouhuo@2x.png' mode='aspectFit' />
+        <text class='ft-20 color-333'>{{cityName||'南京市'}}</text>
+        <image class='hd-locate-img' src='/assets/images/shuaxindingwei_ic@2x.png' mode='aspectFit' />
+      </view>
+      <view class='hd-input' catchtap='goToSearch'>
+        <image class='hd-input-img' src='/assets/images/ic_sousuo@2x.png' mode='aspectFit' />
+        <text class='ft-26 color-666'>{{productSearchLabel}}</text>
+      </view>
+      <view class='hd-scan' catchtap='goToMessage' wx:if="{{!isVisitor}}">
+        <image class='hd-scan-img' src='/assets/images/ic_xiaoxi_copy@2x.png' mode='aspectFit' />
+        <text class='ft-20 color-333'>消息</text>
+      </view>
+    </view>
+     <swiper class='home-hd-banners' indicator-dots="{{hdBanners.length>1}}" autoplay circular indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#fff">
+      <swiper-item wx:for="{{hdBanners}}" wx:key='{{item.bannerId}}'>
+        <image src="{{item.imgUrl}}" class="hd-banners-img" catchtap='onTapHdBanner' data-tag='{{item}}' />
+      </swiper-item>
+    </swiper>
+
+  </view>
+</template>

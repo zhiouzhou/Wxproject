@@ -1,0 +1,159 @@
+<!--pages/category/category.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<import src="./product-template/product-inset.wxml" />
+<import src="../../components/addToShopCart/addToShopCart.wxml" />
+
+<view class='page-wrap'>
+  <!-- 顶部搜索 -->
+  <view class='header-search' wx:if="{{isVisitor}}">
+    <view class='search-view' catchtap='goToSearch'>
+      <image src='/assets/images/ic_sousuo@2x.png' style='width:26rpx;height:26rpx;margin:0 16rpx;' mode='aspectFit'></image>
+      <text class='ft-28 color-BDBDBD'>{{productSearchLabel}}</text>
+    </view>
+  </view> 
+  <view class='category-tab-wrap' wx:if="{{!isVisitor}}">
+    <view class='cate-tab-body'>
+      <text class="{{tab=='all'?'category-tab-shoose':''}}" catchtap='switchTab' data-type='all'>全部类目</text>
+      <text class="{{tab=='me'?'category-tab-shoose':''}}" catchtap='switchTab' data-type='me'>我的类目</text>
+     </view>
+    <image class="tab-search-icon" catchtap='goToSearch' src='/assets/images/ic_sousuo@2x.png' mode='aspectFit'></image>
+  </view>
+  <!--END tab   hidden="{{tab=='me'}}" -->
+  <view class='two-scroll-view-wrap' hidden="{{tab=='me'}}">
+    <!-- 类目左侧 -->
+    <scroll-view class='left-scroll' style='height:{{second_height}}px;' scroll-y="true" scroll-with-animation scroll-into-view='{{leftScrollPosition}}'>
+      <view class='{{selectCategoryId==item.categoryId?"left-scroll-item-select":"left-scroll-item"}}' wx:for="{{categoryList}}" wx:key="{{item.categoryId}}" catchtap='onSelectLeftScroll' data-category-id='{{index}}' id='left-{{index}}'>
+        <view style='width:4rpx;height:40rpx;background-color:#e53935;' wx:if="{{selectCategoryId==item.categoryId}}" />
+        <view class='left-scroll-item-text ft-32 color-333' style='color:{{selectCategoryId==item.categoryId?"#e53935":"#333"}}'>{{item.name}}</view>
+      </view>
+    </scroll-view>
+    <!-- 类目右侧 -->
+    <scroll-view class='right-scroll' style='height:{{second_height}}px;' scroll-y="true" bindscroll='query' scroll-with-animation scroll-into-view='{{rightScrollPosition}}'>
+      <view class='right-scroll-item-wrap' id='right-{{index}}' wx:for="{{categoryList}}" wx:key="{{item.categoryId}}">
+        <view class='right-scroll-item-title'>
+          <text class=' ft-32 color-336'>{{item.name}}</text>
+          <text class='ft-28 color-999' wx:if="{{item.categoryType==3}}" catchtap='goToProductList' data-first-category-id='{{item.categoryId}}' data-first-category-name='{{item.name}}'>查看全部 ></text>
+        </view>
+        <template is="hotsale" data="{{...item}}" wx:if="{{item.categoryType==1}}" />
+        <template is="propose" data="{{...item}}" wx:elif="{{item.categoryType==2}}" />
+        <template is="normal" data="{{...item}}" wx:elif="{{item.categoryType==3}}" />
+        <template is="underwriting" data="{{...item}}" wx:elif="{{item.categoryType==4}}" />
+        <template is="promotion-and-discount" data="{{...item}}" wx:else/>
+      </view>
+    </scroll-view>
+  </view>
+  <!--我的类目  hidden="{{tab=='all' || isVisitor}}" -->
+  <view class='category-me-wrap' hidden="{{tab=='all' || isVisitor}}">
+    <view class="clearfix" style='position:relative;' wx:if="{{meRightData.length}}">
+      <scroll-view class='me-left-scroll' scroll-x style='width:{{windowWidth-arrowWidth}}px' scroll-into-view="{{'id'+meLeftScrollPosition}}" scroll-with-animation> 
+      <view>
+        <view wx:for = "{{meLeftData}}" wx:key='index' class="ft-30 me-left-item {{item.categoryId == meCurrentCateId?'me-left-item-active':''}}"
+          catchtap='clickMeLeftItem' data-index='{{index}}' data-categoryid="{{item.categoryId}}" id="{{'id'+item.categoryId}}">
+           <text>{{item.categoryName}}</text>
+        </view>
+      </view>
+     </scroll-view>
+     <view class="squre-list-arrow" catchtap='showSqureList' wx:if="{{meLeftData.length>=6}}">
+        <image class='{{showSqureList?"reserve-arrow":""}}' src='/assets/images/ic_shangpingliebiao_xiala@2x.png' mode='aspectFit'></image>
+    </view>
+     <view class="squre-list-wrap" hidden='{{!showSqureList}}'>
+         <view class='squre-item-wrap' wx:for="{{meLeftData}}" wx:key='index'> 
+          <view class='squre-item {{item.categoryId == meCurrentCateId?"squre-item-active":""}}'
+            catchtap='clickMeLeftItem' data-index='{{index}}' data-categoryid="{{item.categoryId}}" data-type="squre"> {{item.categoryName}} </view>
+         </view>
+     </view>
+    </view>
+  
+    <scroll-view wx:if="{{meRightData.length}}" class="me-right" scroll-y="true" style='height:{{meScrollListHeight}}px;'
+     scroll-with-animation scroll-into-view="{{'id'+meProductScrollPos}}" bindscroll="rightScrollEvent" bindscrolltolower="lowerHandle" lower-threshold="50">    
+      <view wx:for="{{meRightData}}" wx:key="{{index}}" class='right-item-container'> 
+        <view class='me-right-title' id="{{'id'+item.categoryId}}">
+          <text>{{item.categoryName}}</text>  
+        </view>
+        <view wx:for="{{item.productList}}" wx:for-item="product" wx:key="{{product.productSkuId}}" class="right-item-product"> 
+           <template is="category-product-template" data="{{productItem:product}}"/>
+        </view>  
+      </view>
+    </scroll-view>
+    <!-- 加入购物车 -->
+    <template is="add-to-shopcart-bottom-bar" wx:if="{{meRightData.length}}" data="{{addToShopCartNum,addToShopCartPrice,userCouponPrompt}}" />
+    <!--空页面  -->
+    <view class="empty-block" wx:if="{{isEmpty}}" style='height:{{second_height-46}}px;'>
+      <image src='/assets/images/pro_emptylist_icon.png'></image>
+      <text class='c-3 ft-30'>您的类目还没有商品</text>
+    </view>
+
+  </view>
+<!--扫码icon  -->
+  <view class='code-icon' catchtap='onScanAdd' wx:if="{{!isVisitor && tab=='me'&& state == 1}}">
+    <image src="/assets/images/saomatianjia.png" mode='aspectFit' />
+  </view>
+</view>
+
+<!-- 类目右侧，爆品区 -->
+<template name="hotsale">
+
+</template>
+<!-- 类目右侧，清仓区 -->
+<template name="propose">
+
+</template>
+<!-- 类目右侧，普通类目 -->
+<template name="normal">
+  <view class='category-right-scroll-view-wrap'>
+    <!-- 分类标题 -->
+    <view class='son-category-title-wrap'>
+      <view class='son-category-title-line' />
+      <text class='ft-28 color-999'>分类</text>
+      <view class='son-category-title-line' />
+    </view>
+    <!-- 分类 -->
+    <view class='son-category-wrap'>
+      <view class='son-category-sort-item' wx:for="{{sonCategorys}}" wx:key="{{item.sonId}}" catchtap='goToProductList' data-first-category-id='{{categoryId}}' data-category-id='{{item.sonId}}' data-son-name='{{item.sonName}}' data-category-type='{{item.categoryType}}'>
+        <image class='son-category-sort-item-img' src='{{item.imageUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <text class='ft-30 color-333'>{{item.sonName}}</text>
+      </view>
+    </view>
+    <!-- 品牌标题 -->
+    <view class='son-category-title-wrap' wx:if="{{brandList.length}}">
+      <view class='son-category-title-line' />
+      <text class='ft-28 color-999'>品牌</text>
+      <view class='son-category-title-line' />
+    </view>
+    <!-- 品牌 -->
+    <view class='son-category-wrap' wx:if="{{brandList.length}}">
+      <view class='son-category-brand-item' wx:for="{{brandList}}" wx:key="{{item.sonId}}" catchtap='goToProductList' data-first-category-id='{{categoryId}}' data-first-category-name='{{name}}' data-brand-id='{{item.brandId}}' data-brand-name='{{item.brandName}}'>
+        <text class='ft-30 color-333' style='text-align:center;'>{{item.brandName}}</text>
+      </view>
+    </view>
+  </view>
+</template>
+<!-- 类目右侧，独家包销 -->
+<template name="underwriting">
+  <view class='category-right-scroll-view-wrap'>
+    <view class='son-category-wrap'>
+      <view class='son-category-sort-item' wx:for="{{sonCategorys}}" wx:key="{{item.sonId}}" catchtap='goToUnderwrite' data-category-id='{{item.sonId}}' data-son-name='{{item.sonName}}' data-category-type='{{item.categoryType}}' wx:if="{{item.categoryType!=5}}">
+        <image class='underwrite-category-item-img' src='{{item.imageUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <text class='ft-30 color-333'>{{item.sonName}}</text>
+      </view>
+    </view>
+  </view>
+</template>
+<!-- 类目右侧，优惠特价 -->
+<template name="promotion-and-discount">
+  <view class='category-right-scroll-view-wrap'>
+    <!-- 分类标题 -->
+    <view class='son-category-title-wrap'>
+      <view class='son-category-title-line' />
+      <text class='ft-28 color-999'>分类</text>
+      <view class='son-category-title-line' />
+    </view>
+    <view class='son-category-wrap'>
+      <view class='son-category-sort-item' wx:for="{{sonCategorys}}" wx:key="{{item.categoryName}}" catchtap='goToProAndDis' data-label-id='{{item.categoryId}}' data-category-type='{{item.categoryType}}' data-son-categorys='{{sonCategorys}}'>
+        <image class='son-category-sort-item-img' style='width:56rpx;height:56rpx;' src='{{item.imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <text class='ft-30 color-333'>{{item.categoryName}}</text>
+      </view>
+    </view>
+  </view>
+</template>

@@ -1,0 +1,15 @@
+<template name="categoryMenu">
+  <view class='category-menu-wrap'>
+    <scroll-view class='category-menu-scroll' scroll-y>
+      <view class='{{item.categoryId==firstCategoryId?"category-menu-left-item-select":"category-menu-left-item"}}' wx:for="{{firstCategorys}}" wx:key="{{item.categoryId}}" catchtap='onClickCategoryMenuFirst' data-category-id='{{item.categoryId}}'>
+        <text class='ft-26'>{{item.categoryName}}</text>
+      </view>
+    </scroll-view>
+    <scroll-view class='category-menu-scroll' scroll-y style='padding-left:24rpx;padding-right:24rpx;box-sizing:border-box;'>
+      <view class='{{item.categoryId==categoryId?"category-menu-right-item-select":"category-menu-right-item"}}' wx:for="{{sonCategorys}}" wx:key="{{item.categoryId}}" catchtap='onClickCategoryMenuSon' data-category-id='{{item.categoryId}}' data-son-name='{{item.categoryName}}'>
+        <text class='ft-26'>{{item.categoryName}}</text>
+        <image class='category-menu-img' src='/assets/images/icon_xuanzegou@2x.png' wx:if="{{item.categoryId==categoryId}}" mode='aspectFit' />
+      </view>
+    </scroll-view>
+  </view>
+</template>

@@ -1,0 +1,151 @@
+/* @import "orders/orderDetail.wxss";  */
+
+.order-address {
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 32rpx 0;
+  box-sizing: border-box;
+}
+
+.order-track-mark-img {
+  width: 44rpx;
+  height: 44rpx;
+  margin: 0 24rpx;
+}
+
+.order-track-arrow-img {
+  width: 40rpx;
+  height: 40rpx;
+  margin: 0 24rpx;
+}
+.order-orderNO-view{
+  display: flex;
+  padding:32rpx 24rpx 0 24rpx;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.order-orderNO {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.copy{
+  font-size:26rpx;
+  color:#666;
+  width:76rpx;
+  height:40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  border:1rpx solid #979797;
+  border-radius:4rpx;
+}
+.pay-type {
+  display: flex;
+  flex-direction: row;
+  padding: 16rpx 0 0 24rpx;
+}
+
+.bottom-style {
+  padding-left: 24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  height: 98rpx;
+  background-color: white;
+  align-items: center;
+
+  border-top:2rpx solid rgba(0,0,0,.1);
+}
+
+.return-amount {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+}
+
+.cancle-return {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border:1rpx solid #666;
+  height: 56rpx;
+  width: 136rpx;
+  border-radius: 4rpx;
+  margin-right:24rpx;
+}
+
+.apply-time {
+  display: flex;
+  flex-direction: row;
+  padding-left: 24rpx;
+  align-items: center;
+  padding-top:16rpx;
+}
+.orderPrice{
+  padding:16rpx 0 0 24rpx;
+}
+.swapReason{
+  padding:16rpx 0 0 24rpx;
+}
+.address-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.line {
+  width: 100%;
+  height: 4rpx;
+  background-color: #fff;
+}
+
+.address-bottom-img {
+  width: 100%;
+  height: 4rpx;
+  display: block;
+}
+
+.delivery-mode {
+  height: 92rpx;
+  display: flex;
+  flex-direction: row;
+  padding: 0 24rpx;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-state-arr {
+  height: 92rpx;
+  display: flex;
+  flex-direction: row;
+  padding: 0 24rpx;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-state {
+  height: 92rpx;
+  display: flex;
+  flex-direction: column;
+  padding: 24rpx 24rpx;
+  justify-content: space-between;
+}
+
+.product-preview {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+}

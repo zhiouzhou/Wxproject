@@ -1,0 +1,1 @@
+<image class='sroll-top-box'  src='/assets/images/ic_zhiding@2x.png' bindtouchmove="touchM" bindtap="ballClickEvent"  style="bottom:{{bottom}}px;right:{{right}}px"/>

@@ -1,0 +1,10 @@
+<view class="empty-page-wrap">
+  <view class="empty-page">
+    <image class='empty-img' src='{{imgUrl}}' mode='aspectFit'/>
+    <text class="empty-text">{{text}}</text>
+  </view>
+  <view class='empty-btns-area'>
+     <view class="empty-btn" wx:if="{{firstBtnTxt}}" catchtap='dispatchEvent' data-type='1'>{{firstBtnTxt}}</view> 
+     <view class="empty-btn empty-btn-red" wx:if="{{secondBtnTxt}}" catchtap='dispatchEvent' data-type='2'>{{secondBtnTxt}}</view>
+  </view>
+</view>

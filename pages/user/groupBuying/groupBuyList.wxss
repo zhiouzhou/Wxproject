@@ -1,0 +1,160 @@
+/* pages/user/groupBuying/groupBuyList.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.classification {
+  display: flex;
+  flex-direction: row;
+  height: 88rpx;
+  line-height: 88rpx;
+  background-color: #fff;
+  margin-bottom: 12rpx;
+}
+
+.groupBuyState {
+  position: relative;
+  color: #666;
+  font-size: 30rpx;
+  flex: 1;
+  text-align: center;
+}
+
+.groupBuyState-select {
+  position: relative;
+  color: #e53935;
+  font-size: 30rpx;
+  flex: 1;
+  text-align: center;
+}
+
+.line {
+  width: 112rpx;
+  height: 4rpx;
+  background-color: #e53935;
+  position: absolute;
+  left: 38rpx;
+  bottom: 0;
+}
+
+.group-buying-wrap {
+  height: 100%;
+  width: 100%;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+.order-wrap {
+  margin-bottom: 12rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  background-color: #fff;
+}
+
+.order-hd {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 24rpx;
+  box-sizing: border-box;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.order-hd-line-1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.order-amount {
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 24rpx;
+  box-sizing: border-box;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+.order-button {
+  height: 88rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 24rpx;
+  box-sizing: border-box;
+}
+
+.button-grey {
+  height: 56rpx;
+  min-width: 144rpx;
+  font-size: 28rpx;
+  color: #666;
+  padding-left: 8rpx;
+  padding-right: 8rpx;
+  margin-left: 20rpx;
+  text-align: center;
+  line-height: 56rpx;
+  border: 2rpx solid #666;
+  border-radius: 6rpx;
+}
+.button-red{
+  height: 60rpx;
+  min-width: 148rpx;
+  font-size: 28rpx;
+  color: #e53935;
+  padding-left: 8rpx;
+  padding-right: 8rpx;
+  margin-left: 20rpx;
+  text-align: center;
+  line-height: 58rpx;
+  border: 2rpx solid #e53935;
+  border-radius: 6rpx;
+}
+.button-red::after{
+  border:none;
+}
+.noData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 252rpx;
+}
+
+.noData-image {
+  width: 152rpx;
+  height: 152rpx;
+}
+
+.data-title {
+  font-size: 32rpx;
+  color: #666;
+}
+
+.goHome {
+  font-size: 26rpx;
+  color: #bdbdbd;
+  padding-top: 16rpx;
+}
+
+.backHome {
+  width: 288rpx;
+  height: 88rpx;
+  border: 2rpx solid #999;
+  border-radius: 6rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: #666;
+  line-height: 88rpx;
+  margin: 48rpx 0;
+}

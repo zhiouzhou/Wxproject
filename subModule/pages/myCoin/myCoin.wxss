@@ -1,0 +1,78 @@
+/* pages/user/myCoin/myCoin.wxss */
+ page{
+  background:#f2f2f2;
+}
+.coinTop{
+  height:272rpx;
+  width:100%;
+  position: relative;
+  background-color:#fff;
+}
+.coinBg{
+  position: absolute;
+  width:100%;
+  height:100%;
+}
+.name{
+  position: absolute;
+  left:50%;
+  transform: translateX(-50%);
+  top:48rpx;
+  color:#fff;
+  font-size:24rpx;
+}
+.allCoin{
+  position: absolute;
+  left:50%;
+  transform: translateX(-50%);
+  top:96rpx;
+  color:#fff;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.gain{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  left:65rpx;
+  bottom:40rpx;
+  font-size:24rpx;
+  color:#fff;
+} 
+.condition{
+  font-size:24rpx;
+  color:#666;
+  padding:24rpx;
+}
+.coinDetail{
+  width:100%;
+}
+.coinList{
+  width:100%;
+  background: #fff;
+  border-bottom:2rpx solid #e2e2e2;
+}
+.coinState{
+  padding:32rpx 24rpx 16rpx 24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.num{
+  font-size:30rpx;
+  color:#333;
+  width:506rpx;
+  word-break:break-all;
+}
+.money{
+  color:#E53935;
+  font-size:32rpx;
+}
+.coinTime{
+  color:#999;
+  font-size:24rpx;
+  padding-bottom:34rpx;
+  padding-left:24rpx;
+}

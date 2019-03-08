@@ -1,0 +1,175 @@
+<template name="promotionGathers">
+  <!-- 单个聚合活动 -->
+  <view class="{{(item.promotionGatherType==0 || item.promotionGatherType === undefined)&&item.displayType!=9&&item.displayType!=10 ? 'promotion-gathers-wrap' : ''}}" wx:for="{{promotionGathers}}" wx:key="{{item.gatherId}}">
+    <view style='display:flex;' wx:if="{{(item.promotionGatherType == 0 ||item.promotionGatherType === undefined)&&item.displayType!=9&&item.displayType!=10  }}" class="{{sonItem.displayPosition==0?'positon-0-wrap':sonItem.displayPosition==1?'positon-1-wrap':sonItem.displayPosition==2?'positon-2-wrap':sonItem.displayPosition==3?'positon-3-wrap':sonItem.displayPosition==4?'positon-4-wrap':sonItem.displayPosition==5?'positon-5-wrap':''}}"
+      wx:for="{{item.templateList}}" wx:key="{{sonItem.templateId}}" wx:for-item='sonItem'>
+      <template is="linkMode-0" wx:if="{{sonItem.linkMode==0}}" data="{{...sonItem}}" />
+      <template is="linkMode-1" wx:if="{{sonItem.linkMode==1}}" data="{{...sonItem}}" />
+      <template is="linkMode-2" wx:if="{{sonItem.linkMode==2}}" data="{{...sonItem,hiddenPriceText}}" />
+      <template is="linkMode-3" wx:if="{{sonItem.linkMode==3}}" data="{{...sonItem,hiddenPriceText}}" />
+    </view>
+    <!--品类聚合  -->
+    <!--上2下3 -->
+    <view wx:if="{{item.promotionGatherType == 1 && item.displayType == 5}}">
+      <template is="category-2-3" data="{{...item}}"></template>
+    </view>
+    <!--上3下3 -->
+    <view wx:if="{{item.promotionGatherType == 1 && item.displayType == 6}}">
+      <template is="category-3-3" data="{{...item}}"></template>
+    </view>
+    <!--上4下4-->
+    <view wx:if="{{item.promotionGatherType == 1 && item.displayType == 4}}">
+      <template is="category-4-4" data="{{...item}}"></template>
+    </view>
+    <!--上1下6 -->
+    <view wx:if="{{item.promotionGatherType == 1 && item.displayType == 7}}">
+      <template is="ad-category-gather2" data="{{...item}}"></template>
+    </view>
+    <!--上1下8 -->
+    <view wx:if="{{item.promotionGatherType == 1 && item.displayType == 8}}">
+      <template is="ad-category-gather1" data="{{...item}}"></template>
+    </view>
+    <!-- 单张大图 -->
+    <view wx:if="{{item.displayType==9||item.displayType==10}}" class='promotion-single-img-gathers-wrap'>
+      <view class='{{item.displayType==9?"img-height1":"img-height2"}}'>
+        <template is="single-img" data="{{...item.templateList[0],item:item.templateList[0]}}" />
+      </view>
+    </view>
+  </view>
+</template>
+
+<template name="linkMode-0">
+  <image class='linkMode-0-img' src='{{imgUrl}}' catchtap='onClickPromotionGather' data-promotion-type='{{promotionType}}' data-link-mode='0' mode="widthFix"/>
+</template>
+
+<template name="linkMode-1">
+  <image class='linkMode-1-img' src='{{imgUrl}}' catchtap='onClickPromotionGather' data-promotion-type='{{promotion.promotionType}}' data-activity-id='{{promotion.activityId}}' data-link-mode='1' mode="widthFix"/>
+</template>
+
+<template name="linkMode-2">
+  <view class='linkMode-2-wrap' catchtap='onClickPromotionGather' data-promotion-type='{{promotion.promotionType}}' data-activity-id='{{promotion.activityId}}' data-link-mode='2'>
+    <view class='promotion-name'>
+      <text class='ft-32 color-333'>{{promotion.title}}</text>
+      <image class='promotion-name-arrow' src='/assets/images/ic_arrow@2x.png' />
+    </view>
+    <text class='ft-26 color-666'>{{promotion.activityTimeNotice}}</text>
+    <image class='promotion-img' style='align-self:center;' src='{{imgUrl}}' mode='aspectFit' />
+    <text class='ft-30 color-333 tow-line'>{{promotion.promotionProducts[0].productName}}</text>
+    <text class='ft-24 color-666'>规格 {{promotion.promotionProducts[0].productSpecName}}</text>
+    <view class='promotion-price' wx:if="{{promotion.promotionProducts[0].promotionPrice}}">
+      <text class='ft-24 color-E53935'>¥<text class='ft-36'>{{promotion.promotionProducts[0].promotionPrice}}</text>{{promotion.promotionProducts[0].priceUnit}}</text>
+      <text class='ft-24 color-666 line-through' style='margin-left:24rpx;' wx:if="{{promotion.promotionProducts[0].originalPrice>0&&promotion.promotionProducts[0].originalPrice!=promotion.promotionProducts[0].promotionPrice}}">¥{{promotion.promotionProducts[0].originalPrice}}</text>
+    </view>
+    <text class='ft-24 color-E53935' wx:else>{{hiddenPriceText}}</text>
+  </view>
+</template>
+
+<template name="linkMode-3">
+  <view class='linkMode-3-wrap' catchtap='onClickPromotionGather' data-product-sku-id='{{productSku.productSkuId}}' data-link-mode='3'>
+    <image class='promotion-img' style='align-self:center;width:222rpx;height:222rpx;margin-bottom:60rpx;' src='{{imgUrl}}' mode='aspectFit' />
+    <text class='ft-30 color-333 tow-line'>{{productSku.productName}}</text>
+    <text class='ft-24 color-666'>规格 {{productSku.specName}}</text>
+    <view class='promotion-price' wx:if="{{productSku.productPrice.price}}">
+      <text class='ft-24 color-E53935'>¥<text class='ft-36'>{{productSku.productPrice.price}}</text>{{productSku.priceunit}}</text>
+      <text class='ft-24 color-666 line-through' style='margin-left:24rpx;' wx:if="{{promotion.promotionProducts[0].originalPrice>0&&promotion.promotionProducts[0].originalPrice!=promotion.promotionProducts[0].promotionPrice}}">¥{{productSku.productPrice.originalPrice}}</text>
+    </view>
+    <text class='ft-24 color-E53935' wx:else>{{hiddenPriceText}}</text>
+    <view class='lijian' wx:if="{{productSku.productPrice.reducePrice}}">
+      <text>立减</text>
+      <text>￥{{productSku.productPrice.reducePrice}}</text>
+    </view>
+  </view>
+</template>
+
+<template name="category-4-4">
+  <view class='category-gather-wrap category-4-4'>
+
+    <view class='category-gather-title' wx:if="{{!promotionTitleImg}}"> {{promotionTitle}}</view>
+    <view class="ad-category-head" style='border-bottom:0;' wx:if="{{promotionTitleImg}}">
+      <image src="{{promotionTitle}}"> </image>
+    </view>
+
+    <view class="category-gather-body">
+      <view class='category-gather-item' wx:for="{{templateList}}" wx:key="{{item.displayPosition}}" bindtap='categoryJump' data-item="{{item}}">
+        <image src="{{item.imgUrl}}"></image>
+      </view>
+    </view>
+  </view>
+</template>
+
+<template name="category-2-3">
+  <view class='category-gather-wrap category-2-3'>
+
+    <view class='category-gather-title' wx:if="{{!promotionTitleImg}}"> {{promotionTitle}}</view>
+    <view class="ad-category-head" style='border-bottom:0;' wx:if="{{promotionTitleImg}}">
+      <image src="{{promotionTitle}}"> </image>
+    </view>
+
+    <view class="category-gather-body">
+      <view class='category-gather-item' wx:for="{{templateList}}" wx:key="{{item.displayPosition}}" bindtap='categoryJump' data-item="{{item}}">
+        <image src="{{item.imgUrl}}"></image>
+      </view>
+    </view>
+  </view>
+</template>
+
+<template name="category-3-3">
+  <view class='category-gather-wrap category-3-3'>
+
+    <view class='category-gather-title' wx:if="{{!promotionTitleImg}}"> {{promotionTitle}}</view>
+    <view class="ad-category-head" style='border-bottom:0;' wx:if="{{promotionTitleImg}}">
+      <image src="{{promotionTitle}}"> </image>
+    </view>
+
+    <view class="category-gather-body">
+      <view class='category-gather-item' wx:for="{{templateList}}" wx:key="{{item.displayPosition}}" bindtap='categoryJump' data-item="{{item}}">
+        <image src="{{item.imgUrl}}"></image>
+      </view>
+
+    </view>
+  </view>
+</template>
+
+<template name="ad-category-gather1">
+  <view class='ad-category-gather1'>
+
+    <view class='category-gather-title' style=" border-bottom: 2rpx solid rgba(0,0,0,0.1);" wx:if="{{!promotionTitleImg}}"> {{promotionTitle}}</view>
+    <view class="ad-category-head" wx:if="{{promotionTitleImg}}">
+      <image src="{{promotionTitle}}"> </image>
+    </view>
+    <view class="ad-category-banner" wx:if="{{templateList[0].displayPosition == 6}}" bindtap='categoryJump' data-item="{{templateList[0]}}">
+      <image src="{{templateList[0].imgUrl}}"></image>
+    </view>
+    <view class="ad-category-body">
+      <view class='category-gather-item' wx:for="{{templateList}}" wx:key="{{item.displayPosition}}" wx:if="{{item.displayPosition!=6}}" bindtap='categoryJump' data-item="{{item}}">
+        <image src="{{item.imgUrl}}"></image>
+      </view>
+
+    </view>
+
+  </view>
+</template>
+
+<template name="ad-category-gather2">
+  <view class='ad-category-gather2'>
+
+    <view class='category-gather-title' style=" border-bottom: 2rpx solid rgba(0,0,0,0.1);" wx:if="{{!promotionTitleImg}}"> {{promotionTitle}}</view>
+    <view class="ad-category-head" wx:if="{{promotionTitleImg}}">
+      <image src="{{promotionTitle}}"> </image>
+    </view>
+
+    <view class="ad-category-banner" wx:if="{{templateList[0].displayPosition == 6}}" bindtap='categoryJump' data-item="{{templateList[0]}}">
+      <image src="{{templateList[0].imgUrl}}"></image>
+    </view>
+    <view class="ad-category-body">
+      <view class='category-gather-item' wx:for="{{templateList}}" wx:key="{{item.displayPosition}}" wx:if="{{item.displayPosition!=6}}" bindtap='categoryJump' data-item="{{item}}">
+        <image src="{{item.imgUrl}}"></image>
+      </view>
+    </view>
+  </view>
+</template>
+
+
+<template name="single-img">
+  <image style='width:100%;height:100%;' src='{{imgUrl}}' catchtap='onClickSingleImgGather' data-info='{{item}}'/>
+</template>

@@ -1,0 +1,113 @@
+/* pages/user/myBonus/myBonus.wxss */
+page{
+   background: #f2f2f2; 
+}
+.state{
+  display:flex;
+  flex-direction: row;
+  border-bottom:1rpx solid #f2f2f2;
+  padding:0 24rpx;
+  background-color:#fff;
+  
+}
+.usable{
+  width:50%;
+  text-align: center;
+  line-height: 80rpx;
+  color:#e53935;
+  font-size:30rpx;
+  position: relative;
+}
+.unusable{
+  width:50%;
+  text-align: center;
+  line-height: 80rpx;
+  font-size:30rpx;
+}
+.line {
+  width: 146rpx;
+  height: 4rpx;
+  background-color: #e53935;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 100rpx;
+}
+.detail{
+  padding:0 24rpx 0rpx 0rpx; 
+   /* background: #fff;  */
+}
+.bonusList_1{
+  border-bottom:2rpx solid rgba(0,0,0,.1);
+  padding-bottom:35rpx;
+  background-color:#fff;
+  position: relative;
+}
+.bonusList{
+   background: #fff; 
+  display:flex;
+  flex-direction: row;
+  padding-left:24rpx;
+}
+.message{
+  padding-left:20rpx;
+  padding-top:32rpx;
+}
+.amount{
+  color:#d91f2f;
+  font-size:28rpx;
+  padding-bottom:24rpx;
+}
+.time,.condition{
+  color:#666;
+  font-size:24rpx;
+   /* padding-bottom:15rpx;  */
+   word-break: break-all;
+   min-width:380rpx;
+}
+.check{
+  color:#666;
+  font-size:24rpx;
+  text-align: right;
+  padding:32rpx 48rpx 32rpx 0;
+  background-color:#fff;
+}
+.sign{
+  width:120rpx;
+  height:80rpx;
+  position: absolute;
+  right:0;
+  top:0;
+}
+.noData{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+   margin-top:252rpx; 
+}
+.noData-image{
+  width:152rpx;
+  height:152rpx;
+  
+}
+.data-title{
+  font-size:32rpx;
+  color:#666;
+}
+.goHome{
+  font-size:26rpx;
+  color:#bdbdbd;
+  padding-top:16rpx;
+}
+.backHome{
+  width:288rpx;
+  height:88rpx;
+  border:2rpx solid #999;
+  border-radius: 6rpx;
+  text-align: center;
+  font-size:32rpx;
+  color: #666;
+  line-height: 88rpx;
+  margin:48rpx 0;
+}

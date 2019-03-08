@@ -1,0 +1,76 @@
+<wxs module="productFilter" src="./../../../utils/WxsUtil.wxs">
+</wxs>
+<!-- 商品列表的产品项 -->
+<template name="category-product-template"> 
+  <view class='normal-product-wrap' catchtap='goToProductDetail' data-product-sku-id='{{productItem.productSkuId}}'
+  data-product-sku-hide='{{productItem.hideProduct}}'>
+    <!-- 左侧图片，生产日期 -->
+    <view class='product-left-side'>
+      <view class='product-img-area'>
+        <image class='product-img' src='{{productItem.imgUrl || "/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <view class='product-reduce' wx:if="{{productItem.productPrice.reducePrice}}">
+          <text class='ft-16 color-FFF'>立减</text>
+          <text class='ft-22 color-FFF'>{{productItem.productPrice.reducePrice}}</text>
+        </view>
+         <view class='product-stock' wx:if="{{productItem.stockText}}">{{productItem.stockText}}</view> 
+      </view>
+    </view>
+    <!-- 右侧流式布局 -->
+    <view class='product-right-side'> 
+      <!-- 商品信息 -->
+      <view class='product-main-info'>
+        <text class='ft-30 color-333'>{{productItem.productName}}</text>
+        <!-- 商品价格 -->
+        <view class='product-price-area' style='flex:initial;' wx:if="{{productItem.mainPrice}}">
+          <text class='product-price ft-24 color-E53935'>¥<text class='ft-36 color-E53935'>{{productFilter.getPriceFormat(productItem.mainPrice)}}</text>/{{productItem.priceunit}}</text>
+          </view>
+        <!-- <text class='ft-24 color-E53935' wx:if="{{!productItem.mainPrice}}">{{hiddenPriceText}}</text> -->
+        <!-- 产品规格 -->
+        <view class='product-spec-wrap product-wrap-column product-item-spec'>
+          <text class='ft-24 color-666 product-wrap-column-spec'>规格 {{productItem.specName}}</text>
+          <!-- 产品加减框 没库存，游客，隐藏价格不展示,隐藏商品不显示加减-->   
+          <!--加减框 -->
+          <view class='product-num-picker' wx:if='{{productItem.canSellStoreCount&&!productItem.hideProduct}}'>
+
+            <view class='product-number-frame'>
+              <view class='product-number-button'>
+                <view class='crease-mask decrease-mask' catchtap='onSubProductBuyNum'
+                 data-product-from-category='true'
+                 data-product-Info = '{{productItem}}'
+                 data-product-sku-id='{{productItem.productSkuId}}'></view>
+                <image class='product-number-img' style='{{productItem.buyNum==0?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+              </view>
+              <input class='product-number' catchtap='doNothing'
+               bindblur='onInputProductBuyNum'  maxlength='5' 
+              value='{{productItem.productSkuId==productItem.productSaleSpecId?productItem.buyNum:productItem.buyNum*productItem.saleSpecQuantity}}' 
+              data-product-from-category='true'
+              data-product-Info = '{{productItem}}'
+               data-product-sku-id='{{productItem.productSkuId}}'/>
+              <view class='product-number-button'>
+                <view class='crease-mask increase-mask' catchtap='onAddProductBuyNum' 
+                data-product-from-category='true'
+                data-product-Info = '{{productItem}}'
+                data-product-sku-id='{{productItem.productSkuId}}'></view>
+                <image class='product-number-img' style='{{productItem.buyNum==productItem.maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+              </view>
+            </view>
+          </view>
+           <text class='ft-24 color-666' wx:if='{{productItem.canSellStoreCount&&!productItem.hideProduct}}'>{{productItem.productSkuId==productItem.productSaleSpecId?productItem.saleUnit:productItem.minUnit}}</text>
+        </view>
+        <!--end 规格-->
+        <!-- 产品促销提示标签 -->
+       <template is="product-coupon-bonus-tags" data="{{...productItem}}"/> 
+      </view>
+    
+    </view>
+  </view>
+</template>
+<!-- 产品促销标签部分（优惠券，红包，累计） -->
+<template name="product-coupon-bonus-tags">
+  <view class='product-display-tags' wx:if="{{bonusText||unBonusText||couponText||unCouponText}}">
+    <image class='product-display-tag-img' src='{{bonusText?"/assets/images/icon_gou@2x.png":"/assets/images/ic2_tip_left_icon.png"}}' mode='aspectFit' wx:if="{{bonusText||unBonusText}}" />
+    <text class='ft-22 color-999' style='margin-right:24rpx;margin-left:8rpx;' wx:if="{{bonusText||unBonusText}}">{{bonusText?bonusText:unBonusText}}</text>
+    <image class='product-display-tag-img' src='{{couponText?"/assets/images/icon_gou@2x.png":"/assets/images/ic2_tip_left_icon.png"}}' mode='aspectFit' wx:if="{{couponText||unCouponText}}" />
+    <text class='ft-22 color-999' style='margin-right:24rpx;margin-left:8rpx;' wx:if="{{couponText||unCouponText}}">{{couponText?couponText:unCouponText}}</text>
+  </view>
+</template>

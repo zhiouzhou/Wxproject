@@ -1,0 +1,78 @@
+/**
+ * wxs文件暂不支持ES6语法
+ */
+
+// 保留小数
+function toFixed(param, num) {
+  if (!isNaN(param)) {//判断是否是数字（空格和空串无法判断）
+    return parseFloat(param).toFixed(num)
+  } else {
+    return '0.00'
+  }
+}
+
+// 拆分数字，分为整数部分和小数部分，needEndWithZero：需要保留.00或者.*0
+function splitNum(num, needEndWithZero) {
+  var temp = parseFloat(num).toFixed(2)
+  var arr = temp.split(".")
+  var integerNumStr = arr[0]
+  var decimalNumStr = '.' + arr[1]
+  if (!needEndWithZero) {
+    decimalNumStr = decimalNumStr == '.00' ? '' :
+      decimalNumStr.charAt(decimalNumStr.length - 1) == '0' ?
+        decimalNumStr.substring(0, decimalNumStr.length - 1) : decimalNumStr
+  }
+  return { integerNumStr: integerNumStr, decimalNumStr: decimalNumStr }
+}
+//拼接用户地址或者仓库地址的完整地址字符串
+function getAddressDetail(address) {
+  if (!address) {
+    return ''
+  } else {
+    return (address.province || '') + (address.city || '') + (address.county || '') + (address.street || '') + (address.detailAddress || '') + (address.houseNumber || '') + (address.warehouseName || '')
+  }
+}
+//定位获取的地址
+function getMapAddressDetail(mapAddress) {
+  if (!mapAddress) {
+    //地址传入空
+    return ''
+  } else if (!mapAddress.address_component.detailAddress) {
+    //进入订单提交页面，不编辑地址，此时没有detailAddress字段，则取其他属性代替详细地址
+    return (mapAddress.address_component.province || '') + (mapAddress.address_component.city || '') + (mapAddress.address_component.district || '') + (mapAddress.address_component.street || '')
+      + (mapAddress.formatted_addresses.recommend|| '')
+  } else {
+    //编辑建议地址后，detailAddress,houseNumber已经赋值
+    return (mapAddress.address_component.province || '') + (mapAddress.address_component.city || '') + (mapAddress.address_component.district || '') + (mapAddress.address_component.street || '') + (mapAddress.address_component.detailAddress || '') + (mapAddress.address_component.houseNumber || '')
+  }
+}
+//截取前两位字符串
+function substr(str) {
+  if (!str) {
+    return ''
+  } else {
+    return str.substring(0, 2)
+  }
+}
+
+function getPriceFormat(value) {
+  return parseFloat(isNaN(value) ? 0 : value).toFixed(2);
+}
+function productFormat(name) {
+  var a = typeof name === "string" ? name : ''
+  if (a.length > 24) {
+    return a.substring(0, 24) + '...'
+  } else {
+    return a
+  }
+}
+
+module.exports = {
+  toFixed: toFixed,
+  splitNum: splitNum,
+  getAddressDetail: getAddressDetail,
+  getMapAddressDetail: getMapAddressDetail,
+  substr: substr,
+  getPriceFormat: getPriceFormat,
+  productFormat: productFormat
+}

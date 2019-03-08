@@ -1,0 +1,40 @@
+/* pages/homePage/homePage.wxss */
+@import "homePageTemplates/hdBanners.wxss";
+@import "homePageTemplates/appIcons.wxss";
+@import "homePageTemplates/countryHdBanners.wxss";
+@import "homePageTemplates/notices.wxss";
+@import "homePageTemplates/serviceTel.wxss";
+@import "homePageTemplates/shops.wxss";
+@import "homePageTemplates/shopsProducts.wxss";
+@import "homePageTemplates/promotionList.wxss";
+@import "homePageTemplates/promotionGathers.wxss";
+@import "homePageTemplates/activityGroup.wxss";
+
+.clear {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 200rpx;
+  height: 50rpx;
+  background-color: lightcoral;
+  text-align: center;
+  line-height: 50rpx;
+  border-radius: 25rpx;
+}
+
+.hd-locate {
+  width: 180rpx;
+  height: 60rpx;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30rpx;
+}
+
+.hd-locate-img {
+  width: 26rpx;
+  height: 26rpx;
+  margin: 0 8rpx;
+}

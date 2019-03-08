@@ -1,0 +1,48 @@
+@import "./../../../pages/dealer/dealer.wxss";
+page{
+   background: #f2f2f2; 
+}
+.state{
+  display:flex;
+  flex-direction: row;
+  border-bottom:2rpx solid rgba(0, 0, 0, 0.1);
+  padding:0 24rpx;
+  background-color:#fff;
+  
+}
+.state-row{
+  width:50%;
+  text-align: center;
+  line-height: 80rpx;
+  color:#666;
+  font-size:28rpx;
+  position: relative;
+}
+.state-row text{
+    display: inline-block;
+    padding: 0 20rpx;
+}
+.state-row-active text{
+    color: #E53935;
+    border-bottom: 2px solid #E53935;
+}
+.products-menu-wrap{
+  border-bottom:2rpx solid rgba(0, 0, 0, 0.1);
+}
+.underwrite-product-box:nth-of-type(1){
+  border-top: none;
+}
+.underwrite-tips{
+  display: flex;  
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+  background: #FFFAF3;
+  padding: 14rpx 20rpx;
+  position: relative;  
+}
+.underwrite-tips-close{
+  width: 24rpx;
+  height: 24rpx;
+  margin-top: 4rpx;
+}

@@ -1,0 +1,15 @@
+<!-- 验证码，优惠码输入框 -->
+<!-- codeNumFakeArr:方框的个数，为了方便循环，要用一个数组.codeValue:方框内的输入值 -->
+<template name='code-input'>
+  <!-- 输入框整体 -->
+  <view class='code-input-wrap' style='width:100%;height:{{codeInputHeight}}rpx;'>
+    <!-- 输入框，个数 -->
+    <view class='code-frame-wrap'>
+      <block wx:for="{{codeNumFakeArr}}">
+        <!-- 通过下标直接去codeValue字符串中取值并展示出来 -->
+        <view class='code-frame color-333 ft-48' style='width:{{codeInputHeight}}rpx;height:{{codeInputHeight}}rpx; line-height:{{codeInputHeight}}rpx;border-color:{{index==codeValue.length&&index!=0?"#e53935":""}};'>{{codeValue[index]}}</view>
+      </block>
+    </view>
+    <input class='code-input' value='{{codeValue}}' bindinput='onCodeInput' maxlength='{{codeNumFakeArr.length}}' type='{{inputType?inputType:number}}' bindblur="blur" />
+  </view>
+</template>

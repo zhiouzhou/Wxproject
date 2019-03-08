@@ -1,0 +1,30 @@
+.ruleDetail{
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.tag-red{
+  color:#E53935;
+  font-size:22rpx;
+  border:2rpx solid #E53935;
+  /* padding:4rpx; */
+  min-height:30rpx;
+  min-width:54rpx;
+  text-align: center;
+  line-height: 30rpx;
+  border-radius: 4rpx;
+  margin:6rpx 16rpx 0 0;
+}
+.fullCutTitle{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-bottom:38rpx;
+}
+.title-img{
+  width:40rpx;
+  height:38rpx;
+  padding-right:22rpx;
+}

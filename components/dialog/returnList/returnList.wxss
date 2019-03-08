@@ -1,0 +1,25 @@
+.return-content-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.retrun-list-item {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.return-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.point {
+  margin: 24rpx;
+  height: 12rpx;
+  width: 12rpx;
+  border-radius: 50%;
+  background-color: #e53935;
+}

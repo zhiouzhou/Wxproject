@@ -1,0 +1,16 @@
+/* pages/compositeActivity/compositeProductList.wxss */
+
+.empty-product-list {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-product-list-img {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 40rpx;
+}

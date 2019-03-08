@@ -1,0 +1,152 @@
+<!--pages/user/user.wxml-->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../homePage/homePageTemplates/midBanners.wxml" />
+
+<wxs src="../../utils/WxsUtil.wxs" module="WxsUtil" />
+<!-- 个人信息背景 -->
+<view class='user-info-wrap'>
+  <!-- 头像 -->
+  <view class='user-avatar-out-circle' catchtap='navigatePage' data-tag='manageAccount' data-bundle='{{userDetail}}'>
+    <view class='user-avatar-in-circle'>
+      <image class='user-avatar-img' src="/assets/images/ic-touxiang@2x.png" mode='aspectFit' />
+    </view>
+    <view class='user-level-wrap ft-22 color-FFF' wx:if="{{userWalletInfo.currentUserLevel}}">{{userWalletInfo.currentUserLevel}}</view>
+  </view>
+  <!-- 个人信息 -->
+
+  <view class='user-info' wx:if="{{!isVisitor}}">
+    <!-- 昵称 -->
+    <view class='user-nickname' catchtap='navigatePage' data-tag='manageAccount' data-bundle='{{userDetail}}'>
+      <text class='ft-36 color-333'>Hi，{{userDetail.userName}}</text>
+      <image class='user-nickname-img' src="/assets/images/ic_youjiantou_da@2x.png" mode='aspectFit' />
+    </view>
+    <!-- 认证状态，会员等级 -->
+    <view class='user-state'>
+      <view class='auth-state-wrap {{userWalletInfo.authenState == 2?"authen-pass":"authen-nopass"}}'>
+        <image class='auth-state-img' src="{{userWalletInfo.authenState == 2 ?'/assets/images/wode_yishiming@2x.png':'/assets/images/wode_weirenzheng@2x.png'}}" mode='aspectFit' />
+        <text class='ft-24 authenState'>{{userWalletInfo.authenState==0||userWalletInfo.authenState == 4?'实名未认证':userWalletInfo.authenState == 1 ? '实名审核中' : userWalletInfo.authenState == 2 ? '已实名认证' : '实名未通过'}}</text>
+        <!-- <view catchtap='goSign'>签到</view> -->
+      </view>
+    </view>
+  </view>
+  <view class='user-info' wx:if="{{isVisitor}}">
+    <view class='user-nickname' style='flex:1;' catchtap='navigatePage' data-tag='manageAccount' data-bundle='{{userDetail}}'>
+      <text class='ft-36 color-333'>点击/登录</text>
+      <image class='user-nickname-img' src="/assets/images/ic_youjiantou_da@2x.png" mode='aspectFit' />
+    </view>
+  </view>
+  <view class='sign-in-box' wx:if="{{signInDetail}}">
+    <view class='sign-in-wrap' catchtap='goSign'>
+      <image class='sign-in-img' src="{{signInDetail.alreadySignIn?'/assets/images/ic_yiqiandao@2x.png':'/assets/images/ic_qiandao@2x.png'}}" mode='aspectFit' />
+      <text class='{{signInDetail.alreadySignIn?"sign-in-gray":"sign-in-red"}}'>{{signInDetail.alreadySignIn?"已签":"签到"}}</text>
+    </view>
+  </view>
+</view>
+<!-- 订单 -->
+<view class='orders-wrap'>
+  <view class='orders-title'>
+    <text class='ft-34 color-333'>全部订单</text>
+    <view class='orders-title-right'>
+      <text class='ft-24 color-999' catchtap='navigatePage' data-tag='orders' data-bundle='-1'>查看全部订单</text>
+      <image src='/assets/images/ic_youjiantou_xiao@2x.png' mode='aspectFit' />
+    </view>
+  </view>
+  <view class='orders-order'>
+    <view class='order-item' catchtap='navigatePage' data-tag='orders' data-bundle='8'>
+      <view class='order-item-dot' wx:if="{{userWalletInfo.orderCount.waitPayCount}}">{{userWalletInfo.orderCount.waitPayCount>99?'99+':userWalletInfo.orderCount.waitPayCount}}</view>
+      <image class='order-item-img' src='/assets/images/ic_daifukuan@2x.png' mode='aspectFit' />
+      <text class='ft-26 color-333' style='margin-top:16rpx;'>待付款</text>
+    </view>
+    <view class='order-item' catchtap='navigatePage' data-tag='orders' data-bundle='20'>
+      <view class='order-item-dot' wx:if="{{userWalletInfo.orderCount.hasSend+userWalletInfo.orderCount.readlySend}}">{{(userWalletInfo.orderCount.hasSend+userWalletInfo.orderCount.readlySend)>99?'99+':(userWalletInfo.orderCount.hasSend+userWalletInfo.orderCount.readlySend)}}</view>
+      <image class='order-item-img' src='/assets/images/ic_daoshouhuo@2x.png' mode='aspectFit' />
+      <text class='ft-26 color-333' style='margin-top:16rpx;'>待收货</text>
+    </view>
+    <view class='order-item' catchtap='navigatePage' data-tag='orders' data-bundle='9'>
+      <view class='order-item-dot' wx:if="{{userWalletInfo.orderCount.waitEvaluateCount}}">{{userWalletInfo.orderCount.waitEvaluateCount>99?'99+':userWalletInfo.orderCount.waitEvaluateCount}}</view>
+      <image class='order-item-img' src='/assets/images/ic_daipinjia@2x.png' mode='aspectFit' />
+      <text class='ft-26 color-333' style='margin-top:16rpx;'>待评价</text>
+    </view>
+    <view class='order-item' catchtap='navigatePage' data-tag='orders' data-bundle='3'>
+      <image class='order-item-img' src='/assets/images/ic_yiwancheng@2x.png' mode='aspectFit' />
+      <text class='ft-26 color-333' style='margin-top:16rpx;'>已完成</text>
+    </view>
+    <view class='order-item' catchtap='navigatePage' data-tag='orderReturn'>
+      <view class='order-item-dot' wx:if="{{userWalletInfo.orderCount.returnCount}}">{{userWalletInfo.orderCount.returnCount>99?'99+':userWalletInfo.orderCount.returnCount}}</view>
+      <image class='order-item-img' src='/assets/images/ic_tuihuoguanli@2x.png' mode='aspectFit' />
+      <text class='ft-26 color-333' style='margin-top:16rpx;'>退货换货</text>
+    </view>
+  </view>
+</view>
+
+<!-- 我的页面banner广告 -->
+<view class='user-page-banner' style="margin-top:{{profileBanners.length ? 20+'rpx' : 0}}">
+  <template is="midBanners" data="{{midBanners:profileBanners}}" wx:if="{{profileBanners.length}}" />
+</view>
+
+<!-- 财富 -->
+<view class='assets-wrap'>
+  <view class='assets-item' catchtap='navigatePage' data-tag='myBonus'>
+    <text class='ft-34 color-F2524B'>{{WxsUtil.toFixed(userWalletInfo.userWallet.bonusAmount,2)}}</text>
+    <text class='ft-26 color-333' style='margin-top:16rpx;'>红包</text>
+  </view>
+  <view class='assets-item' catchtap='navigatePage' data-tag='myCoupon'>
+    <text class='ft-34 color-F2524B'>{{userWalletInfo.userWallet.couponCount||0}}</text>
+    <text class='ft-26 color-333' style='margin-top:16rpx;'>优惠券</text>
+  </view>
+  <view class='assets-item' catchtap='navigatePage' data-tag='myCoin' data-bundle='{{userWalletInfo.userWallet}}'>
+    <text class='ft-34 color-F2524B'>{{userWalletInfo.userWallet.wineScoreAmount||0}}</text>
+    <text class='ft-26 color-333' style='margin-top:16rpx;'>酒币</text>
+  </view>
+  <view class='assets-item' catchtap='navigatePage' data-tag='myOddBalance' data-bundle='{{userWalletInfo.userWallet.oddBalanceAmount}}'>
+    <text class='ft-34 color-F2524B'>{{WxsUtil.toFixed(userWalletInfo.userWallet.oddBalanceAmount,2)}}</text>
+    <text class='ft-26 color-333' style='margin-top:16rpx;'>零头结余</text>
+  </view>
+</view>
+
+<!-- 我的工具 -->
+<view class='user-tool'>
+  <view class='user-tool-bar'><text>我的工具</text></view>
+  <view class='user-tool-wrap'>
+    <view class='tool-item' catchtap='navigatePage' data-tag='myCollection'>
+      <image class='tool-img' src='/assets/images/ic_shangpinshoucang@2x.png' mode='aspectFit' />
+      <text class='tool-item-title'>商品收藏</text>
+    </view>
+    <view class='tool-item' catchtap='navigatePage' data-tag='dealerList'>
+      <image class='tool-img' src='/assets/images/ic_dianpushoucang@2x.png' mode='aspectFit' />
+      <text class='tool-item-title'>店铺收藏</text>
+    </view>
+    <view class='tool-item' catchtap='navigatePage' data-tag='message'>
+      <image class='tool-img' src='/assets/images/ic_wodexiaoxi@2x.png' mode='aspectFit' />
+      <text class='tool-item-title'>我的消息</text>
+    </view>
+    <view class='tool-item' catchtap='navigatePage' wx:if="{{showMallAnswer}}" data-tag='mallAnswer'>
+      <image class='tool-img' src='/assets/images/ic_yijiupidati@2x.png' mode='aspectFit' />
+      <text class='tool-item-title'>易久批答题</text>
+    </view>
+    <view class='tool-item' catchtap='navigatePage' data-tag='mallAnswer' data-share='2'>
+      <image class='tool-img' src='/assets/images/ic_yaoqinghaoyou@2x.png' mode='aspectFit' />
+      <text class='tool-item-title'>邀请好友</text>
+    </view>
+    <view class='tool-item' catchtap='navigatePage' data-tag='manageAccount' data-bundle='{{userDetail}}'>
+      <image class='tool-img' src='/assets/images/ic-xinxiziliao@2x.png' mode='aspectFit' />
+      <text class='tool-item-title'>店铺资料</text>
+    </view>
+    <view class='tool-item' catchtap='navigatePage' data-tag='receiveAddress'>
+      <image class='tool-img' src='/assets/images/ic_shouhuodizhi@2x.png' mode='aspectFit' />
+      <text class='tool-item-title'>收货地址</text>
+    </view>
+    <view class='tool-item' catchtap='navigatePage' data-tag='changePassword'>
+      <image class='tool-img' src='/assets/images/ic_xiugaimima@2x.png' mode='aspectFit' />
+      <text class='tool-item-title'>修改密码</text>
+    </view>                            
+  </view>
+</view>
+
+<!-- 安全退出 -->
+<view class='exit-button ft-30 color-333' catchtap='logout' wx:if="{{!isVisitor}}">安全退出</view>

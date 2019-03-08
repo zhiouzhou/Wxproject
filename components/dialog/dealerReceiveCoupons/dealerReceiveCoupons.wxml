@@ -1,0 +1,28 @@
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+
+<template name="dealerReceiveCoupons">
+  <view class='shop-coupon' wx:for='{{coupons}}' wx:key="{{item.promotionId}}">
+    <view class='coupon-left'>
+      <image class='coupon-left-img' src='{{item.surplusCount==0&&!item.alreadyReceived?"/assets/images/youhuiquanzuo_huise@2x.png":"/assets/images/youhuiquanzuo_hongse@2x.png"}}' />
+      <view class='coupon-left-content'>
+        <text class='ft-30 color-FFF'>¥ <text class='ft-48'>{{WxsUtil.splitNum(item.amount,true).integerNumStr}}</text>{{WxsUtil.splitNum(item.amount,true).decimalNumStr}}</text>
+        <text class='ft-22 color-FFF' style='margin-top:12rpx;'>限领1次</text>
+      </view>
+    </view>
+    <view class='coupon-middle'>
+      <text class='ft-26 color-333'>{{item.couponDesc}}</text>
+      <text class='ft-22 color-999'>使用期限：{{item.effectDate}}-{{item.expireDate}}</text>
+    </view>
+    <view class='coupon-right'>
+      <image class='coupon-right-img' src='/assets/images/youhuiquanyou@2x.png' />
+      <view class='coupon-right-content'>
+        <view class='receive-button-received' catchtap='onConfirmAlreadyReceiveCoupons' wx:if="{{item.alreadyReceived}}">已领取</view>
+        <image class='coupons-sale-out-img' src='/assets/images/icon_yilingwanzhang@2x.png' mode='scaleToFill' wx:elif="{{item.surplusCount==0}}" />
+        <block wx:else>
+          <view class='receive-button-unreceived' catchtap='onConfirmReceiveCoupons' data-id='{{item.promotionId}}' data-index="{{index}}">领取</view>
+          <text class='ft-26 color-BDBDBD' wx:if="{{item.surplusCount<=item.warningNum}}" style="margin-top:16rpx;">仅剩{{item.surplusCount}}张</text>
+        </block>
+      </view>
+    </view>
+  </view>
+</template>

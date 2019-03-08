@@ -1,0 +1,206 @@
+/* pages/user/prizeApply/prizeApply.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.prompt {
+  display: flex;
+  flex-direction: row;
+  padding: 25rpx 24rpx;
+  background-color: #fffaf3;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+}
+
+.promptIcon {
+  font-size: 22rpx;
+  color: #e53935;
+  height: 28rpx;
+  text-align: center;
+  line-height: 28rpx;
+  min-width: 52rpx;
+  border: 2rpx solid #e53935;
+  border-radius: 2rpx;
+  margin-right: 21rpx;
+}
+
+.close {
+  width: 64rpx;
+  height: 36rpx;
+}
+
+.applyMessage {
+  margin: 12rpx 24rpx 16rpx 24rpx;
+  background-color: #fff;
+  padding: 0 24rpx;
+  border-radius: 2rpx;
+}
+
+.applyMessage-one {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid #e8eaed;
+}
+
+/* .applyState{
+  min-width:96rpx;
+  height:32rpx;
+  color:#C39800;
+  font-size:22rpx;
+  line-height: 32rpx;
+  text-align: center;
+  background-color:#F0BB02;
+  border-radius: 16rpx;
+} */
+
+/* 待收取 待兑奖*/
+
+.applyState-stateValue-one {
+  min-width: 96rpx;
+  height: 32rpx;
+  color: #C39800;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  text-align: center;
+  background-color: #F0BB02;
+  border-radius: 16rpx;
+}
+
+/* 已兑奖 */
+
+.applyState-stateValue-two {
+  min-width: 96rpx;
+  height: 32rpx;
+  color: #e53935;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  text-align: center;
+  background-color: #f9dddf;
+  border-radius: 16rpx;
+}
+/* 已取消 已拒绝 */
+.applyState-stateValue-three {
+  min-width: 96rpx;
+  height: 32rpx;
+  color: #fff;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  text-align: center;
+  background-color: #d0d0d0;
+  border-radius: 16rpx;
+}
+.applyMessage-two {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid #e8eaed;
+}
+
+.applyMessage-two-border {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 24rpx 0;
+}
+
+.applyNo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.number {
+  width: 24rpx;
+  height: 24rpx;
+  background-color: #d0d0d0;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20rpx;
+  text-align: center;
+  line-height: 24rpx;
+  margin-right: 13rpx;
+}
+
+.applyMessage-three {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 24rpx 0;
+}
+
+.applyButton {
+  border: 2rpx solid #bfbfbf;
+  padding: 12rpx 23rpx;
+  color: #666;
+  font-size: 26rpx;
+  margin-left: 24rpx;
+  border-radius: 4rpx;
+}
+
+.addApply {
+  position: fixed;
+  background-color: #e53935;
+  text-align: center;
+  height: 96rpx;
+  bottom: 0;
+  line-height: 96rpx;
+  font-size: 34rpx;
+  color: #fff;
+  width: 100%;
+}
+.initList{
+  margin:320rpx auto;
+  text-align: center;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.icon_one{
+  width:151rpx;
+  height:151rpx;
+  padding-bottom:60rpx;
+}
+.explain{
+  border:2rpx solid #E53935;
+  width:168rpx;
+  height:72rpx;
+  line-height: 72rpx;
+  border-radius: 4rpx;
+  margin-top:40rpx; 
+}
+.explain-img{
+  width:104rpx;
+  height:104rpx;
+  position: fixed;
+  bottom:407rpx;
+  right:18rpx;
+}
+.init-addApply{
+  position: fixed;
+  bottom:0;
+  left:0;
+  width:100%; 
+  height:96rpx;
+  background-color:#e53935;
+  font-size:34rpx;
+  color:#fff;
+  line-height: 96rpx;
+  text-align: center;
+  border-radius: 4rpx;
+}
+.add_icon{
+  width:28rpx;
+  height:28rpx;
+  padding-right:14rpx;
+}

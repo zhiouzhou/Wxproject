@@ -1,0 +1,39 @@
+/* pages/shopCart/selectUserAddress.wxss */
+
+page {
+  background-color: #f2f2f2;
+}
+
+.address-wrap {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 24rpx;
+  box-sizing: border-box;
+  margin-bottom: 12rpx;
+}
+
+.address-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.address-img {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.address-tag {
+  height: 28rpx;
+  line-height: 28rpx;
+  text-align: center;
+  border: 2rpx solid #e53935;
+  border-radius: 4rpx;
+  padding: 0 8rpx;
+  margin-right: 8rpx;
+}

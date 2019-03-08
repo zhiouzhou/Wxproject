@@ -1,0 +1,18 @@
+<!-- 产品满赠 -->
+<template name="checkRuleDetail">
+  <view class='ruleDetail'>
+    <view class='tag-red'>满赠</view>
+    <text class='ft-30 color-333' style='word-break:break-all'>{{ruleDetail}}</text>
+  </view>
+</template>
+<!-- 产品满减 -->
+<template name="fullCutDetail">
+  <view class='fullCutTitle'>
+    <image src='/assets/images/ic_tishidengpao@2x.png' class='title-img'></image>
+    <text class='ft-28 color-999'>{{fullCutDetail.value}}</text>
+  </view>
+  <view class='ruleDetail' wx:for="{{fullCutDetail.tagItemDetails}}">
+    <view class='tag-red'>{{fullCutDetail.tagName}}</view>
+    <text class='ft-30 color-333' style='padding-bottom:24rpx;'>{{item.tagDesc}}</text>
+  </view>
+</template>

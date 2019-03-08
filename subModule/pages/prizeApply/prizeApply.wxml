@@ -1,0 +1,49 @@
+<!--pages/user/prizeApply/prizeApply.wxml-->
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+<view class='prompt' wx:if="{{textTitle && showTitle && applyList.length!=0}}">
+  <view class='title'>
+    <view class='promptIcon'>提示</view>
+    <text class='ft-24 color-333'>{{textTitle}}</text>
+  </view>
+  <image src='/assets/images/ic_bank_list_dialog_closer.png' mode='aspectFit' class='close' catchtap='closeTitle'></image>
+</view>
+<scroll-view class='applyList' scroll-y bindscrolltolower="lower" lower-threshold="4" style='height:{{windowHeight}}rpx' wx:if="{{!vm.isEmpty}}">
+  <view class='applyMessage' wx:for="{{applyList}}" wx:for-item="item" catchtap='gotoApplyDetail' wx:for-index="listIndex" catchtap='gotoApplyDetail'  data-order-id="{{item.orderId}}">
+    <view class='applyMessage-one'>
+      <view class='ft-26 color-666 '>
+        <view style='padding-bottom:15rpx;'>申请单号：{{item.orderNo}}</view>
+        <view>申请时间：{{item.applyTime}}</view>
+      </view>
+      <view class='{{item.stateValue==1||item.stateValue==2?"applyState-stateValue-one":item.stateValue==3?"applyState-stateValue-two":item.stateValue==4||item.stateValue==5?"applyState-stateValue-three":""}}'>{{item.state}}</view>
+    </view>
+    <view class='{{item.canCancel==false&&item.canModify==false&&item.canDelete==false?"applyMessage-two-border":"applyMessage-two"}}' wx:for="{{item.itemList}}" wx:for-item="itemList">
+      <view class='applyNo ft-26 color-666 '>
+        <view class='number'>{{index+1}}</view>
+        <view>
+          <text class='ft-30 color-333'>{{itemList.awardName}}</text>
+          <text class='ft-22 color-999'>，数量{{itemList.awardNum}}</text>
+        </view>
+      </view>
+    </view>
+    <view class='applyMessage-three' wx:if="{{item.canCancel!=false||item.canModify!=false||item.canDelete!=false}}">
+      <view class='applyButton' wx:if="{{item.canCancel==true}}" catchtap='cancelApply' data-order-id="{{item.orderId}}" data-index="{{listIndex}}">取消</view>
+      <view class='applyButton' wx:if="{{item.canModify==true}}" catchtap='changeNumber' data-item="{{item.itemList}}" data-order-id="{{item.orderId}}" >修改数量</view>
+      <view class='applyButton' wx:if="{{item.canDelete==true}}" data-order-id="{{item.orderId}}" data-index="{{listIndex}}" catchtap='deleteApply'>删除</view>
+    </view>
+  </view>
+  <image src='/assets/images/duijiangshuoming@2x.png' class='explain-img'  catchtap='gotoExplain'></image>
+  <view style='height:96rpx;'></view>
+</scroll-view>
+<view class='addApply' catchtap='addApply'  wx:if="{{!vm.isEmpty}}">新增申请</view>
+<view class='initList' wx:if="{{vm.isEmpty}}">
+  <image src='/assets/images/kongyemian@2x.png' mode='aspectFit' class='icon_one'></image>
+  <view class='ft-30 color-666'>您还没有兑奖申请，请先提交订单</view>
+  <view class='explain ft-30 color-E53935' catchtap='gotoExplain'>兑奖说明</view>
+</view>
+<view class='init-addApply' catchtap='addApply'>
+    <image src='/assets/images/xinzeng@2x.png' mode='aspectFit' class='add_icon'></image>
+    新增申请
+  </view>

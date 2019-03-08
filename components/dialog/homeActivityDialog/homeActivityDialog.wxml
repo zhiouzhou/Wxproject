@@ -1,0 +1,82 @@
+<!-- 关联产品模版,关联活动模版 -->
+<template name='homeActivity-dialog'>
+  <view class="yjp-backdrop" />
+  <view>
+    <view class='activity-dialog'>
+      <view class='dialog-bg-act'>
+        <image src='{{activityDialogData.backgroundImgUrl}}' mode='aspectFit' />
+      </view>
+      <view class='dialog-content'>
+        <view class='dialog-content-title'>
+          <text>{{activityDialogData.templateTitle}}</text>
+        </view>
+        <view class='dialog-content-info'>
+          <text>{{activityDialogData.templateContent}}</text>
+        </view>
+        <view class='dialog-content-btn' catchtap='popGoToPage'>{{activityDialogData.buttonName || '直接购买'}}</view>        
+      </view>
+      <view class='close-icon' catchtap='closeActivityDialog'><image src='/assets/images/guanbibutton@2x.png' /></view>
+    </view>  
+  </view>
+</template>
+
+<!-- 优惠券发放模板 -->
+<template name='homeCoupon-dialog'>
+  <view class="yjp-backdrop" />
+  <view class="dialog-login-coupon">
+      <view class="dialog-coupon-ct">
+          <view class="title">{{activityDialogData.templateTitle}}</view>
+          <image class='dialog-coupon-ct-bg' src="/assets/images/dialog-coupon.png" />
+          <view class="dialog-coupon-editTxt">
+              {{activityDialogData.templateContent}}
+          </view>
+          <view catchtap='closeActivityDialog' class="dialog-coupon-ct-close">
+            <image class='clear-dialog-icon' src="/assets/images/clear@cancel@2x.png" />
+          </view>
+      </view>
+      <view class='dialog-coupon-division'>
+          <image src="/assets/images/radius-dialog.png" />
+      </view>
+      <view class="dialog-coupon-anniu">
+          <view class='dialog-coupon-anniu-confrim' catchtap='closeActivityDialog'>{{activityDialogData.buttonName}}</view>
+      </view>
+  </view>
+</template>
+
+<!-- 红包发放模板 -->
+<template name='homeBonus-dialog'>
+  <view class="yjp-backdrop" />
+  <view class="dialog-login-bonus">
+      <view class="dialog-bonus">
+          <view class="dialog-bonus-txt">
+              <image src='{{activityDialogData.backgroundImgUrl || "/assets/images/dialog-bonus.jpg"}}' mode='widthFix' />
+              <div class="dialog-bonus-editTxt dialog-bonus-txt">
+                  {{activityDialogData.templateContent}}
+              </div>
+              <div class="dialog-bonus-know"catchtap='closeActivityDialog'>{{activityDialogData.buttonName}}</div>
+          </view>
+          <view catchtap='closeActivityDialog' class="dialog-coupon-ct-close">
+            <image class='clear-dialog-icon' src="/assets/images/clear@cancel@2x.png" />
+          </view>
+      </view>
+  </view>
+</template>
+
+<!-- 活动通知模板 -->
+<template name='homeNotice-dialog'>
+  <view class="yjp-backdrop" />
+  <view class="dialog-login-bonus">
+      <view class="dialog-activity-ct">
+          <image src='{{activityDialogData.backgroundImgUrl || "/assets/images/dialog-bonus.jpg"}}' mode='widthFix' />
+          <view class="dialog-activity-title">{{activityDialogData.templateTitle}}</view>
+          <view class="dialog-activity-editTxt">
+              <view class="i-scroll-bar" style="word-wrap: break-word;line-height:1.6">{{activityDialogData.templateContent}}</view>
+          </view>
+          <view class="dialog-activity-btn" catchtap='closeActivityDialog' wx:if="{{!skipLinkUrlShow}}">{{activityDialogData.buttonName}}</view>
+          <view class="dialog-activity-btn" data-skip-info="{{activityDialogData}}" catchtap='skipLinkUrl' wx:else>{{activityDialogData.buttonName}}</view>
+          <view catchtap='closeActivityDialog' class="dialog-coupon-ct-close">
+            <image class='clear-dialog-icon' src="/assets/images/clear@cancel@2x.png" />
+          </view>
+      </view>
+  </view>
+</template>

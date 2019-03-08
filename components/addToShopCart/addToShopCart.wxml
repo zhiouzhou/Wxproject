@@ -1,0 +1,88 @@
+<!-- 列表的加入购物车样式 -->
+<template name="add-to-shopcart-bottom-bar">
+  <view class='bottom-view-holder' />
+  <view class='add-to-shopcart-bottom-bar'>
+    <!-- <image class='add-to-shopcart-img' src='/assets/images/gouwuche@2x.png' />
+    <view class='add-to-shopcart-num' wx:if="{{addToShopCartNum}}">{{addToShopCartNum}}</view> -->
+    <view class="add-to-shopcart-left">
+        <view class="c-3" style='{{!userCouponPrompt?"margin-top:-12rpx":""}}' >小计：<text class='color-E53935 ft-30'>¥{{addToShopCartPrice||'0.00'}}</text></view>
+        <text class="coupon-discount-tip" wx:if="userCouponPrompt">{{userCouponPrompt}}</text>
+        <text class="coupon-discount-tip" wx:if="!userCouponPrompt&&userSendPrompt">{{userSendPrompt}}</text>
+        
+    </view>
+     <view class='add-to-shopcart-button' catchtap='goToUnderwriteOrderSubmit' data-type='myUnderwrite'  wx:if="{{callSource=='underwriteList'}}">立即购买<text hidden='{{!addToShopCartNum}}'>({{addToShopCartNum}})</text> </view>
+    <view class='add-to-shopcart-button' catchtap='onGoToShopCart' wx:else>去购物车<text hidden='{{!addToShopCartNum}}'>({{addToShopCartNum}})</text></view>
+  </view>
+</template>
+
+<!-- 详情的加入购物车样式 -->
+<template name="detail-add-to-shopcart-bottom-bar">
+  <!-- <view class='bottom-view-holder' /> -->
+  <view class='detail-add-to-shopcart-bottom-bar' wx:if='{{saleMode != 8 || underwritingInfo.underwritingState == 1}}'>
+    <view class='add-to-shopcart-frame-wrap'>
+      <view class='add-to-shopcart-frame-touch-area' catchtap='onDetailSubProductBuyNum'>
+        <image class='add-to-shopcart-frame-img' style='{{count==minBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+      </view>
+      <input class='add-to-shopcart-frame-input' value='{{productSkuId==productSaleSpecId?count:count*saleSpecQuantity}}' maxlength='5' bindblur='onDetailInputProductBuyNum' bindinput='onDetailInputingProductBuyNum' />
+      <view class='add-to-shopcart-frame-touch-area' catchtap='onDetailAddProductBuyNum'>
+        <image class='add-to-shopcart-frame-img' style='{{count==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+      </view>
+    </view>
+    <text class='ft-28 color-666' style='margin-right:10rpx'>{{addShopCartUnit}}</text>
+    <view class='add-to-shopcart-column'>
+      <view class='add-to-shopcart-orange-button' catchtap='addToShopCart'>加入购物车</view>
+      <view class='add-to-shopcart-red-button' wx:if="{{!noBuyNow}}" catchtap='goToOrderSubmit'>马上进货</view>    
+    </view>    
+  </view>
+  <view class='detail-add-to-shopcart-bottom-bar underwrite-foot' wx:if='{{saleMode == 8 && underwritingInfo.underwritingState == 2}}'>
+      <view class="w100p">
+      <view class="detail-foot-right pull-right w100p">
+        <view href="" class="black-half">包销中</view>       		
+      </view>          	
+    </view> 
+  </view>   
+</template>
+
+<!-- 独家包销产品详情的加入购物车样式 -->
+<template name="underwrite-detail-add-to-shopcart-bottom-bar">
+  <!-- 立即申请 -->
+  <!-- <view class="underwrite-foot" wx:if="{{underwritingState == 1}}">
+    <view class="detail-foot-right pull-right">
+      <view wx:if="{{canApply}}" class="red-half" catchtap="applyUnderwrite">立即申请</view>  
+      <view wx:if="{{!canApply}}" class="black-half">申请中</view>     		
+    </view>          	
+  </view> -->
+  <!-- 已被其他人包销 -->
+  <view class="underwrite-foot" wx:if="{{!underwritingInfo.alreadyUnderwriting && underwritingInfo.underwritingState == 2}}">
+    <view class="w100p">
+      <view class="detail-foot-right pull-right w100p">
+        <view href="" class="black-half">包销中</view>       		
+      </view>          	
+    </view>         		
+  </view>
+  <view class="underwrite-foot" wx:elif="{{stockState == 3||(saleMode == 8 && canSellStoreCount == 0)}}">
+    <view class="w100p">
+      <view class="detail-foot-right pull-right w100p">
+        <view href="" class="black-half">已抢光</view>       		
+      </view>          	
+    </view>         		
+  </view>  
+  <view class='detail-add-to-shopcart-bottom-bar' wx:else>
+    <view class='add-to-shopcart-frame-wrap'>
+      <view class='add-to-shopcart-frame-touch-area' catchtap='onDetailSubProductBuyNum'>
+        <image class='add-to-shopcart-frame-img' style='{{count==minBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jianhao@2x.png' mode='aspectFit' />
+      </view>
+      <input class='add-to-shopcart-frame-input' value='{{productSkuId==productSaleSpecId?count:count*saleSpecQuantity}}' maxlength='5' bindblur='onDetailInputProductBuyNum' />
+      <view class='add-to-shopcart-frame-touch-area' catchtap='onDetailAddProductBuyNum'>
+        <image class='add-to-shopcart-frame-img' style='{{count==maxBuyNum?"opacity:0.4":""}}' src='/assets/images/ic_jiahao@2x.png' mode='aspectFit' />
+      </view>
+    </view>
+    <text class='ft-28 color-666' style='margin-right:10rpx'>{{addShopCartUnit}}</text>
+    <view class='add-to-shopcart-column'>
+      <!-- <view class='add-to-shopcart-orange-button' catchtap='addToShopCart'>加入购物车</view> -->
+      <view class='add-to-shopcart-orange-button' catchtap='goToOrderSubmit'>普通购买</view> 
+      <view class='add-to-shopcart-red-button' wx:if="{{underwritingInfo.underwritingState == 1 && underwritingInfo.canApply}}" catchtap="applyUnderwrite">包销申请</view> 
+      <view class='add-to-shopcart-red-button shopcart-gray-button' wx:if="{{(!underwritingInfo.alreadyUnderwriting||underwritingInfo.underwritingState == 1) && !underwritingInfo.canApply}}" catchtap="applyUnderwrite">申请中</view>      
+    </view>
+  </view>
+</template>

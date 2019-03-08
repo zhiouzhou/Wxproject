@@ -1,0 +1,130 @@
+/* pages/exchange/exchangeThree.wxss */
+page {
+  background: #F2F2F2;
+  padding-bottom: 122rpx;
+}
+.goods-list-title {
+  padding: 29rpx 24rpx;
+  font-size: 30rpx;
+  color: #333;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+.goods-list-title:first-child {
+  border-top: none;
+}
+.exchange-goods {
+  margin-bottom: 12rpx;
+  background: #ffffff;
+}
+.exchange-goods-item:last-child {
+  border-bottom: none;
+}
+.exchange-goods-item {
+  padding: 24rpx;
+  display: flex;
+  color: #666;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+.exchange-goods-item .exchange-goods-img {
+  width: 144rpx;
+  height: 144rpx;
+  position: relative;
+}
+.exchange-goods-item .exchange-goods-img image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.exchange-goods-item .exchange-goods-info {
+  padding-left: 16rpx;
+  flex: 1;
+}
+.exchange-goods-item .exchang-goods-name {
+  color: #333;
+  font-size: 30rpx;
+}
+.exchange-goods-item .exchang-goods-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24rpx;
+  margin-top: 16rpx;
+}
+.exchang-cells {
+  background: #ffffff;
+}
+.exchang-cell {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #666;
+  padding: 24rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+.exchang-cell:last-child {
+  border-bottom: none;
+}
+.exchang-cell-hd {
+  width: 200rpx;
+  color: #333;
+}
+.exchang-cell-fd {
+  flex: 1;
+  text-align: right;
+}
+.total-price-wrapper {
+  position: fixed;
+  bottom: 88rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  width: 100%;
+  font-size: 24rpx;
+  background:rgba(255,250,243,1);
+  color: #333;
+  text-align: center;
+  z-index: 99;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+.exchang-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  height: 98rpx;
+  display: flex;
+  background:rgba(255,255,255,1);
+  z-index: 99;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+.exchang-bottom .next-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+}
+.exchang-bottom .goods-price {
+  color: #333;
+  font-size: 28rpx;
+}
+.exchang-bottom .next-right {
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+  width: 200rpx;
+  height: 98rpx;
+  background: #E53935;
+  color: #ffffff;
+  font-size: 32rpx;
+  text-align: center;
+  line-height: 98rpx;
+}
+.link-more {
+  position: absolute;
+  display: inline-block;
+  width: 40rpx;
+  height: 40rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 24rpx;
+}

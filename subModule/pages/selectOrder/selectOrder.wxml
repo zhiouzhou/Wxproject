@@ -1,0 +1,64 @@
+<!--pages/selectOrder/selectOrder.wxml-->
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil"/>
+<view class='order-item' wx:for="{{orderList}}" wx:for-item="order">
+<!-- 订单头部  -->
+  <view class='order-header'>
+    <view catchtap='confirmOrder' data-tag='{{order.orderNO}}'>
+    <image class='select-icon' src="{{orderNO==order.orderNO?'/assets/images/ic_gouwuchegouxuan@2x.png':'/assets/images/ic_gouwucheweigouxuan@2x.png'}}"></image> 
+      <view wx:if="{{order.orderType == 2}}">{{order.companyName}}{{order.sourceTypeMsgs}}</view>
+      <view wx:if="{{order.orderType !=2}}">{{order.companyName}}{{vm.sourceTypeMsgs}}</view>
+      <text class='time'>{{order.createTime}}</text>
+    </view>
+    <view class='order-state'>
+      {{orderStateNames[order.state]}}
+    </view>
+  </view>
+  <!--商品展示  -->
+  <view class='order-content' wx:if="{{order.items && order.items.length>1}}">
+    <view class='product-wrapper' >
+      <view class='product-item' wx:for="{{order.items}}" wx:for-item="item">
+        <image src='{{item.product.imgUrl}}'></image>
+        <view wx:if="{{item.product.price<=0}}" class="color-e53935">赠X{{item.count}}</view>
+        <view wx:if="{{item.product.price>0&&item.product.productSkuId ==item.product.productSaleSpecId}}">X{{item.count}}{{item.product.saleUnit}}</view>
+        <view wx:if="{{item.product.price>0&&item.product.productSkuId !==item.product.productSaleSpecId}}">X{{item.count*(item.product.saleSpecQuantity||1)}}{{item.product.minUnit}}</view>
+      </view>
+    </view>
+    <text class='order-total'>共 {{order.nums}}</text>
+  </view>
+  <view class='only-one-wrapper' wx:if="{{order.items && order.items.length==1}}" wx:for="{{order.items}}" wx:for-item="item">
+      <image src='{{item.product.imgUrl}}' class='only-one-img'></image>
+      <view class='product-right'>
+        <view class='only-one-product-name'>
+          <text wx:if="{{item.product.price<=0}}">【赠品】</text>
+          <text wx:if="{{item.product.stockState==4}}">【预售】</text>
+          <text>{{item.product.productName}}</text>
+        </view>
+        <view class='only-one-info-item'>
+          <text wx:if="{{item.sourceType==5}}">组合价：</text>
+          <text wx:if="{{!item.hiddenProduct}}">￥<text>{{item.product.price}}</text>/<text>{{item.product.priceunit}}</text>
+            <text wx:if="{{item.sourceType==5 && item.product.sellPrice>item.product.price}}">￥ {{WxsUtil.toFixed(item.product.sellPrice,2)}}</text>
+          </text>
+          <text wx:if="{{item.hiddenProduct}}">
+            ****元<text>{{item.product.priceunit}}</text>
+          </text>
+        </view>
+        <view class='only-one-info-item' wx:if="{{item.product.selfPickUpPrice>0 && !vm.isDistributer && !item.hiddenProduct}}">
+          自提价：<text>{{WxsUntil.toFixed(item.product.selfPickUpPrice,2)}}</text>
+        </view>
+        <view class='only-one-info-item'>
+          规格  {{item.product.specName}}
+        </view>
+        <view class='only-one-total' wx:if="{{item.product.price>0&&item.product.productSkuId ==item.product.productSaleSpecId}}">X{{item.count}}{{item.product.saleUnit}}</view>
+        <view class='only-one-total' wx:if="{{item.product.price>0&&item.product.productSkuId !==item.product.productSaleSpecId}}">X{{item.count*(item.product.saleSpecQuantity||1)}}{{item.product.minUnit}}</view>
+      </view>
+    </view>
+  <!-- 底部 -->
+  <view class='order-footer'>
+    <view class='mr24' wx:if="{{order.discountAmount>0}}">
+      优惠：<text class='color-E53935'>￥{{WxsUtil.toFixed(order.discountAmount,2)}}</text>
+    </view>
+    <view wx:if="{{order.finalAmount<=0}}">
+      实付款：<text class='color-E53935'>￥{{WxsUtil.toFixed(order.payableAmount,2)}}</text>
+    </view>
+  </view>
+</view>

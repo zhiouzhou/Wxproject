@@ -1,0 +1,163 @@
+/* pages/search/search.wxss */
+
+page {
+  background-color: #f2f2f2;
+  position: relative;
+}
+
+.search-wrap {
+  background-color: #fff;
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.search-area {
+  flex: 1;
+  height: 56rpx;
+  border-radius: 6rpx;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+}
+
+.history-search-img {
+  width: 26rpx;
+  height: 26rpx;
+  margin-right: 24rpx;
+}
+
+.history-search-input {
+  flex: 1;
+}
+
+.switcher {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  height: 80rpx;
+  width: 100%;
+  background-color: #fff;
+}
+
+.switcher-item {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.switcher-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.slider {
+  height: 2rpx;
+  width: 80%;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  background-color: #e53935;
+}
+
+.hot-search-wrap {
+  background-color: #fff;
+  padding: 32rpx 24rpx 8rpx 32rpx;
+  box-sizing: border-box;
+}
+
+.hot-search-key-words {
+  margin-top: 32rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hot-search-key-word {
+  padding: 0 16rpx;
+  margin-right: 24rpx;
+  margin-bottom: 24rpx;
+  border-radius: 4rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  text-align: center;
+  background-color: #ebeaed;
+}
+
+.history-search {
+  margin-top: 12rpx;
+  background-color: #fff;
+}
+
+.search-header {
+  width: 100%;
+  height: 88rpx;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.history-search-item {
+  height: 88rpx;
+  width: 100%;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+}
+
+.history-search-delete {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 12rpx;
+}
+
+.history-search-time {
+  width: 64rpx;
+  height: 64rpx;
+  margin-right: 16rpx;
+}
+
+.history-search-arrow {
+  width: 36rpx;
+  height: 36rpx;
+}
+/*fuzzy search  */
+.fuzzy-search-mask{
+  position: absolute;
+  top: 80rpx;
+  left: 0;
+  background:#f2f2f2;
+  width:100%;
+}
+.fuzzy-search-item{
+  height:94rpx;
+  font-size: 30rpx;
+  color:rgba(51,51,51,1);
+  line-height: 94rpx;
+  padding-left:24rpx; 
+  background:#fff;
+  border-bottom: 1px solid #f2f2f2;
+}

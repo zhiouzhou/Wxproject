@@ -1,0 +1,25 @@
+<!--pages/findGoods/findGoodsDetail.wxml-->
+<view class='complaint'>
+   <view class='complaint-header'>
+      <text>原反馈</text>
+      <text class='time'>{{findGoodsDetail.findGoodsTime}}</text>
+    </view>
+    <view class='complaint-content'>
+      <view>
+      {{findGoodsDetail.productName}} {{findGoodsDetail.findGoodsRemarks}}
+      </view>
+      <view class='pic-wrapper' wx:if="{{findGoodsDetail.imgList&&findGoodsDetail.imgList.length>0}}">
+        <image catchtap='lookBigImg' data-tag='{{pic}}' wx:for="{{findGoodsDetail.imgList}}" wx:for-item="pic" src='{{pic}}'></image>
+      </view>
+    </view>
+  <view class='reply' wx:if="{{findGoodsDetail.findGoodsReply}}">
+    <view class='complaint-header'>
+      <text>回复内容</text>
+      <text class='time'>{{findGoodsDetail.replyTime}}</text>
+    </view>
+    <view class='complaint-content'>
+      {{findGoodsDetail.findGoodsReply}}
+    </view>
+  </view>
+</view>
+<view wx:if="{{!findGoodsDetail.findGoodsReply}}" class='none-reply'>平台正在处理，请耐心等候！</view>

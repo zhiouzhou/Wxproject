@@ -1,0 +1,191 @@
+<!--pages/user/orderReturn/orderReturnDetail.wxml-->
+<import src="../../../components/product/product.wxml" />
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+
+
+<!-- 退货订单产品预览-单产品 -->
+<template name="returnOrder-single-product">
+  <view class='order-single-product-wrap' catchtap='goToProductDetail' data-product-sku-id='{{items[0].product.productSkuId}}' data-source-type="{{items[0].product.sourceType}}">
+    <image class='order-single-product-img' src='{{items[0].product.imgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+    <view class='order-single-product-info'>
+      <text class='ft-28 color-333 two-line'>{{items[0].product.productName}}</text>
+      <text class='ft-24 color-E53935' style='margin-top:16rpx;'>¥ {{WxsUtil.toFixed(items[0].product.price,2)}}{{items[0].product.priceunit}}</text>
+      <text class='ft-24 color-666' style='margin-top:16rpx;' wx:if="{{items[0].product.selfPickUpPrice}}">自提价：¥{{WxsUtil.toFixed(items[0].product.selfPickUpPrice,2)}}{{items[0].product.priceunit}}</text>
+      <view class='order-single-product-spec' style='margin-top:16rpx;'>
+        <text class='ft-24 color-666' wx:if="{{items[0].product.productSkuId==items[0].product.productSaleSpecId}}">退货数量：{{items[0].returnCount}}{{items[0].product.saleUnit}}</text>
+        <text class='ft-24 color-666' wx:else>退货数量：{{items[0].returnCount*items[0].product.saleSpecQuantity}}{{items[0].product.minUnit}}</text>
+        <text class='ft-24 color-666'>规格 {{items[0].product.specName}}</text>
+      </view>
+    </view>
+  </view>
+</template>
+<!-- 换货单 -单产品 -->
+<template name="swapOrderDetail-single-product">
+  <view class='order-single-product-wrap' catchtap='goToProductDetail' data-product-sku-id='{{items[0].productSkuId}}' data-source-type="{{items[0].sourceType}}">
+    <image class='order-single-product-img' src='{{items[0].productImgUrl||"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+    <view class='order-single-product-info'>
+      <text class='ft-30 color-333 two-line'>{{items[0].productName}}</text>
+      <view class='order-single-product-spec' style='margin-top:16rpx;'>
+        <text class='ft-24 color-666'>规格 {{items[0].productSaleSpecQuantity==items[0].productSpecQuantity?items[0].productSpecName:items[0].productSaleSpecQuantity+items[0].productSellingUnit}}</text>
+        <text class='ft-24 color-666'>{{swapType==0?"退货商品数量：":"换货商品数量："}}{{items[0].productSaleSpecQuantity==items[0].productSpecQuantity?items[0].count:items[0].count*items[0].productSaleSpecQuantity}}{{items[0].productSellingUnit}}</text>
+      </view>
+    </view>
+  </view>
+</template>
+<view style='width:100%;height:{{windowHeight}}rpx;background-color:rgba(0, 0, 0, 0.1);'>
+  <!-- 收货地址 -->
+  <view class='order-address' style='border-top: 12rpx solid rgba(0, 0, 0, 0.1);'>
+    <image class='order-track-mark-img' src='/assets/images/ic-shouhuo@2x.png' mode='aspectFit' />
+    <view class='address-wrap'>
+      <view>
+        <text class='ft-30 color-333'>收货人：{{address.contact}}</text>
+        <text class='ft-30 color-333' style='margin-left:40rpx;'>{{address.mobileNo}}</text>
+      </view>
+      <text class='ft-26 color-666 two_line' style='margin-top:12rpx;'>收货地址：{{addressStr}}</text>
+    </view>
+    <!-- <image class='order-track-arrow-img' src='/assets/images/ic_arrow@2x.png' mode='aspectFit' /> -->
+  </view>
+  <!-- 分割线 -->
+  <view class='line'>
+    <image class='address-bottom-img' src='/assets/images/letter.png' />
+  </view>
+  <!-- <view style='border-bottom: 12rpx solid rgba(0, 0, 0, 0.1);'></view> -->
+  <view class='delivery-mode' style='margin-top:12rpx;background-color:#fff'>
+    <text class='ft-30 color-333'>订单状态</text>
+    <!-- 退货订单状态 -->
+    <text class='ft-28 color-E53935' wx:if="{{orderType==0}}">{{item.returnOrderState==1?'退货中':item.returnOrderState==2?'已完成':item.returnOrderState==3?'已取消':item.returnOrderState==4?'已拒绝':item.returnOrderState==5?'已删除':''}}</text>
+    <!-- 换货订单状态 -->
+    <text class='ft-28 color-E53935' wx:else>{{item.state==1?'换货中':item.state==2?'已完成':item.state==3?'已取消':item.state==4?'已拒绝':item.state==5?'已删除':''}}</text>
+  </view>
+  <!-- 退货流转信息 -->
+  <block wx:if="{{orderType==0}}">
+    <view class='order-address' style='margin-top:2rpx;padding:24rpx 0' catchtap="traceOrder" data-order-n-o='{{item.orderNO}}' data-types='{{1}}'>
+      <view class='address-wrap' style='padding-left:24rpx'>
+        <text class='ft-26 color-666 one-line'>{{item.traceItem.orderDescription}}</text>
+        <text class='ft-26 color-666' style='margin-top:16rpx;'>{{item.traceItem.createTime}}</text>
+      </view>
+      <image class='order-track-arrow-img' src='/assets/images/ic_arrow@2x.png' mode='aspectFit' />
+    </view>
+  </block>
+  <!-- 换货流转信息 -->
+  <block wx:else>
+    <view class='order-address' style='margin-top:2rpx;padding:24rpx 0' catchtap="traceOrder" data-order-n-o='{{item.orderNo}}' data-types='{{1}}' wx:if="{{orderType==1}}">
+      <view class='address-wrap' style='padding-left:24rpx'>
+        <text class='ft-26 color-666 one-line'>{{traceItem.traceDesc}}</text>
+        <text class='ft-26 color-666' style='margin-top:16rpx;'>{{traceItem.createTime}}</text>
+      </view>
+      <image class='order-track-arrow-img' src='/assets/images/ic_arrow@2x.png' mode='aspectFit' />
+    </view>
+  </block>
+  <block wx:if="{{orderType==0}}">
+    <view class='delivery-mode' style='margin-top:12rpx;background-color:#fff'>
+      <text class='ft-30 color-333'>退货商品详情</text>
+    </view>
+    <!-- 订单产品预览   types:1对应template退货  处理count returnCount的不同 -->
+    <view class='product-preview' style='margin-top:2rpx;border-bottom: 12rpx solid rgba(0, 0, 0, 0.1);background-color:#fff'>
+      <block wx:if="{{item.itemList.length>1}}">
+        <view catchtap='goToOrderGoodsList' data-tag="product" >
+          <template is="order-multi-product" data="{{items:item.itemList,totalCount:productCount,types:1}}" />
+        </view>
+        <!-- <template is="order-multi-product" data="{{items:item.itemList,totalCount:productCount,types:1}}" /> -->
+      </block>
+      <block wx:else>
+        <template is="returnOrder-single-product" data="{{items:item.itemList,totalCount:productCount}}" />
+      </block>
+    </view>
+  </block>
+  <!-- 换货---退货商品 -->
+  <block wx:else>
+    <view class='delivery-mode' style='background-color:#fff;margin-top:12rpx;'>
+      <text class='ft-30 color-333'>退货商品</text>
+    </view>
+    <view class='product-preview' style='margin-top:2rpx;border-bottom: 12rpx solid rgba(0, 0, 0, 0.1);background-color:#fff'>
+      <block wx:if="{{item.returnItems.length>1}}">
+        <view catchtap='goToOrderGoodsSwapList' data-tag="product" data-swap-type="1" style='width:100%;' >
+          <template is="swapOrder-multi-product" data="{{items:item.returnItems,totalCount:returnCount,types:1}}" />
+        </view>
+        <!-- <template is="order-multi-product" data="{{items:item.itemList,totalCount:productCount,types:1}}" /> -->
+      </block>
+      <block wx:else>
+        <template is="swapOrderDetail-single-product" data="{{items:item.returnItems,totalCount:returnCount,swapType:0}}" />
+      </block>
+    </view>
+    <!-- 换货---换货商品 -->
+    <view class='delivery-mode' style='background-color:#fff'>
+      <text class='ft-30 color-333'>换货商品</text>
+    </view>
+    <view class='product-preview' style='margin-top:2rpx;border-bottom: 12rpx solid rgba(0, 0, 0, 0.1);background-color:#fff'>
+      <block wx:if="{{item.swapItems.length>1}}">
+        <view catchtap='goToOrderGoodsSwapList' data-tag="product" data-swap-type="2"  style='width:100%;' >
+          <template is="swapOrder-multi-product" data="{{items:item.swapItems,totalCount:swapCount,types:1}}" />
+        </view>
+      </block>
+      <block wx:else>
+        <template is="swapOrderDetail-single-product" data="{{items:item.swapItems,totalCount:swapCount,swapType:1}}" />
+      </block>
+    </view>
+  </block>
+  <!-- 订单信息 -->
+  <view class='delivery-mode' style='background-color:#fff;border-bottom: 2rpx solid rgba(0, 0, 0, 0.1);'>
+    <text class='ft-30 color-333'>订单信息</text>
+    <text class='ft-28 color-E53935'> </text>
+  </view>
+  <view style='background-color:#fff;padding-bottom:16rpx;border-bottom:2rpx solid rgba(0,0,0,.1);'>
+    <view class='order-orderNO-view'>
+      <view class='order-orderNO'>
+        <text class='ft-26 color-666'>订单编号：</text>
+        <text class='ft-26 color-666'>{{orderType==0?item.orderNO:item.orderNo}}</text>
+      </view>
+      <view class='copy' catchtap='copyOrderNo' data-orderNO="{{orderType==0?item.orderNO:item.orderNo}}">复制</view>
+    </view>
+    <view class='apply-time' style='{{orderType==1?"padding: 16rpx 24rpx;border-bottom:2rpx solid rgba(0,0,0,.1);":""}}'>
+      <text class='ft-26 color-666'>申请时间：</text>
+      <text class='ft-26 color-666'>{{item.createTime}}</text>
+    </view>
+    <view class='pay-type'>
+      <text class='ft-26 color-666'>付款方式：</text>
+      <text class='ft-26 color-666' style='margin-bottom:8rpx'>{{item.payType==0?'货到付款':item.payType==1?'微信支付':item.payType==2?'支付宝支付':item.payType==3?'银联支付':item.payType==5?'连连支付':item.payType==6?'易酒贷':item.payType==10?'已在线支付':item.payType==11?'线下转账':''}}</text>
+    </view>
+    <view class='orderPrice ft-26 color-666' wx:if="{{orderType==1}}">
+      <text>退货商品价值：</text>
+      <text>￥{{WxsUtil.toFixed(item.returnOrderAmount,2)}}</text>
+    </view>
+    <view class='orderPrice ft-26 color-666' wx:if="{{orderType==1}}">
+      <text>换货商品价值：</text>
+      <text>￥{{WxsUtil.toFixed(item.swapOrderAmount,2)}}</text>
+    </view>
+    <view class='orderPrice ft-26 color-666' style='border-bottom:2rpx solid rgba(0,0,0,.1);padding-bottom:16rpx;' wx:if="{{orderType==1}}">
+      <text>需补差价：</text>
+      <text>￥{{WxsUtil.toFixed(item.differenceAmount,2)}}</text>
+    </view>
+    <view class='swapReason ft-26 color-666' wx:if="{{orderType==1}}">
+      <text>换货原因：</text>
+      <text>{{item.swapOrderReason}}</text>
+    </view>
+    <view class='swapReason ft-26 color-666' wx:if="{{orderType==1&&item.remark}}">
+      <text>备注：</text>
+      <text>{{item.remark}}</text>
+    </view>
+  </view>
+  <view style='height:98rpx;'></view>
+  <view class='bottom-style'>
+    <block wx:if="{{orderType==0}}">
+      <view class='return-amount'>
+        <text class='ft-30 color-333'>退货总金额：</text>
+        <text class='ft-30 color-E53935'>￥{{WxsUtil.toFixed(item.returnAmount,2)}}</text>
+      </view>
+    </block>
+    <block wx:else>
+      <view class='return-amount'>
+        <text class='ft-30 color-333'>需补差价：</text>
+        <text class='ft-30 color-E53935'>￥{{WxsUtil.toFixed(item.differenceAmount,2)}}</text>
+      </view>
+    </block>
+    <view class='cancle-return' hidden='{{!item.canCancelOrder}}' data-orderNO='{{item.orderNO}}' bindtap='cancelReturnOrder' wx:if="{{orderType==0}}" data-order-type='{{orderType}}'>
+      <text class='ft-28 color-666'>取消退货</text>
+    </view>
+    <view class='cancle-return' hidden='{{!item.canCancel}}' data-orderNO='{{item.orderNo}}' bindtap='cancelReturnOrder' data-order-type='{{orderType}}' >
+      <text class='ft-28 color-666'>取消换货</text>
+    </view>
+  </view>
+</view>

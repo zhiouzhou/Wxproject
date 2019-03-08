@@ -1,0 +1,24 @@
+ <view class="yjp-backdrop {{ animateCss }}" bindtap='chooseType'  />
+  <view class='half-window-dialog-wrap  {{ animateCss }}'>
+    <view class='half-window-dialog-hd'>
+      <view class='half-window-dialog-title'>请选择投诉类型</view>
+      <image class='half-window-dialog-quit' src='/assets/images/tanchuang_guanbi_ic@2x.png' bindtap='chooseType'/>
+    </view>
+    <view class="yjp-dialog__content">
+      <view class='address-list-wrap'>
+          <view class='address-item' style='width:100%' wx:for="{{swapReasonArr}}" wx:key="{{item}}" catchtap='onSelectReason' data-reason='{{item}}'>
+            <view style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;margin-top:8rpx;{{chooseSwapReason==item?'border-bottom:1rpx solid #e53935':''}}">
+              <text class='ft-28 {{chooseSwapReason==item?"color-E53935":"color-333;"}}'> 
+                <view class='select-tri-icon'> </view>
+              {{item}}</text>
+              <image wx:if="{{chooseSwapReason==item}}" class='original-buy-img'  src="/assets/images/icon_xuanzegou@2x.png" mode="aspectFit" />
+            </view>
+            <!-- <view style='border-bottom: 2rpx solid {{chooseSwapReason==item?"#E53935":"#999"}};margin-top:8rpx;'/> -->
+          </view>
+          <view class='swap-remark-warp' wx:if="{{chooseSwapReason=='其他'}}">
+              <textarea  bindinput='inputReason'value="{{chooseRemark}}" placeholder='必填，请输入原因'></textarea>
+          </view>
+        <view class='swap-cofirm-btn' catchtap='confirmReason'>确定</view>
+        </view>
+      </view>
+  </view>

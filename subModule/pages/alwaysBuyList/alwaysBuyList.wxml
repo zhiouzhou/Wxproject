@@ -1,0 +1,33 @@
+<!--pages/promoAndDiscount/promoAndDiscount.wxml-->
+
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../../components/product/product.wxml" />
+<import src="../../../components/addToShopCart/addToShopCart.wxml" />
+<import src="../../../components/couponTitle/couponTitle.wxml" />
+
+<!-- 由于需要下拉刷新，赚钱精选，清仓特价数量可能大于1页 -->
+ <!--全场通用 优惠券提示列表提示语-->
+<template  is="couponTitle" data="{{productListCouponDesc}}" />
+
+<scroll-view class='scroll-page-wrap' style='height:{{isVisitor?windowHeight+isVisitorHeight:windowHeight}}px;' scroll-y scroll-with-animation scroll-into-view='{{scrollPosition}}' wx:if="{{productList.length}}">
+  <view id='top' />
+  <!-- 产品列表 -->
+  <block wx:for="{{productList}}" wx:key="{{item.productSaleSpecId}}">
+    <template is="product-list-product" data="{{...item,product:item,isVisitor,hiddenPriceText}}" />
+  </block>
+</scroll-view>
+
+
+<!-- 空列表 -->
+<view class='empty-product-list' style='height:{{isVisitor?windowHeight+98:windowHeight}}rpx;' wx:if="{{!initing&&!productList.length&&!requesting}}">
+  <image class='empty-product-list-img' src='/assets/images/ic_fuchuanggouwuche@2x.png' mode='aspectFit' />
+  <text class='ft-30 color-666'>抱歉没有找到相关产品</text>
+</view>
+
+<!-- 加入购物车 -->
+<template is="add-to-shopcart-bottom-bar" data="{{addToShopCartNum,addToShopCartPrice,userCouponPrompt}}" wx:if="{{!isVisitor}}" />

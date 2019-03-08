@@ -1,0 +1,44 @@
+<!--pages/user/manageAccount/manageAccount.wxml-->
+<view class='message'>
+  <view class='message-one'>
+    <view class='messageAccount'>真实姓名</view>
+    <view class='messageDetail'>{{message.userName}}</view>
+  </view>
+  <view class='message-one'>
+    <view class='messageAccount'>手机号</view>
+    <view class='messageDetail'>{{message.mobileNo}}</view>
+  </view>
+  <view class='message-one'>
+    <view class='messageAccount'>性别</view>
+    <view class='messageDetail'>{{message.gender ? message.gender : '保密'}}</view>
+  </view>
+  <view class='message-one'>
+    <view class='messageAccount'>出生日期</view>
+    <view class='messageDetail'>{{message.birthday}}</view>
+  </view>
+  <view class='message-one'>
+    <view class='messageAccount'>店铺名称</view>
+    <view class='messageDetail'>{{message.companyName}}</view>
+  </view>
+  <view class='message-one'>
+    <view class='messageAccount'>会员类别</view>
+    <view class='messageDetail'>{{message.userDisplayClassName}}</view>
+  </view>
+  <view class='message-one' style='border-bottom:0'>
+    <view class='messageAccount'>地址</view>
+    <view class='address'>
+      <view style='color:#333;font-size:28rpx;padding-bottom:16rpx;'>{{message.province}}{{message.city}}{{message.county}}{{message.street}}</view>
+      <view style='color:#666;font-size:24rpx;'>{{message.detailAddress}}</view>
+    </view>
+  </view>
+</view>
+<view class='license'>
+  <view class='message-one'>
+    <view class='messageAccount'>营业执照号码</view>
+    <view class='messageDetail'>{{message.businessLicense}}</view>
+  </view>
+  <view class='licensePhone'>
+    <view class='licenseFont'>营业执照照片</view>
+    <image src='{{message.businessLicenseUrl}}' style='width:148rpx;height:148rpx;'></image>
+  </view>
+</view>

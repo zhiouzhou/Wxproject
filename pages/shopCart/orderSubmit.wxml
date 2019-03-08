@@ -1,0 +1,413 @@
+<!--pages/shopCart/orderSubmit.wxml-->
+<!-- <image class='' src='/assets/images/' mode='aspectFit' /> -->
+<import src="../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../components/product/product.wxml" />
+
+<wxs src="../../utils/WxsUtil.wxs" module="WxsUtil" />
+<!-- 独家包销预售购买提示栏 -->
+<block wx:if='{{isUnderwrite && underwriteTipShow}}'>
+  <view class='underwrite-tip'>
+      <text class='underwrite-tip-tag'>提示</text>
+      <text class='underwrite-tip-context ft-24'>{{UnderwritingOrderSubmitDesc}}</text>
+      <image class='underwrite-tip-close' src='/assets/images/cha_ic@2x.png' catchtap='closeUnderwriteTip' mode='aspectFit' />
+  </view>
+</block>
+<!-- 顶部地址栏 -->
+<block wx:if="{{!initing&&!needCheckAddress}}">
+  <view class='user-address-wrap' catchtap='onSelectUserAddress'>
+    <image class='user-address-marker-img' src='/assets/images/ic-shouhuo@2x.png' mode='aspectFit' />
+    <view class='address-detail'>
+      <text class='ft-30 color-333'>收货人：{{currentAddress.contact}}<text style='margin-left:48rpx;'>{{currentAddress.mobileNo}}</text></text>
+      <text class='ft-28 color-666' style='margin-top:24rpx;'>收货地址：{{WxsUtil.getAddressDetail(currentAddress)}}</text>
+    </view>
+    <image class='user-address-arrow-img' src='/assets/images/ic_arrow_m@2x.png' mode='aspectFit' />
+  </view>
+</block>
+<!-- 校正地址栏 -->
+<block wx:if="{{!initing&&needCheckAddress}}">
+  <view class='user-check-address-wrap'>
+    <!-- 顶部提示 -->
+    <view class='check-address-notice'>
+      <image class='check-address-notice-img' src='/assets/images/ic_tishi_qianbi@2x.png' />
+      <view class='ft-24 color-333'>我们发现您的收货地址有问题，请选择或编辑您想要使用的地址</view>
+    </view>
+    <!-- 联系人 -->
+    <view class='check-address-contact'>
+      <text class='ft-32 color-333'>收货人：{{currentAddress.contact}}<text style='margin-left:48rpx;'>{{currentAddress.mobileNo}}</text></text>
+    </view>
+    <!-- 初始地址 -->
+    <view class='check-address-init'>
+      <image class='check-address-select-img' src='{{isSuggestAddress?"/assets/images/ic_gouwucheweigouxuan@2x.png":"/assets/images/ic_gouwuchegouxuan@2x.png"}}' catchtap='onSwitchSuggestAddress' data-tag='initAddress' />
+      <view class='check-address-init-wrap' catchtap='onSelectUserAddress'>
+        <view class='check-address-init-left'>
+          <text class='ft-30 color-333'>初始地址</text>
+          <text class='ft-28 color-666' style='margin-top:16rpx;'>{{WxsUtil.getAddressDetail(currentAddress)}}</text>
+        </view>
+        <image class='check-address-arrow' src='/assets/images/ic_arrow@2x.png' />
+      </view>
+    </view>
+    <!-- 建议地址 -->
+    <view class='check-address-suggest'>
+      <image class='check-address-select-img' src='{{!isSuggestAddress?"/assets/images/ic_gouwucheweigouxuan@2x.png":"/assets/images/ic_gouwuchegouxuan@2x.png"}}' catchtap='onSwitchSuggestAddress' data-tag='suggestAddress' />
+      <view class='check-address-init-wrap' catchtap='onEditSuggestAddress'>
+        <view class='check-address-suggest-wrap'>
+          <view class='check-address-suggest-title'>
+            <text class='ft-30 color-333' style='flex:1'>建议地址</text>
+            <image class='check-address-suggest-img' src='/assets/images/ic_bianji@2x.png' />
+            <text class='ft-30 color-E53935'>编辑</text>
+          </view>
+          <text class='ft-28 color-666' style='margin-top:16rpx;'>{{WxsUtil.getMapAddressDetail(currentLocation)}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</block>
+<view class='user-address-letter-img' wx:if="{{!initing}}">
+  <image style='height:100%;width:100%;display:block;' src='/assets/images/letter.png' />
+</view>
+<!-- 合作商提交订单 -->
+<block wx:if="{{isSup&&!initing}}">
+  <view class='sup-order-wrap' wx:for="{{orders}}" wx:key="{{order.orderNo}}" wx:for-item='order'>
+    <view class='order-header ft-30 color-333'>{{order.orderProductList[0].companyName}}</view>
+    <!-- 商品 -->
+    <view class='order-products-header'>
+      <text class='ft-28 color-333'>商品</text>
+      <text class='ft-24 color-666'>{{order.reminderMessage}}</text>
+    </view>
+    <view class='order-products-wrap'>
+      <!-- 多产品 -->
+      <block wx:if="{{order.orderProductList.length!=1}}">
+        <view class='view-flex-wrap' catchtap='goToOrderGoodsList' data-tag="product">
+          <template is="multi-product" data="{{list:order.orderProductList,totalCount:order.totalCount}}" />
+        </view>
+      </block>
+      <!-- 单个产品 -->
+      <block wx:if="{{order.orderProductList.length==1}}">
+        <template is="single-product" data="{{product:order.orderProductList[0],canSelfPickUp}}" />
+      </block>
+    </view>
+    <!-- 赠品 -->
+    <view class='order-products-header' wx:if="{{order.fullGiftProducts&&order.fullGiftProducts.length}}">
+      <text class='ft-28 color-333'>赠品</text>
+    </view>
+    <view class='order-products-wrap' wx:if="{{order.fullGiftProducts&&order.fullGiftProducts.length}}">
+      <!-- 多产品 -->
+      <block wx:if="{{order.fullGiftProducts.length!=1}}">
+        <view class='view-flex-wrap' catchtap='goToOrderGoodsList' data-tag="fullgift">
+          <template is="multi-product" data="{{list:order.fullGiftProducts,totalCount:order.giftTotalCount}}" />
+        </view>
+      </block>
+      <!-- 单个产品 -->
+      <block wx:if="{{order.fullGiftProducts.length==1}}">
+        <template is="single-gift" data="{{product:order.fullGiftProducts[0]}}" />
+      </block>
+    </view>
+    <!-- 合作商自定义赠品 -->
+    <view class='sup-custom-gifts-wrap' wx:if="{{order.customGiftProducts&&order.customGiftProducts.length}}">
+      <text class='ft-28 color-333'>赠品</text>
+      <view class='sup-custom-gift-list-wrap'>
+        <view wx:for="{{order.customGiftProducts}}">
+          <text class='custom-gift ft-24 color-666'>送{{buyCount}}{{giftUnit}}{{productName}}</text>
+        </view>
+      </view>
+    </view>
+    <!-- 给卖家留言 -->
+    <view class='remark-wrap'>
+      <text class='ft-30 color-333' style='width:180rpx;'>给卖家留言</text>
+      <input class='remark-input ft-26 color-333' placeholder='30个字以内' placeholder-class='ft-26 color-BDBDBD' maxlength='30' bindblur='onRemarkInputBlur' value='{{order.remark}}' data-order-no='{{order.orderNo}}' />
+    </view>
+    <!-- 商品总额 -->
+    <view class='total-amount-wrap'>
+      <view class='total-amount-item'>
+        <text class='ft-30 color-333'>商品总额</text>
+        <text class='ft-30 color-333'>¥ {{WxsUtil.toFixed(order.orderAmount,2)}}</text>
+      </view>
+      <view class='total-amount-item' wx:if="{{order.productReduceAmount}}">
+        <text class='ft-30 color-333'>产品立减</text>
+        <text class='ft-30 color-333'>- ¥ {{WxsUtil.toFixed(order.productReduceAmount,2)}}</text>
+      </view>
+      <view class='total-amount-item' wx:if="{{order.reduceAmount}}">
+        <text class='ft-30 color-333'>订单满减</text>
+        <text class='ft-30 color-333'>- ¥ {{WxsUtil.toFixed(order.reduceAmount,2)}}</text>
+      </view>
+    </view>
+    <!-- 实付款 -->
+    <view class='pay-amount-wrap'>
+      <text class='ft-30 color-333' wx:if="{{order.reduceAmount+order.productReduceAmount}}" style='margin-right:48rpx;'>优惠： <text class='ft-30 color-E53935'>¥{{WxsUtil.toFixed(order.reduceAmount+order.productReduceAmount,2)}}</text></text>
+      <text class='ft-30 color-333'>实付款： <text class='ft-30 color-E53935'>¥{{WxsUtil.toFixed(order.payableAmount,2)}}</text></text>
+    </view>
+  </view>
+</block>
+<!-- 合作商支付方式 -->
+<view class='pay-type' wx:if="{{isSup&&!initing}}">
+  <text class='ft-30 color-333'>支付方式</text>
+  <text class='ft-30 color-333'>货到付款</text>
+</view>
+
+<!-- 非合作商提交订单 -->
+<block wx:if="{{!isSup&&!initing}}">
+  <view class='sup-order-wrap'>
+    <view wx:if="{{isLargeCargo}}" class='order-header ft-30 color-333'>{{LargeCargoOrderTitle}}</view>
+    <view wx:if="{{!isLargeCargo}}" class='order-header ft-30 color-333'>{{orders[0].orderProductList[0].companyName||"易久批"}}</view>
+    <!-- 商品 -->
+    <view class='order-products-header'>
+      <text class='ft-28 color-333'>商品</text>
+      <text class='ft-24 color-666'>{{orders[0].reminderMessage}}</text>
+    </view>
+    <view class='order-products-wrap'>
+      <!-- 多产品 -->
+      <block wx:if="{{orders[0].orderProductList.length!=1}}">
+        <view class='view-flex-wrap' catchtap='goToOrderGoodsList' data-tag="product">
+          <template is="multi-product" data="{{list:orders[0].orderProductList,totalCount:orders[0].totalCount}}" />
+        </view>
+      </block>
+      <!-- 单个产品 -->
+      <block wx:if="{{orders[0].orderProductList.length==1}}">
+        <template is="single-product" data="{{product:orders[0].orderProductList[0],canSelfPickUp}}" />
+      </block>
+    </view>
+    <!-- 赠品 -->
+    <view class='order-products-header' wx:if="{{orders[0].fullGiftProducts&&orders[0].fullGiftProducts.length}}">
+      <text class='ft-28 color-333'>赠品</text>
+    </view>
+    <view class='order-products-wrap' wx:if="{{orders[0].fullGiftProducts&&orders[0].fullGiftProducts.length}}">
+      <!-- 多产品 -->
+      <block wx:if="{{orders[0].fullGiftProducts.length!=1}}">
+        <view class='view-flex-wrap' catchtap='goToOrderGoodsList' data-tag="fullgift">
+          <template is="multi-product" data="{{list:orders[0].fullGiftProducts,totalCount:orders[0].giftTotalCount,couponGiftCount}}" />
+        </view>
+      </block>
+      <!-- 单个产品 -->
+      <block wx:if="{{orders[0].fullGiftProducts.length==1}}">
+        <template is="single-gift" data="{{product:orders[0].fullGiftProducts[0]}}" />
+      </block>
+    </view>
+  </view>
+  <!-- 配送方式 -->
+  <view class='choose-delivery' wx:if="{{orders[0].orderType === 0}}">
+    <view class='choose-delivery-header ft-30 color-333'>请选择配送方式</view>
+    <!-- 易久批配送 -->
+    <view class='delivery-type-wrap' style='border-bottom:2rpx solid rgba(0,0,0,0.1);' wx:if="{{deliveryModeShowType!=2}}">
+      <image class='delivery-type-img' src='/assets/images/icon_yijiupipeisong@2x.png' />
+      <text class='ft-28 color-333' style='flex:1;'>易久批配送</text>
+      <image class='delivery-type-select-img' src='{{currentDeliveryMode==0?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' catchtap='onSelectDeliveryType' data-tag='0' />
+    </view>
+    <!-- 自提 -->
+    <view class='delivery-type-wrap' wx:if="{{deliveryModeShowType!=1}}">
+      <image class='delivery-type-img' src='/assets/images/icon_cangkuziti@2x.png' />
+      <text class='ft-28 color-333' style='flex:1;'>仓库自提 <text class='color-E53935' style='margin-left:16rpx;' wx:if="{{currentDeliveryMode==4&&selfPickUpReduceAmount}}">（可省{{WxsUtil.toFixed(selfPickUpReduceAmount,2)}}元）</text></text>
+      <image class='delivery-type-select-img' src='{{currentDeliveryMode==4?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' catchtap='onSelectDeliveryType' data-tag='4' />
+    </view>
+    <!-- 自提地点 -->
+    <view class='self-pick-up' style='border-bottom:2rpx solid rgba(0,0,0,0.1);' catchtap='onSelectWareHouse' wx:if="{{currentDeliveryMode==4}}">
+      <image class='self-pick-up-mark-img' src='/assets/images/ic-shouhuo@2x.png' mode='aspectFit' />
+      <text class='ft-26 color-666 two-line' style='flex:1;'>自提地点：{{WxsUtil.getAddressDetail(currentWareHouse)}}</text>
+      <image class='self-pick-up-arrow-img' src='/assets/images/ic_arrow_m@2x.png' mode='aspectFit' />
+    </view>
+    <!-- 自提时间 -->
+    <view class='self-pick-up' wx:if="{{currentDeliveryMode==4}}">
+      <image class='self-pick-up-clock-img' src='/assets/images/ic-zitishijian@2x.png' mode='aspectFit' />
+      <text class='ft-26 color-666 two-line' style='flex:1;'>自提时间：{{selfPickTimeNotice}}</text>
+    </view>
+  </view>
+  <!-- 支付方式 -->
+  <view class='choose-pay-type'>
+    <view class='choose-pay-type-header ft-30 color-333'>请选择支付方式</view>
+    <view class='pay-type-item' style='{{index!=orders[0].payTypes.length-1?"border-bottom:2rpx solid rgba(0,0,0,0.1);":""}}' wx:for="{{orders[0].payTypes}}" wx:key="*this">
+      <image class='pay-type-img' src='{{item==0?"/assets/images/icon_hudaofukuan@2x.png":item==1?"/assets/images/weixin@2x.png":item==11?"/assets/images/icon_hudaofukuan@2x.png":item==12?"/assets/images/icon_jingxiaoshangshoukuan@2x.png":""}}' />
+      <text class='ft-28 color-333' style='flex:1;'>{{item==0&&currentDeliveryMode==4?"现款现结":item==0?"货到付款":item==1?"微信支付":item==11?"线下转账":item==12?"经销商收款":""}}</text>
+      <image class='delivery-type-select-img' src='{{item==currentPayType?"/assets/images/ic_gouwuchegouxuan@2x.png":"/assets/images/ic_gouwucheweigouxuan@2x.png"}}' catchtap='onSelectPayType' data-tag='{{item}}' />
+    </view>
+  </view>
+  <!-- 红包优惠券优惠码,大宗临期不能用 -->
+  <view class='order-coupon-wrap' wx:if="{{!isLargeCargo&&!istemporary&&!isGroupBuy}}">
+    <!-- 优惠券 -->
+    <view class='select-coupon' catchtap='onSelectCoupons' wx:if="{{orders[0].couponGroups&&orders[0].couponGroups.length}}">
+      <text class='ft-30 color-333'>使用优惠券</text>
+      <view class='select-coupon-tag ft-22 color-FFF' wx:if="{{selectCouponList.length}}">已选{{selectCouponList.length}}张</view>
+      <text class='select-coupon-amount ft-30 color-E53935' wx:if="{{couponReduceNotice&&couponReduceNotice.reduceNum}}">- ¥ {{WxsUtil.toFixed(couponReduceNotice.reduceNum,2)}}</text>
+      <text class='select-coupon-amount ft-30 color-E53935 one-line' wx:elif="{{couponReduceNotice&&couponReduceNotice.reduceStr}}">{{couponReduceNotice.reduceStr}}</text>
+      <text class='select-coupon-amount ft-30 color-BDBDBD' wx:else>请选择</text>
+      <image class='select-coupon-arrow' src='/assets/images/ic_arrow_m@2x.png' mode='aspectFit' />
+    </view>
+    <!-- 红包 -->
+    <view class='select-bonus' catchtap='onSelectBonus' wx:if="{{orders[0].bonusList&&orders[0].bonusList.length}}">
+      <text class='ft-30 color-333'>使用红包</text>
+      <view class='select-coupon-tag ft-22 color-FFF' wx:if="{{maxAmount}}">可用{{WxsUtil.toFixed(maxAmount,2)}}元</view>
+      <text class='select-coupon-amount ft-30 color-E53935' wx:if="{{bonusReduce}}">- ¥{{WxsUtil.toFixed(bonusReduce,2)}}</text>
+      <text class='select-coupon-amount ft-30 color-BDBDBD' wx:else>请选择</text>
+      <image class='select-coupon-arrow' src='/assets/images/ic_arrow_m@2x.png' mode='aspectFit' />
+    </view>
+    <!-- 优惠码 -->
+    <view class='coupon-code-wrap' wx:if="{{isCouponCodeValid}}">
+      <view class='coupon-code-title'>
+        <text class='ft-30 color-333'>使用优惠码</text>
+        <text class='ft-26 color-BDBDBD'>（限字母、数字）</text>
+      </view>
+      <view class='coupon-code-input-wrap'>
+        <view class='coupon-code-input-area'>
+          <view class='coupon-code-text-wrap'>
+            <view class='coupon-code-text ft-30 color-333' style='border-color:{{index==couponCode.length&&index!=0?"#e53935":""}};' wx:for="{{[0,1,2,3,4,5]}}" wx:key="*this">{{couponCode[index]}}</view>
+          </view>
+          <input class='coupon-code-input' disabled='{{couponCode.length==6}}' bindinput='onInputCouponCode' value='{{couponCode}}' maxlength='6' />
+        </view>
+        <view class='coupon-code-reset ft-26 color-666' catchtap='resetCouponCode'>重新输入</view>
+      </view>
+      <block wx:if="{{couponCodeDetail&&couponCodeDetail.state==0}}">
+        <text class='ft-26 color-666' style='margin-top: 24rpx;' wx:if="{{couponCodeNotice}}">{{couponCodeNotice}}<text class='ft-26 color-E53935' wx:if="{{orders[0].couponCodeReduceAmount}}">已为您节省{{orders[0].couponCodeReduceAmount}}元。</text></text>
+      </block>
+      <block wx:if="{{couponCodeCantUseReason}}">
+        <text class='ft-26 color-E53935' style='margin-top: 24rpx;' wx:if="{{couponCodeCantUseReason}}">{{couponCodeCantUseReason}}</text>
+      </block>
+    </view>
+  </view>
+  <!-- 给卖家留言 -->
+  <view class='order-coupon-wrap'>
+    <view class='order-remark-wrap'>
+      <text class='ft-30 color-333' style='width:180rpx;'>给卖家留言</text>
+      <input class='remark-input ft-30 color-333' placeholder='30个字以内' placeholder-class='ft-26 color-BDBDBD' maxlength='30' bindblur='onRemarkInputBlur' value='{{orders[0].remark}}' data-order-no='{{orders[0].orderNo}}' />
+    </view>
+  </view>
+  <!-- 商品总额 -->
+  <view class='order-total-amount-wrap'>
+    <view class='total-amount-item'>
+      <text class='ft-30 color-333'>商品总额</text>
+      <text class='ft-30 color-333'>¥ {{WxsUtil.toFixed(orders[0].orderAmount,2)}}</text>
+    </view>
+    <view class='total-amount-item' wx:if="{{orders[0].productReduceAmount}}">
+      <text class='ft-30 color-333'>产品立减</text>
+      <text class='ft-30 color-333'>- ¥ {{WxsUtil.toFixed(orders[0].productReduceAmount,2)}}</text>
+    </view>
+    <view class='total-amount-item' wx:if="{{selfPickUpReduceAmount&&currentDeliveryMode==4}}">
+      <text class='ft-30 color-333'>自提优惠</text>
+      <text class='ft-30 color-333'>- ¥ {{WxsUtil.toFixed(selfPickUpReduceAmount,2)}}</text>
+    </view>
+    <view class='total-amount-item' wx:if="{{couponReduceNotice&&couponReduceNotice.reduceNum}}">
+      <text class='ft-30 color-333'>使用优惠券</text>
+      <text class='ft-30 color-333'>- ¥ {{WxsUtil.toFixed(couponReduceNotice.reduceNum,2)}}</text>
+    </view>
+    <view class='total-amount-item' wx:if="{{bonusReduce}}">
+      <text class='ft-30 color-333'>使用红包</text>
+      <text class='ft-30 color-333'>- ¥ {{WxsUtil.toFixed(bonusReduce,2)}}</text>
+    </view>
+    <view class='total-amount-item' wx:if="{{orders[0].reduceAmount}}">
+      <text class='ft-30 color-333'>订单满减</text>
+      <text class='ft-30 color-333'>- ¥ {{WxsUtil.toFixed(orders[0].reduceAmount,2)}}</text>
+    </view>
+    <view class='total-amount-item' wx:if="{{orders[0].couponCodeReduceAmount}}">
+      <text class='ft-30 color-333'>使用优惠码</text>
+      <text class='ft-30 color-333'>- ¥ {{WxsUtil.toFixed(orders[0].couponCodeReduceAmount,2)}}</text>
+    </view>
+    <view class='total-amount-item' wx:if="{{!isDealer&&oddBalanceMode==0&&(orders[0].lastOddBalanceAmount!=0||oddBalanceAmount!=0)&&!isGroupBuy}}">
+      <text class='ft-30 color-333'>历次未收</text>
+      <text class='ft-30 color-333'>¥ {{WxsUtil.toFixed(orders[0].lastOddBalanceAmount,2)}}</text>
+    </view>
+    <view class='total-amount-item' wx:if="{{!isDealer&&oddBalanceMode==0&&(orders[0].lastOddBalanceAmount!=0||oddBalanceAmount!=0)&&!isGroupBuy}}">
+      <text class='ft-30 color-333'>本次零头</text>
+      <text class='ft-30 color-333'>¥ {{WxsUtil.toFixed(oddBalanceAmount,2)}}</text>
+    </view>
+    <view class='total-amount'>
+      <text class='ft-30 color-333' style='margin-right:48rpx;' wx:if="{{discountAmount}}">优惠：<text class='ft-30 color-E53935'>¥ {{WxsUtil.toFixed(discountAmount,2)}}</text></text>
+      <text class='ft-30 color-333'>实付款：<text class='ft-30 color-E53935'>¥ {{WxsUtil.toFixed(payAmount,2)}}</text></text>
+    </view>
+  </view>
+  <!-- 底部财富信息 -->
+  <view class='order-asset'>
+    <view class='order-asset-item' wx:if="{{orders[0].spendWineScore}}">
+      <view class='order-asset-tag ft-22 color-477AAC' style='border-color:#477aac;'>酒币</view>
+      <text class='ft-24 color-666'>花酒币{{orders[0].spendWineScore}}个</text>
+    </view>
+    <view class='order-asset-item' wx:if="{{orders[0].giveWineScore}}">
+      <view class='order-asset-tag ft-22 color-E53935'>酒币</view>
+      <text class='ft-24 color-666'>送酒币{{orders[0].giveWineScore}}个</text>
+    </view>
+    <view class='order-asset-item' wx:if="{{orders[0].giveBonusAmount}}">
+      <view class='order-asset-tag ft-22 color-E53935'>红包</view>
+      <text class='ft-24 color-666'>送红包¥{{WxsUtil.toFixed(orders[0].giveBonusAmount,2)}}</text>
+    </view>
+    <view class='order-asset-item' wx:if="{{orders[0].giveCouponAmount}}">
+      <view class='order-asset-tag ft-22 color-E53935'>优惠券</view>
+      <text class='ft-24 color-666'>送优惠券¥{{WxsUtil.toFixed(orders[0].giveCouponAmount,2)}}</text>
+    </view>
+  </view>
+</block>
+
+<!-- 底部提交栏 -->
+<view style='height:98rpx;' />
+<view class='bottom-submit-bar' wx:if="{{!initing}}">
+  <view class='bottom-submit-detail'>
+    <text class='ft-26 color-333 text-bottom-align' style='line-height:26rpx;'>数量：</text>
+    <text class='ft-26 color-E53935 text-bottom-align' style='line-height:26rpx;'>{{totalCount+orders[0].giftTotalCount}}</text>
+    <text class='ft-26 color-333 text-bottom-align' style='line-height:26rpx;margin-left:48rpx;'>实付款：</text>
+    <text class='ft-26 color-E53935 text-bottom-align' style='line-height:26rpx;'>¥ {{WxsUtil.toFixed(isSup?supTotalPayableAmount:totalPayableAmount,2)}}</text>
+  </view>
+  <view class='submit-button ft-30 color-FFF' style='background-color:{{submiting?"#f2f2f2":"#e53935"}}' catchtap='confirmSubmit'>提交</view>
+</view>
+
+
+<!-- 商品展示模板 -->
+<!-- 多产品 -->
+<template name="multi-product">
+  <view class='order-products-left'>
+    <block wx:for="{{list}}" wx:key="{{item.productSkuId}}">
+      <view class='multi-item'>
+        <image class='multi-img' src='{{item.imgsUrl?item.imgsUrl[0]:item.imgUrl?item.imgUrl:"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+        <!-- 通过giftUnit去判定是不是赠品 -->
+        <text class='ft-26 color-666' wx:if="{{!item.giftUnit}}">X{{item.productSkuId==item.productSaleSpecId?item.buyCount:item.buyCount*item.saleSpecQuantity}}{{item.productSkuId==item.productSaleSpecId?item.saleUnit:item.minUnit}}</text>
+        <text class='ft-26 color-666' wx:if="{{item.giftUnit}}">X{{item.buyCount}}{{item.giftUnit}}</text>
+      </view>
+    </block>
+  </view>
+  <view class='order-products-right ft-28 color-333'>
+    <text class="right-arrow" wx:if="{{!couponGiftCount}}">共{{totalCount}}</text>
+    <text class="right-arrow" wx:else>共{{totalCount+couponGiftCount}}</text>
+  </view>
+</template>
+<!-- 单产品 -->
+<template name="single-product">
+  <view class='single-product-wrap'>
+    <image class='single-product-img' src='{{product.imgsUrl?product.imgsUrl[0]:product.imgUrl?product.imgUrl:"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+    <view class='single-product-detail'>
+      <text class='ft-30 color-333 two-line' style='margin-bottom:16rpx;'>{{product.productName}}</text>
+      <text class='ft-24 color-E53935 two-line' wx:if="{{product.sourceDesc}}" style='margin-bottom:16rpx;'>该产品正在参与「{{product.sourceDesc}}」活动</text>
+      <!-- 价格区域 -->
+      <view class='single-product-price' style='margin-bottom:16rpx;'>
+        <text class='ft-24 color-666' wx:if="{{product.sourceDes}}">活动价</text>
+        <text class='ft-24 color-E53935'>¥</text>
+        <text class='ft-36 color-E53935' style='line-height:36rpx;'>{{product.productPrice.price}}</text>
+        <text class='ft-24 color-E53935'>元/{{product.priceunit || product.priceUnit}}</text>
+        <text class='ft-24 color-666 line-through' style='margin-left:24rpx;' wx:if="{{(product.productType==2&&product.productPrice.sellPrice>product.productPrice.price)||product.sourceDes}}">¥{{product.productPrice.sellPrice}}</text>
+      </view>
+      <!-- 自提，立减 -->
+      <view class='shop-cart-product-reduce-tags' style='margin-bottom:16rpx;' wx:if="{{product.productPrice.reducePrice||product.productPrice.selfPickUpReduceAmount}}">
+        <view class='shop-cart-product-reduce-tag' wx:if="{{product.productPrice.reducePrice}}">立减{{product.productPrice.reducePrice}}元</view>
+        <view class='shop-cart-product-reduce-tag' wx:if="{{product.productPrice.selfPickUpReduceAmount&&canSelfPickUp}}">自提省{{product.productPrice.selfPickUpReduceAmount}}元</view>
+      </view>
+      <!-- 规格 -->
+      <view class='single-product-spec'>
+        <text class='ft-24 color-666'>规格 {{product.specName}}</text>
+        <text class='ft-24 color-666'>X{{product.productSkuId==product.productSaleSpecId?product.buyCount:product.buyCount*product.saleSpecQuantity}}{{product.productSkuId==product.productSaleSpecId?product.saleUnit:product.minUnit}}</text>
+      </view>
+    </view>
+  </view>
+</template>
+<!-- 单赠品 -->
+<template name="single-gift">
+  <view class='single-product-wrap'>
+    <image class='single-product-img' src='{{product.imgsUrl?product.imgsUrl[0]:product.imgUrl?product.imgUrl:"/assets/images/defaul_product.png"}}' mode='aspectFit' />
+    <view class='single-product-detail'>
+      <text class='ft-30 color-333 two-line' style='margin-bottom:16rpx;'>{{product.productName}}</text>
+      <!-- 规格 -->
+      <view class='single-product-spec' style='margin-bottom:16rpx;'>
+        <text class='ft-24 color-666'>规格 {{product.specName}}</text>
+        <text class='ft-24 color-666'>X{{product.buyCount}}{{product.giftUnit}}</text>
+      </view>
+      <text class='ft-24 color-666'>{{product.sourceDesc}}</text>
+    </view>
+  </view>
+</template>

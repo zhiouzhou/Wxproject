@@ -1,0 +1,166 @@
+<import src="../../../components/toast/toast.wxml" />
+<template is="toast" data="{{ ...$yjp.toast }}" />
+
+<import src="../../../components/dialog/dialog.wxml" />
+<template is="dialog" data="{{ ...$yjp.dialog }}" />
+
+<import src="../../../components/product/product.wxml" />
+
+<wxs src="../../../utils/WxsUtil.wxs" module="WxsUtil" />
+<view class='chooseType'>
+  <view class='orderType' catchtap='chooseApply'>
+    <text class='ft-30 {{orderType==2?"color-E53935":"color-666"}}'>申请退换</text>
+    <view class='line' wx:if="{{orderType==2}}"></view>
+  </view>
+  <view class='orderType' catchtap='chooseReturn'>
+    <text class='ft-30 {{orderType==0?"color-E53935":"color-666"}}'>退货单<text wx:if="{{returnCount}}">({{returnCount}})</text></text>
+    <view class='line' wx:if="{{orderType==0}}"></view>
+  </view>
+  <view class='orderType' catchtap='chooseExchange'>
+    <text class='ft-30 {{orderType==1?"color-E53935":"color-666"}}'>换货单<text wx:if="{{swapCount}}">({{swapCount}})</text></text>
+    <view class='line' wx:if="{{orderType==1}}"></view>
+  </view>
+</view>
+<view class="titleBar" style='border-bottom: 12rpx solid rgba(0, 0, 0, 0.1);border-top: 2rpx solid rgba(0, 0, 0, 0.1);z-index:2000' wx:if="{{orderType!=2}}">
+  <block wx:for="{{orderType==0?returnTitles:exchangeTitles}}">
+    <view class="wrapTitles" id="{{item.id}}" bindtap="choseTitle" style='{{item.id==defaultId?"border:1rpx solid #e53925":"background-color:#f2f2f2"}}'>
+      <image src='/assets/images/icon_xuanzegou@2x.png' class='selectImg' wx:if="{{item.id==defaultId}}"></image>
+      <text class="ft-28 {{item.id==defaultId?'color-E53935':'color-333'}}">{{item.name}}</text>
+    </view>
+  </block>
+</view>
+<scroll-view class='orders-list-wrap' style='height:{{orderType!=2?(windowHeight-84-88):(windowHeight-88)}}rpx;' scroll-y lower-threshold='4' bindscrolltolower='loadMore' wx:if="{{!vm.isEmpty}}">
+  <block wx:for="{{orderType==0?orders:orderType==1?changeOrders:applyOrders}}" wx:key="{{item.orderNO}}">
+    <template is='return-order' data="{{item,orderType}}" wx:if="{{orderType==0}}" />
+    <template is='change-order' data="{{item,orderType}}" wx:if="{{orderType==1}}" />
+    <template is='apply-order' data="{{item,orderType}}" wx:if="{{orderType==2}}" />
+  </block>
+</scroll-view>
+<!--没有订单显示的内容-->
+<view wx:if="{{vm.isEmpty}}" class="noOrder">
+
+  <view class="msg" wx:if="{{orderType==2}}">你还没有申请售后订单</view>
+  <view class="msg" wx:elif="{{defaultId==1}}">{{orderType==1?"你还没有换货中的订单":"您还没有退货中的订单"}}</view>
+  <view class="msg" wx:elif="{{defaultId==2}}">{{orderType==1?"你还没有已换货的订单":"您还没有已退货的订单"}}</view>
+  <view class="msg" wx:elif="{{defaultId==3}}">您还没有已取消的订单</view>
+  <view class="msg" wx:else>您还没有已拒绝的订单</view>
+  <view bindtap="gotoHomePage" class="gotoHomePage">返回首页</view>
+</view>
+
+<!-- 退货单模板 -->
+<template name='return-order'>
+  <view class='order-wrap' catchtap='goToOrderDetail' data-order-n-o='{{item.orderNO}}' data-order-type="{{orderType}}">
+    <!-- 订单信息 -->
+    <view class='order-hd'>
+      <view class='order-hd-line-1'>
+        <!-- 退货 -->
+        <text class='ft-30 color-333'>{{item.companyName}}{{item.classify==2?'-预售':''}}{{item.orderType==2?' >':''}}</text>
+        <text class='ft-24 {{item.state==5?"color-666":"color-E53935"}}'>{{item.orderState==1?'退货中':item.orderState==2?'已完成':item.orderState==3?'已取消':item.orderState==4?'已拒绝':item.orderState==5?'已删除':''}}</text>
+      </view>
+      <text class='ft-26 color-666' style='margin-top:16rpx;'>{{item.createTime}}</text>
+    </view>
+    <!-- 订单产品预览 -->
+    <view class='product-preview'>
+      <block wx:if="{{item.items.length>1}}">
+        <template is="order-multi-product" data="{{items:item.items,totalCount:item.totalCount,types:1}}" />
+      </block>
+      <block wx:else>
+        <template is="order-single-product" data="{{items:item.items,totalCount:item.totalCount,types:1}}" />
+      </block>
+    </view>
+    <!-- 订单实付款 -->
+    <view class='order-amount'>
+      <text class='ft-26 color-333'>应退金额：<text class='ft-26 color-E53935 bold'>¥ {{WxsUtil.toFixed(item.orderAmount,2)}}</text></text>
+    </view>
+    <!-- 订单操作按钮 -->
+    <view class='order-button'>
+      <view class='button-grey' catchtap="cancelOrder" wx:if="{{item.canCancelOrder}}" data-order-n-o='{{item.orderNO}}' data-order-type="{{orderType}}">取消退货</view>
+      <view class='button-grey' catchtap="deleteReturnOrder" wx:if="{{item.canDeleteOrder}}" data-order-n-o='{{item.orderNO}}'>删除订单</view>
+      <view class='button-grey' catchtap="traceOrder" wx:if="{{item.state!=5&&item.state!=8}}" data-order-n-o='{{item.orderNO}}' data-deliveryModeValue="{{item.deliveryModeValue}}">订单追踪</view>
+    </view>
+  </view>
+</template>
+<!-- 换货单模板 -->
+<template name='change-order'>
+  <view class='order-wrap' catchtap='goToOrderDetail' data-order-id='{{item.orderId}}' data-order-type="{{orderType}}" data-order-n-o='{{item.orderNo}}'>
+    <!-- 订单信息 -->
+    <view class='order-hd'>
+      <view class='order-hd-line-1'>
+        <text class='ft-30 color-333'>{{item.companyName}}{{item.classify==2?'-预售':''}}{{item.orderType==2?' >':''}}</text>
+        <!-- 换货 -->
+        <text class='ft-24 {{item.state==5?"color-666":"color-E53935"}}'>{{item.state==1?'换货中':item.state==2?'已完成':item.state==3?'已取消':item.state==4?'已拒绝':item.state==5?'已删除':''}}</text>
+      </view>
+      <text class='ft-26 color-666' style='margin-top:16rpx;'>{{item.createTime}}</text>
+    </view>
+    <!-- 订单产品预览 -->
+    <view class="orderReturn-preview" wx:if="{{orderType==1}}">
+      <view class="ft-30 color-333">退货</view>
+      <view class='ft-26 color-666'>退货商品货值：￥{{WxsUtil.toFixed(item.returnOrderAmount,2)}}</view>
+    </view>
+    <view class='product-preview'>
+      <block wx:if="{{item.returnItems.length>1}}">
+        <template is="swapOrder-multi-product" data="{{items:item.returnItems,totalCount:item.returnTotalCount,types:1,swapType:0}}" />
+      </block>
+      <block wx:else>
+        <template is="swapOrder-single-product" data="{{items:item.returnItems,totalCount:item.returnTotalCount,types:1,swapType:0}}" />
+      </block>
+    </view>
+    <!-- 换货 -->
+    <view class="orderReturn-preview">
+      <view class="ft-30 color-333">换货</view>
+      <view class='ft-26 color-666'>换货商品金额：￥{{WxsUtil.toFixed(item.swapOrderAmount,2)}}</view>
+    </view>
+    <view class='product-preview'>
+      <block wx:if="{{item.swapItems.length>1}}">
+        <template is="swapOrder-multi-product" data="{{items:item.swapItems,totalCount:item.swapTotalCount,types:1,swapType:1}}" />
+      </block>
+      <block wx:else>
+        <template is="swapOrder-single-product" data="{{items:item.swapItems,totalCount:item.swapTotalCount,types:1,swapType:1}}" />
+      </block>
+    </view>
+    <!-- 订单实付款 -->
+    <view class='order-amount'>
+      <text class='ft-26 color-333'>需补差价：<text class='ft-26 color-E53935 bold'>¥ {{WxsUtil.toFixed(item.differenceAmount,2)}} </text>
+      </text>
+    </view>
+    <!-- 订单操作按钮 -->
+    <view class='order-button'>
+      <view class='button-grey' catchtap="traceOrder" wx:if="{{item.state!=5&&item.state!=8}}" data-order-n-o='{{item.orderNo}}'>订单追踪</view>
+      <view class='button-grey' catchtap='cancelOrder' wx:if="{{item.canCancel&&orderType==1}}" data-order-n-o='{{item.orderNo}}' data-order-type="{{orderType}}">取消换货</view>
+      <view class='button-grey' catchtap="deleteReturnOrder" wx:if="{{item.canDeleteOrder}}" data-order-n-o='{{item.orderNo}}'>删除订单</view>
+    </view>
+  </view>
+</template>
+<!-- 申请售后模板 -->
+<template name='apply-order'>
+  <view class='order-wrap' catchtap='goToApplyOrderDetail' data-order-n-o='{{item.orderNO}}'>
+    <!-- 订单信息 -->
+    <view class='order-hd'>
+      <view class='order-hd-line-1'>
+        <text class='ft-28 color-333' catchtap='goToDealerShop' data-shop-id='{{item.companyId}}' data-order-type='{{item.orderType}}'>{{item.companyName}}{{item.classify==2?'-预售':''}}{{item.orderType==2?' >':''}}</text>
+      </view>
+      <view class='order-hd-line-1' style='margin-top:16rpx;'>
+        <text class='ft-26 color-666'>{{item.createTime}}</text>
+      </view>
+    </view>
+    <!-- 订单产品预览 -->
+    <view class='product-preview'>
+      <block wx:if="{{item.items.length>1}}">
+        <template is="order-multi-product" data="{{items:item.items,totalCount:item.totalCount}}" />
+      </block>
+      <block wx:else>
+        <template is="order-single-product" data="{{items:item.items,totalCount:item.totalCount}}" />
+      </block>
+    </view>
+    <!-- 订单实付款 -->
+    <view class='order-amount'>
+      <text class='ft-26 color-333' wx:if="{{item.discountAmount}}" style='margin-right:16rpx;'>优惠 <text class='ft-26 color-E53935 bold'>¥ {{WxsUtil.toFixed(item.discountAmount,2)}}</text></text>
+      <text class='ft-26 color-333'>实付款 <text class='ft-26 color-E53935 bold'>¥ {{WxsUtil.toFixed(item.payableAmount,2)}} </text></text>
+    </view>
+    <!-- 订单操作按钮 -->
+    <view class='order-button'>
+      <view class='button-grey' catchtap="exchangeOrder" wx:if="{{true}}" data-order-n-o='{{item.orderNO}}'>申请换货</view>
+      <view class='button-grey' catchtap="exreturnOrder" wx:if="{{true}}" data-order-n-o='{{item.orderNO}}'>申请退货</view>
+    </view>
+  </view>
+</template>
